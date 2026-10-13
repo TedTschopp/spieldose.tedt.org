@@ -1886,8 +1886,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     back.width = W; back.height = H;
     const b = back.getContext('2d');
     const windows = [];
+    const houses = [];
     const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
-    const sky = ['#10172d', '#202c48', '#3c4662', '#6a6176', '#ac8392'];
+    const sky = ['#090f20', '#131e33', '#26334c', '#403e57', '#655264'];
     for (let y = 0; y < H; y++) {
       const f = Math.min(sky.length - 1.001, y / 90 * (sky.length - 1));
       const i = Math.floor(f);
@@ -1942,7 +1943,8 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     polygon([[21, 12], [46, 42], [68, 36], [94, 66], [69, 56], [47, 52], [33, 36]], '#4e6373');
     polygon([[300, 10], [320, 25], [320, 84], [297, 67], [281, 55], [288, 32]], '#4e6373');
     polygon([[0, 51], [29, 58], [56, 72], [88, 81], [127, 89], [161, 92], [203, 87], [239, 76], [272, 57], [299, 49], [320, 43], [320, 120], [0, 120]], '#243d41');
-    polygon([[0, 86], [40, 93], [90, 96], [139, 90], [180, 89], [228, 94], [277, 92], [320, 83], [320, 120], [0, 120]], '#405a50');
+    polygon([[0, 86], [40, 93], [90, 96], [139, 90], [180, 89], [228, 94], [277, 92], [320, 83], [320, 120], [0, 120]], '#283e35');
+    polygon([[219, 94], [257, 93], [285, 96], [304, 104], [320, 120], [157, 120], [182, 107]], '#526b50');
     const mountainLayer = snapshot();
     function pine(x, y, h) {
       rect(x, y - h, 1, h, '#20312e');
@@ -1954,7 +1956,30 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pine(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
     polygon([[165, 88], [176, 88], [209, 120], [127, 120]], '#a7a390');
     polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
+    const groundLayer = snapshot();
+    function shadow(x, y, w, h, roofHeight) {
+      const base = y + h;
+      // Project the roof outline along rays from the moon onto the valley floor.
+      const project = (px, py) => {
+        const endY = base + (base - py) * .55;
+        const scale = (endY - moon.y) / (py - moon.y);
+        return [moon.x + (px - moon.x) * scale, endY];
+      };
+      b.globalAlpha = .38;
+      polygon([[x, base], project(x - 4, y), project(x + w / 2, y - roofHeight),
+        project(x + w + 4, y), [x + w, base]], '#07111c');
+      b.globalAlpha = 1;
+    }
+    shadow(82, 78, 24, 17, 12);
+    shadow(116, 73, 22, 16, 12);
+    shadow(199, 77, 26, 18, 12);
+    shadow(236, 86, 29, 20, 12);
+    shadow(43, 92, 29, 20, 12);
+    shadow(158, 62, 12, 28, 19);
+    shadow(169, 77, 19, 13, 9);
+    const shadowLayer = snapshot();
     function chalet(x, y, w, h) {
+      houses.push({ x, y, w, h });
       rect(x, y, w, h, '#d3bba0');
       rect(x, y, w, 5, '#735142');
       for (let row = y + 1; row < y + 5; row += 2) rect(x, row, w, 1, '#8c6250');
@@ -2014,6 +2039,18 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       }
       g.globalAlpha = 1;
     }
+    function windowLight(i, t) {
+      return .65 + .16 * Math.sin(t * 1.7 + i * 2.3)
+        + .08 * Math.sin(t * 4.1 + i * .9) + energy * .25;
+    }
+    function glow(x, y, w, h, light) {
+      g.fillStyle = '#efad51';
+      for (let spread = 9; spread >= 3; spread -= 3) {
+        g.globalAlpha = light * .025;
+        g.fillRect(x - spread, y - spread, w + spread * 2, h + spread * 2);
+      }
+      g.globalAlpha = 1;
+    }
     let last = 0, energy = 0;
     function draw(now) {
       requestAnimationFrame(draw);
@@ -2030,13 +2067,24 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       drawMoon();
       clouds(distantClouds, t, '#b0a8bc', 1);
       g.drawImage(mountainLayer, 0, 0);
+      g.fillStyle = '#07111c'; g.globalAlpha = .28;
+      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
       clouds(valleyClouds, t, '#c1ccd1', .4);
+      g.drawImage(groundLayer, 0, 0);
+      g.fillStyle = '#07111c'; g.globalAlpha = .25;
+      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
+      g.drawImage(shadowLayer, 0, 0);
+      houses.forEach((house, i) => glow(house.x, house.y + house.h - 3,
+        house.w, 5, windowLight(i * 2, t)));
       g.drawImage(back, 0, 0);
-      g.fillStyle = energy > .25 ? '#ffe8a6' : '#d5a25d';
-      for (const [x, y] of windows) {
+      g.fillStyle = '#07111c'; g.globalAlpha = .3;
+      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
+      for (const [i, [x, y]] of windows.entries()) {
+        const light = windowLight(i, t);
+        glow(x, y, 4, 4, light);
+        g.fillStyle = light > .78 ? '#ffe8a6' : '#d5a25d';
         g.fillRect(x, y, 4, 4);
         g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
-        g.fillStyle = energy > .25 ? '#ffe8a6' : '#d5a25d';
       }
       if (!reduceMotion) {
         g.fillStyle = '#9c9699';
