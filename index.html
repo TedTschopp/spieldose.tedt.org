@@ -1959,7 +1959,6 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
         polygon([[x, top], [x - w, top + h * .45], [x + w, top + h * .45]], '#182f32');
       }
     }
-    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pine(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
     polygon([[165, 88], [176, 88], [209, 120], [127, 120]], '#a7a390');
     polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
     const groundLayer = snapshot();
@@ -1999,33 +1998,59 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       }
       rect(x - 1, y + h, w + 2, 2, '#263b35');
     }
-    chalet(82, 78, 24, 17);
-    chalet(116, 73, 22, 16);
-    chalet(199, 77, 26, 18);
-    chalet(236, 86, 29, 20);
-    chalet(43, 92, 29, 20);
-    rect(158, 62, 12, 28, '#8c857a');
-    rect(166, 62, 4, 28, '#d9cdb7');
-    rect(169, 77, 19, 13, '#c5b398');
-    polygon([[167, 77], [178, 68], [190, 77]], '#6b4f46');
-    polygon([[154, 62], [164, 43], [174, 62]], '#494849');
-    polygon([[164, 43], [174, 62], [169, 60], [164, 48]], '#d8dce0');
-    rect(164, 38, 1, 7, '#e8c170');
-    rect(162, 40, 5, 1, '#e8c170');
-    rect(160, 66, 8, 8, '#f2e6c9');
-    rect(163, 67, 1, 4, '#414b51');
-    rect(163, 70, 3, 1, '#414b51');
-    rect(162, 81, 4, 9, '#55463d');
-    windows.push([174, 80], [181, 80]);
-    rect(145, 75, 1, 16, '#bea783');
-    rect(146, 75, 8, 7, '#c83c43');
-    rect(149, 76, 2, 5, '#fff2df');
-    rect(147, 78, 6, 1, '#fff2df');
-    rect(115, 104, 12, 2, '#78634b');
-    rect(116, 106, 1, 4, '#78634b');
-    rect(125, 106, 1, 4, '#78634b');
-    pine(12, 120, 28); pine(303, 120, 32);
-    const villageLayer = snapshot();
+    // Each building and tree becomes its own layer so walkers can be depth-sorted by their feet.
+    const props = [];
+    function prop(baseY, paint) {
+      const firstWindow = windows.length;
+      paint();
+      props.push({ baseY, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]) });
+    }
+    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => {
+      const y = 82 + i % 3 * 3;
+      prop(y, () => pine(x, y, 12 + i % 4 * 3));
+    });
+    prop(97, () => chalet(82, 78, 24, 17));
+    prop(91, () => chalet(116, 73, 22, 16));
+    prop(97, () => chalet(199, 77, 26, 18));
+    prop(108, () => chalet(236, 86, 29, 20));
+    prop(114, () => chalet(43, 92, 29, 20));
+    prop(90, () => {
+      rect(158, 62, 12, 28, '#8c857a');
+      rect(166, 62, 4, 28, '#d9cdb7');
+      rect(169, 77, 19, 13, '#c5b398');
+      polygon([[167, 77], [178, 68], [190, 77]], '#6b4f46');
+      polygon([[154, 62], [164, 43], [174, 62]], '#494849');
+      polygon([[164, 43], [174, 62], [169, 60], [164, 48]], '#d8dce0');
+      rect(164, 38, 1, 7, '#e8c170');
+      rect(162, 40, 5, 1, '#e8c170');
+      rect(160, 66, 8, 8, '#f2e6c9');
+      rect(163, 67, 1, 4, '#414b51');
+      rect(163, 70, 3, 1, '#414b51');
+      rect(162, 81, 4, 9, '#55463d');
+      windows.push([174, 80], [181, 80]);
+    });
+    prop(91, () => {
+      rect(145, 75, 1, 16, '#bea783');
+      rect(146, 75, 8, 7, '#c83c43');
+      rect(149, 76, 2, 5, '#fff2df');
+      rect(147, 78, 6, 1, '#fff2df');
+    });
+    prop(110, () => {
+      rect(115, 104, 12, 2, '#78634b');
+      rect(116, 106, 1, 4, '#78634b');
+      rect(125, 106, 1, 4, '#78634b');
+    });
+    prop(120, () => pine(12, 120, 28));
+    prop(120, () => pine(303, 120, 32));
+    props.sort((a, c) => a.baseY - c.baseY);
+    function paintByDepth(items, actorY, paintItem, paintActor) {
+      let painted = actorY === null;
+      for (const item of items) {
+        if (!painted && actorY < item.baseY) { paintActor(); painted = true; }
+        paintItem(item);
+      }
+      if (!painted) paintActor();
+    }
     const distantClouds = [
       { x: 18, y: 20, w: 39, speed: .9 },
       { x: 132, y: 13, w: 47, speed: .7 },
@@ -2244,16 +2269,17 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       g.drawImage(shadowLayer, 0, 0);
       houses.forEach((house, i) => glow(house.x, house.y + house.h - 3,
         house.w, 5, windowLight(i * 2, t)));
-      if (layerOf === 'back') drawCreature(active);
-      g.drawImage(villageLayer, 0, 0);
-      for (const [i, [x, y]] of windows.entries()) {
-        const light = windowLight(i, t);
-        glow(x, y, 4, 4, light);
-        g.fillStyle = light > .78 ? '#ffe8a6' : '#d5a25d';
-        g.fillRect(x, y, 4, 4);
-        g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
-      }
-      if (layerOf === 'front') drawCreature(active);
+      const walkerY = active && layerOf !== 'sky' ? pathPoint(active.path.points, active.progress).y : null;
+      paintByDepth(props, walkerY, item => {
+        g.drawImage(item.layer, 0, 0);
+        for (const [i, [x, y]] of item.windows) {
+          const light = windowLight(i, t);
+          glow(x, y, 4, 4, light);
+          g.fillStyle = light > .78 ? '#ffe8a6' : '#d5a25d';
+          g.fillRect(x, y, 4, 4);
+          g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
+        }
+      }, () => drawCreature(active));
       if (!reduceMotion) {
         g.fillStyle = '#9c9699';
         for (let i = 0; i < 4; i++) {
