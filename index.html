@@ -1905,8 +1905,22 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     const stars = Array.from({ length: 36 }, (_, i) => ({
       x: (i * 73 + 11) % W, y: (i * 17 + 3) % 32, phase: i * 1.7
     }));
-    rect(271, 11, 9, 9, '#efe4c5');
-    rect(276, 9, 6, 8, '#202c48');
+    const moon = { x: 262, y: 30, r: 10 };
+    for (let y = -moon.r; y <= moon.r; y++) for (let x = -moon.r; x <= moon.r; x++) {
+      if (x * x + y * y <= moon.r * moon.r)
+        rect(moon.x + x, moon.y + y, 1, 1, '#efe6c4');
+    }
+    rect(moon.x - 4, moon.y - 3, 3, 2, '#d6cba3');
+    rect(moon.x + 2, moon.y + 2, 4, 3, '#d6cba3');
+    rect(moon.x - 1, moon.y + 5, 2, 1, '#d6cba3');
+    function snapshot() {
+      const layer = document.createElement('canvas');
+      layer.width = W; layer.height = H;
+      layer.getContext('2d').drawImage(back, 0, 0);
+      b.clearRect(0, 0, W, H);
+      return layer;
+    }
+    const skyLayer = snapshot();
     polygon([[0, 60], [14, 28], [30, 44], [51, 18], [70, 41], [96, 12], [121, 43], [141, 25], [162, 48], [184, 19], [207, 42], [237, 9], [262, 37], [287, 17], [308, 38], [320, 23], [320, 85], [0, 85]], '#64708a');
     polygon([[77, 33], [96, 12], [112, 32], [100, 27], [95, 30], [91, 24]], '#bec8d6');
     polygon([[219, 29], [237, 9], [254, 28], [240, 23], [235, 27], [230, 20]], '#d4d8e0');
@@ -1925,6 +1939,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     polygon([[300, 10], [320, 25], [320, 84], [297, 67], [281, 55], [288, 32]], '#4e6373');
     polygon([[0, 51], [29, 58], [56, 72], [88, 81], [127, 89], [161, 92], [203, 87], [239, 76], [272, 57], [299, 49], [320, 43], [320, 120], [0, 120]], '#243d41');
     polygon([[0, 86], [40, 93], [90, 96], [139, 90], [180, 89], [228, 94], [277, 92], [320, 83], [320, 120], [0, 120]], '#405a50');
+    const mountainLayer = snapshot();
     function pine(x, y, h) {
       rect(x, y - h, 1, h, '#20312e');
       for (let k = 0; k < 3; k++) {
@@ -1974,6 +1989,27 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     rect(116, 106, 1, 4, '#78634b');
     rect(125, 106, 1, 4, '#78634b');
     pine(12, 120, 28); pine(303, 120, 32);
+    const distantClouds = [
+      { x: 18, y: 20, w: 39, speed: .9 },
+      { x: 132, y: 13, w: 47, speed: .7 },
+      { x: 250, y: 27, w: 34, speed: 1.1 }
+    ];
+    const valleyClouds = [
+      { x: 8, y: 54, w: 57, speed: 1.8 },
+      { x: 191, y: 49, w: 64, speed: 1.4 }
+    ];
+    function clouds(layer, t, color, opacity) {
+      g.fillStyle = color; g.globalAlpha = opacity;
+      for (const cloud of layer) {
+        const x = Math.floor((cloud.x + t * cloud.speed + cloud.w) % (W + cloud.w) - cloud.w);
+        const y = cloud.y;
+        g.fillRect(x, y, cloud.w, 3);
+        g.fillRect(x + 5, y - 2, cloud.w - 12, 2);
+        g.fillRect(x + 13, y - 4, Math.floor(cloud.w * .4), 2);
+        g.fillRect(x + 8, y + 3, cloud.w - 18, 1);
+      }
+      g.globalAlpha = 1;
+    }
     let last = 0, energy = 0;
     function draw(now) {
       requestAnimationFrame(draw);
@@ -1982,11 +2018,15 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       const t = reduceMotion ? 0 : now / 1000;
       const target = player.playing && !reduceMotion ? Math.min(1, player.energy() * 4) : 0;
       energy += (target - energy) * .2;
-      g.drawImage(back, 0, 0);
+      g.drawImage(skyLayer, 0, 0);
       for (const star of stars) {
         g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
         g.fillRect(star.x, star.y, 1, 1);
       }
+      clouds(distantClouds, t, '#b0a8bc', .45);
+      g.drawImage(mountainLayer, 0, 0);
+      clouds(valleyClouds, t, '#c1ccd1', .4);
+      g.drawImage(back, 0, 0);
       g.fillStyle = energy > .25 ? '#ffe8a6' : '#d5a25d';
       for (const [x, y] of windows) {
         g.fillRect(x, y, 4, 4);
