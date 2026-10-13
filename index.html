@@ -1837,22 +1837,23 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       rect(x - 1, y + h, w + 2, 2, '#263b35');
     }
     // Each building and tree becomes its own layer so walkers can be depth-sorted by their feet.
+    // foot is the strip of ground it stands on; creature paths keep their whole width out of it.
     const props = [];
-    function prop(baseY, paint) {
+    function prop(foot, paint) {
       const firstWindow = windows.length;
       paint();
-      props.push({ baseY, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]) });
+      props.push({ baseY: foot.y1, foot, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]) });
     }
-    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => {
-      const y = 82 + i % 3 * 3;
-      prop(y, () => pine(x, y, 12 + i % 4 * 3));
-    });
-    prop(97, () => chalet(82, 78, 24, 17));
-    prop(91, () => chalet(116, 73, 22, 16));
-    prop(97, () => chalet(199, 77, 26, 18));
-    prop(108, () => chalet(236, 86, 29, 20));
-    prop(114, () => chalet(43, 92, 29, 20));
-    prop(90, () => {
+    const ground = (x0, x1, baseY, depth) => ({ x0, x1, y0: baseY - depth, y1: baseY });
+    const pineProp = (x, y, h) => prop(ground(x - 4, x + 4, y, 4), () => pine(x, y, h));
+    const chaletProp = (x, y, w, h) => prop(ground(x - 2, x + w + 2, y + h + 2, 9), () => chalet(x, y, w, h));
+    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pineProp(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
+    chaletProp(82, 78, 24, 17);
+    chaletProp(116, 73, 22, 16);
+    chaletProp(199, 77, 26, 18);
+    chaletProp(236, 86, 29, 20);
+    chaletProp(43, 92, 29, 20);
+    prop(ground(156, 190, 90, 11), () => {
       rect(158, 62, 12, 28, '#8c857a');
       rect(166, 62, 4, 28, '#d9cdb7');
       rect(169, 77, 19, 13, '#c5b398');
@@ -1867,19 +1868,19 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       rect(162, 81, 4, 9, '#55463d');
       windows.push([174, 80], [181, 80]);
     });
-    prop(91, () => {
+    prop(ground(144, 147, 91, 3), () => {
       rect(145, 75, 1, 16, '#bea783');
       rect(146, 75, 8, 7, '#c83c43');
       rect(149, 76, 2, 5, '#fff2df');
       rect(147, 78, 6, 1, '#fff2df');
     });
-    prop(110, () => {
+    prop(ground(114, 128, 110, 6), () => {
       rect(115, 104, 12, 2, '#78634b');
       rect(116, 106, 1, 4, '#78634b');
       rect(125, 106, 1, 4, '#78634b');
     });
-    prop(120, () => pine(12, 120, 28));
-    prop(120, () => pine(303, 120, 32));
+    pineProp(12, 120, 28);
+    pineProp(303, 120, 32);
     props.sort((a, c) => a.baseY - c.baseY);
     function paintByDepth(items, actorY, paintItem, paintActor) {
       let painted = actorY === null;
@@ -1932,9 +1933,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           '..kkkkkkkkkkk...', '..k.k.....k.k...', '.k..k.....k..k..', 'k...k.....k...k.'],
         step: { 9: '...kk.....kk....', 10: '...k.k...k.k....', 11: '...k..k.k..k....' },
         paths: [
-          { layer: 'front', points: [[-20, 104], [60, 100], [120, 108], [200, 103], [340, 107]] },
-          { layer: 'front', points: [[340, 116], [250, 112], [175, 114], [90, 113], [-20, 117]] },
-          { layer: 'back', points: [[-20, 52], [29, 59], [56, 73], [88, 82], [127, 90], [161, 93], [203, 88], [239, 77], [272, 58], [340, 43]] }
+          { layer: 'front', points: [[-20, 98], [150, 98], [170, 115], [340, 115]] },
+          { layer: 'front', points: [[340, 120], [230, 120], [200, 115], [90, 115], [80, 98], [-20, 98]] },
+          { layer: 'back', points: [[-20, 50], [30, 64], [80, 75], [160, 77], [240, 75], [290, 64], [340, 46]] }
         ]
       },
       {
@@ -1944,9 +1945,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           '..gssg..gsggg...', '.gs..sggs..g.g..', 'gs....ss...g.g..'],
         step: { 3: '...gg...gsggg...', 4: '..gssg.gs..g.g..', 5: '.gs..ss....g..g.' },
         paths: [
-          { layer: 'back', points: [[-20, 54], [28, 61], [56, 75], [90, 84], [130, 92], [165, 94], [205, 90], [240, 79], [272, 61], [340, 46]] },
-          { layer: 'front', points: [[-20, 114], [60, 110], [120, 116], [200, 112], [340, 117]] },
-          { layer: 'front', points: [[340, 104], [260, 108], [190, 103], [170, 110], [90, 106], [-20, 112]] }
+          { layer: 'back', points: [[-20, 54], [40, 70], [100, 77], [180, 77], [250, 70], [340, 48]] },
+          { layer: 'front', points: [[-20, 114], [140, 114], [175, 98], [340, 98]] },
+          { layer: 'front', points: [[340, 98], [220, 98], [200, 115], [-20, 115]] }
         ]
       },
       {
@@ -1956,9 +1957,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           'y.rrrr.y', '..rwwr..', '.rrwwrr.', 'rrrrrrrr', '..y..y..', '..y..y..'],
         step: { 5: '.rrrrrr.', 6: 'yyrrrryy', 11: '.y....y.' },
         paths: [
-          { layer: 'front', points: [[-20, 117], [60, 114], [140, 116], [220, 113], [340, 116]] },
-          { layer: 'front', points: [[172, 92], [176, 104], [168, 114], [120, 116], [-20, 118]] },
-          { layer: 'back', points: [[340, 44], [300, 50], [272, 60], [240, 78], [205, 90], [160, 94], [120, 91], [88, 83], [56, 75], [28, 61], [-20, 52]] }
+          { layer: 'front', points: [[-20, 120], [100, 120], [140, 115], [340, 115]] },
+          { layer: 'front', points: [[172, 98], [200, 98], [210, 115], [100, 115], [-20, 115]] },
+          { layer: 'back', points: [[340, 44], [290, 62], [260, 76], [180, 77], [100, 76], [43, 74], [-20, 52]] }
         ]
       },
       {
@@ -1967,9 +1968,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
         rows: ['...b...', '..bb...', '..bbb..', '.bbbbb.', '..fef.l', '..www.L', '.cwwwc.', '..ccc..', '..c.c..'],
         step: { 8: '.c...c.' },
         paths: [
-          { layer: 'front', points: [[-20, 112], [80, 110], [150, 114], [230, 111], [340, 113]] },
-          { layer: 'back', points: [[-20, 87], [40, 94], [90, 97], [139, 91], [180, 90], [228, 95], [277, 93], [340, 82]] },
-          { layer: 'front', points: [[340, 80], [300, 88], [260, 96], [220, 104], [180, 116], [100, 118], [-20, 116]] }
+          { layer: 'front', points: [[-20, 115], [150, 114], [340, 115]] },
+          { layer: 'front', points: [[-20, 98], [90, 98], [150, 102], [220, 102], [230, 98], [340, 98]] },
+          { layer: 'front', points: [[340, 60], [294, 76], [294, 98], [180, 98], [170, 120], [-20, 120]] }
         ]
       },
       {
@@ -1979,9 +1980,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           'm.mggm.m', '..mmmm..', '..mggm..', '..m..m..', '.mm..mm.'],
         step: { 9: '.m....m.', 10: 'mm....mm' },
         paths: [
-          { layer: 'back', points: [[-20, 53], [29, 60], [56, 74], [88, 83], [127, 91], [161, 94], [203, 89], [239, 78], [272, 59], [340, 44]] },
-          { layer: 'front', points: [[340, 118], [260, 115], [180, 118], [100, 114], [-20, 117]] },
-          { layer: 'front', points: [[340, 43], [299, 51], [272, 59], [239, 78], [228, 96], [180, 104], [120, 112], [-20, 116]] }
+          { layer: 'back', points: [[-20, 53], [40, 72], [120, 77], [200, 77], [280, 70], [340, 44]] },
+          { layer: 'front', points: [[340, 120], [250, 120], [230, 115], [100, 115], [-20, 115]] },
+          { layer: 'front', points: [[340, 43], [300, 60], [294, 77], [294, 98], [160, 98], [150, 115], [-20, 115]] }
         ]
       },
       {
@@ -2003,9 +2004,9 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           'fFfFfFfFff', 'ffffbbffff', '.fFffbbfF.', '.ffffffff.', '.ff....ff.', '.ss....ss.'],
         step: { 7: 'fffffbbfff', 8: '.fFfffbbF.', 10: '..ff..ff..', 11: '..ss..ss..' },
         paths: [
-          { layer: 'front', points: [[-20, 118], [90, 115], [170, 118], [250, 114], [340, 117]] },
-          { layer: 'front', points: [[168, 92], [174, 102], [182, 112], [230, 116], [340, 114]] },
-          { layer: 'back', points: [[340, 84], [277, 93], [228, 96], [180, 91], [139, 92], [90, 98], [40, 95], [-20, 88]] }
+          { layer: 'front', points: [[-20, 120], [90, 120], [110, 115], [250, 115], [280, 120], [340, 120]] },
+          { layer: 'front', points: [[168, 98], [175, 98], [200, 108], [230, 115], [340, 115]] },
+          { layer: 'front', points: [[340, 98], [43, 98], [43, 77], [-20, 56]] }
         ]
       }
     ];
