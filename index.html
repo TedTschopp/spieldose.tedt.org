@@ -39,6 +39,7 @@ body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
 #scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
 #alpine-scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
 .scene-label { margin: 0; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
+.creature-label { margin: 0 0 12px; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-top: 0; }
 .caption { position: absolute; left: 0; right: 0; top: 7%; text-align: center; pointer-events: none; font-family: var(--font-ui); font-weight: 600; font-size: clamp(15px, 2.6vw, 26px); letter-spacing: -.01em; color: var(--lamp); text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 2px 2px 0 #000; padding-inline: 16px; }
 .caption.idle { color: var(--ink); }
 .caption small { display: block; font-size: .6em; font-weight: 400; color: var(--verb); margin-top: 2px; }
@@ -137,8 +138,9 @@ footer a { color: var(--lamp); }
   </div>
   <p class="scene-label">Swiss alpine village &middot; work in progress</p>
   <div class="screen">
-    <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music" role="img"></canvas>
+    <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music; Swiss folklore creatures pass through" role="img"></canvas>
   </div>
+  <p class="creature-label" id="alpine-creature" aria-live="polite">The next creature arrives soon</p>
   <div class="sentence" id="sentence" aria-live="polite">Play Moonlit Harbor</div>
   <div class="console">
     <div class="verbs" role="group" aria-label="Playback">
@@ -2057,6 +2059,164 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       }
       g.globalAlpha = 1;
     }
+    // Folklore parade: sprites face right; `step` swaps rows for the second animation frame.
+    const CREATURES = [
+      {
+        name: 'Türst', title: 'the infernal huntsman', region: 'Lucerne hinterland',
+        palette: { k: '#141017', d: '#3a2a35', r: '#c8343a' }, glow: 'r',
+        rows: ['....kkk.........', '...kkkkk........', '....kkrk........', '...dkkkkd.......',
+          '..ddkkkkdd...kk.', '.dd.kkkk.d..kkkr', '....kkkkkkkkkkk.', '...kkkkkkkkkkk..',
+          '..kkkkkkkkkkk...', '..k.k.....k.k...', '.k..k.....k..k..', 'k...k.....k...k.'],
+        step: { 9: '...kk.....kk....', 10: '...k.k...k.k....', 11: '...k..k.k..k....' },
+        paths: [
+          { layer: 'sky', points: [[-20, 30], [80, 22], [170, 34], [260, 24], [340, 32]] },
+          { layer: 'front', points: [[340, 116], [250, 112], [175, 114], [90, 113], [-20, 117]] },
+          { layer: 'back', points: [[-20, 52], [29, 59], [56, 73], [88, 82], [127, 90], [161, 93], [203, 88], [239, 77], [272, 58], [340, 43]] }
+        ]
+      },
+      {
+        name: 'Stollenwurm', title: 'the Tatzelwurm', region: 'Bernese Oberland',
+        palette: { g: '#8a9a5b', s: '#5e6b3c', y: '#f0d050', w: '#e8e0c8' }, glow: 'y',
+        rows: ['..........ggg...', '.........gggyg..', '...gg....ggggggw',
+          '..gssg..gsggg...', '.gs..sggs..g.g..', 'gs....ss...g.g..'],
+        step: { 3: '...gg...gsggg...', 4: '..gssg.gs..g.g..', 5: '.gs..ss....g..g.' },
+        paths: [
+          { layer: 'back', points: [[-20, 54], [28, 61], [56, 75], [90, 84], [130, 92], [165, 94], [205, 90], [240, 79], [272, 61], [340, 46]] },
+          { layer: 'front', points: [[-20, 114], [60, 110], [120, 116], [200, 112], [340, 117]] },
+          { layer: 'front', points: [[340, 104], [260, 108], [190, 103], [170, 110], [90, 106], [-20, 112]] }
+        ]
+      },
+      {
+        name: 'Sennentuntschi', title: 'the herdsmen’s living doll', region: 'Swiss Alps',
+        palette: { y: '#d8b45a', f: '#e6d2b0', b: '#2a1c16', r: '#9b2f2f', w: '#e8e2d4' },
+        rows: ['..yyyy..', '.yffffy.', '.yfbfby.', '..ffff..', '...rr...', 'yrrrrrry',
+          'y.rrrr.y', '..rwwr..', '.rrwwrr.', 'rrrrrrrr', '..y..y..', '..y..y..'],
+        step: { 5: '.rrrrrr.', 6: 'yyrrrryy', 11: '.y....y.' },
+        paths: [
+          { layer: 'front', points: [[-20, 117], [60, 114], [140, 116], [220, 113], [340, 116]] },
+          { layer: 'front', points: [[172, 92], [176, 104], [168, 114], [120, 116], [-20, 118]] },
+          { layer: 'back', points: [[340, 44], [300, 50], [272, 60], [240, 78], [205, 90], [160, 94], [120, 91], [88, 83], [56, 75], [28, 61], [-20, 52]] }
+        ]
+      },
+      {
+        name: 'Erdmännlein', title: 'the earth-dwellers', region: 'Emmental and Bernese foothills',
+        palette: { b: '#5c4630', f: '#d9a988', e: '#1b120c', w: '#d8d4c8', c: '#4a5a3a', l: '#6a5a40', L: '#ffcf6a' }, glow: 'L',
+        rows: ['...b...', '..bb...', '..bbb..', '.bbbbb.', '..fef.l', '..www.L', '.cwwwc.', '..ccc..', '..c.c..'],
+        step: { 8: '.c...c.' },
+        paths: [
+          { layer: 'front', points: [[-20, 112], [80, 110], [150, 114], [230, 111], [340, 113]] },
+          { layer: 'back', points: [[-20, 87], [40, 94], [90, 97], [139, 91], [180, 90], [228, 95], [277, 93], [340, 82]] },
+          { layer: 'front', points: [[340, 80], [300, 88], [260, 96], [220, 104], [180, 116], [100, 118], [-20, 116]] }
+        ]
+      },
+      {
+        name: 'Wildmannli', title: 'the little wild people', region: 'Toggenburg, St. Gallen',
+        palette: { m: '#4f5f2c', g: '#6f7f3a', f: '#b88a62', e: '#120c08' },
+        rows: ['..mmmm..', '.mmmmmm.', '.mfefem.', '.mffffm.', 'mmmmmmmm', 'm.mmmm.m',
+          'm.mggm.m', '..mmmm..', '..mggm..', '..m..m..', '.mm..mm.'],
+        step: { 9: '.m....m.', 10: 'mm....mm' },
+        paths: [
+          { layer: 'back', points: [[-20, 53], [29, 60], [56, 74], [88, 83], [127, 91], [161, 94], [203, 89], [239, 78], [272, 59], [340, 44]] },
+          { layer: 'front', points: [[340, 118], [260, 115], [180, 118], [100, 114], [-20, 117]] },
+          { layer: 'front', points: [[340, 43], [299, 51], [272, 59], [239, 78], [228, 96], [180, 104], [120, 112], [-20, 116]] }
+        ]
+      },
+      {
+        name: 'Dialas', title: 'the mountain fairies', region: 'Lower Engadin and Val Müstair',
+        palette: { h: '#f2e8c8', f: '#f6e7da', p: '#dfe8f4', w: '#a9d2e8', g: '#f6e7da' }, glow: 'w', flies: true,
+        rows: ['....h....', '...hfh...', 'w..hff..w', 'ww.ppp.ww', 'wwwpppwww',
+          '.w.ppp.w.', '..ppppp..', '.ppppppp.', '...g.g...'],
+        step: { 2: '...hff...', 3: '...ppp...', 4: 'w.wpppw.w', 5: 'wwwpppwww' },
+        paths: [
+          { layer: 'sky', points: [[-20, 40], [60, 30], [120, 44], [200, 28], [260, 40], [340, 30]] },
+          { layer: 'front', points: [[340, 70], [270, 90], [200, 100], [140, 96], [80, 104], [-20, 90]] },
+          { layer: 'back', points: [[-20, 66], [60, 58], [120, 64], [180, 56], [250, 64], [340, 58]] }
+        ]
+      },
+      {
+        name: 'Tschäggättä', title: 'the masked carnival figures', region: 'Lötschental, Valais',
+        palette: { f: '#3b2c22', F: '#5a4433', m: '#8a5a34', e: '#0b0806', n: '#6b4426', t: '#e8dcc0', b: '#c9a24a', s: '#1c140f' },
+        rows: ['..ff..ff..', '.fmmmmmmf.', '.fmemmemf.', '.fmmmnmmf.', '.fttttttf.', 'ffffffffff',
+          'fFfFfFfFff', 'ffffbbffff', '.fFffbbfF.', '.ffffffff.', '.ff....ff.', '.ss....ss.'],
+        step: { 7: 'fffffbbfff', 8: '.fFfffbbF.', 10: '..ff..ff..', 11: '..ss..ss..' },
+        paths: [
+          { layer: 'front', points: [[-20, 118], [90, 115], [170, 118], [250, 114], [340, 117]] },
+          { layer: 'front', points: [[168, 92], [174, 102], [182, 112], [230, 116], [340, 114]] },
+          { layer: 'back', points: [[340, 84], [277, 93], [228, 96], [180, 91], [139, 92], [90, 98], [40, 95], [-20, 88]] }
+        ]
+      }
+    ];
+    const PATH_SECONDS = 45;
+    const ARRIVAL_SECONDS = 60;
+    // Introduce every creature once, then pick at random; a repeat never reuses its last path.
+    function createParade(count, pathCount, random) {
+      let previous = null;
+      return index => {
+        const creature = index < count ? index : Math.floor(random() * count);
+        let path = Math.floor(random() * pathCount);
+        if (previous && previous.creature === creature && path === previous.path)
+          path = (path + 1 + Math.floor(random() * (pathCount - 1))) % pathCount;
+        previous = { creature, path };
+        return previous;
+      };
+    }
+    function pathPoint(points, progress) {
+      const lengths = [];
+      let total = 0;
+      for (let i = 1; i < points.length; i++) {
+        const length = Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
+        lengths.push(length); total += length;
+      }
+      let distance = Math.max(0, Math.min(1, progress)) * total;
+      for (let i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i] || i === lengths.length - 1) {
+          const from = points[i], to = points[i + 1];
+          const f = lengths[i] ? Math.min(1, distance / lengths[i]) : 0;
+          return { x: from[0] + (to[0] - from[0]) * f, y: from[1] + (to[1] - from[1]) * f, dx: to[0] - from[0] };
+        }
+        distance -= lengths[i];
+      }
+    }
+    for (const c of CREATURES) c.frames = [c.rows, c.rows.map((row, i) => c.step[i] || row)];
+    const nextShow = createParade(CREATURES.length, 3, Math.random);
+    const shows = [];
+    const creatureLabel = $('#alpine-creature');
+    let paradeStart = null, labelText = '';
+    function setCreatureLabel(text) {
+      if (creatureLabel && text !== labelText) creatureLabel.textContent = labelText = text;
+    }
+    function currentCreature(now) {
+      if (paradeStart === null) paradeStart = now;
+      const elapsed = (now - paradeStart) / 1000;
+      const index = Math.floor(elapsed / ARRIVAL_SECONDS);
+      while (shows.length <= index) shows.push(nextShow(shows.length));
+      const progress = (elapsed - index * ARRIVAL_SECONDS) / PATH_SECONDS;
+      if (progress >= 1) return null;
+      const creature = CREATURES[shows[index].creature];
+      return { creature, path: creature.paths[shows[index].path], progress, elapsed };
+    }
+    function drawCreature(active) {
+      const { creature, path, progress, elapsed } = active;
+      const point = pathPoint(path.points, progress);
+      const frame = creature.frames[Math.floor(elapsed * 3.3) % 2];
+      const h = frame.length, w = frame[0].length;
+      const airborne = creature.flies || path.layer === 'sky';
+      const left = Math.round(point.x - w / 2);
+      const top = Math.round(point.y - h + (airborne ? Math.sin(elapsed * 2.4) * 2 : 0));
+      const flip = point.dx < 0;
+      const fade = Math.max(0, Math.min(1, progress * PATH_SECONDS / 2, (1 - progress) * PATH_SECONDS / 2));
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const ch = frame[y][flip ? w - 1 - x : x];
+        if (ch === '.') continue;
+        if (creature.glow && creature.glow.includes(ch)) {
+          g.fillStyle = creature.palette[ch]; g.globalAlpha = fade * .22;
+          g.fillRect(left + x - 1, top + y - 1, 3, 3);
+        }
+        g.fillStyle = creature.palette[ch]; g.globalAlpha = fade;
+        g.fillRect(left + x, top + y, 1, 1);
+      }
+      g.globalAlpha = 1;
+    }
     let last = 0, energy = 0;
     function draw(now) {
       requestAnimationFrame(draw);
@@ -2065,6 +2225,11 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       const t = reduceMotion ? 0 : now / 1000;
       const target = player.playing && !reduceMotion ? Math.min(1, player.energy() * 4) : 0;
       energy += (target - energy) * .2;
+      const active = reduceMotion ? null : currentCreature(now);
+      const layerOf = active && active.path.layer;
+      setCreatureLabel(reduceMotion ? 'Creature parade paused (reduced motion)'
+        : active ? `${active.creature.name} · ${active.creature.title} · ${active.creature.region}`
+        : 'The next creature arrives soon');
       g.drawImage(skyLayer, 0, 0);
       for (const star of stars) {
         g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
@@ -2072,12 +2237,14 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       }
       drawMoon();
       clouds(distantClouds, t, '#b0a8bc', 1);
+      if (layerOf === 'sky') drawCreature(active);
       g.drawImage(mountainLayer, 0, 0);
       clouds(valleyClouds, t, '#c1ccd1', .4);
       g.drawImage(groundLayer, 0, 0);
       g.drawImage(shadowLayer, 0, 0);
       houses.forEach((house, i) => glow(house.x, house.y + house.h - 3,
         house.w, 5, windowLight(i * 2, t)));
+      if (layerOf === 'back') drawCreature(active);
       g.drawImage(villageLayer, 0, 0);
       for (const [i, [x, y]] of windows.entries()) {
         const light = windowLight(i, t);
@@ -2086,6 +2253,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
         g.fillRect(x, y, 4, 4);
         g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
       }
+      if (layerOf === 'front') drawCreature(active);
       if (!reduceMotion) {
         g.fillStyle = '#9c9699';
         for (let i = 0; i < 4; i++) {
