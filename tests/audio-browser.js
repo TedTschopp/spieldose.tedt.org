@@ -47,3 +47,35 @@ async function runInstrumentAudioTests() {
   }
   return results;
 }
+
+async function runTuneAudioTests() {
+  const results = [];
+  for (const track of ScrimTracks) {
+    const song = ScrimScore.compile(track.text);
+    if (song.errors.length) throw new Error(`${track.file}: ${JSON.stringify(song.errors)}`);
+    const sampleRate = 44100;
+    const seconds = 4;
+    const ctx = new OfflineAudioContext(2, sampleRate * seconds, sampleRate);
+    const synth = ScrimSynth.createSynth(ctx, ctx.destination);
+    const session = synth.session(song);
+    const events = song.intro.events.map(event => [event, event.t])
+      .concat(song.loop.events.map(event => [event, event.t + song.intro.dur]));
+    for (const [event, time] of events) {
+      if (time + .05 < seconds) session.play(event, time + .05);
+    }
+    const audio = await ctx.startRendering();
+    let peak = 0, energy = 0;
+    for (let channel = 0; channel < audio.numberOfChannels; channel++) {
+      for (const sample of audio.getChannelData(channel)) {
+        if (!Number.isFinite(sample)) throw new Error(`${track.file}: nonfinite audio`);
+        peak = Math.max(peak, Math.abs(sample));
+        energy += sample * sample;
+      }
+    }
+    const rms = Math.sqrt(energy / (audio.numberOfChannels * sampleRate * seconds));
+    if (rms < .0005) throw new Error(`${track.file}: silent audio (RMS ${rms})`);
+    if (peak >= .99) throw new Error(`${track.file}: clipped audio (peak ${peak})`);
+    results.push({ file: track.file, rms: +rms.toFixed(5), peak: +peak.toFixed(5) });
+  }
+  return results;
+}

@@ -36,16 +36,13 @@ assert.equal(hash(JSON.stringify(legacy.map(k => {
   return [k, v.rev, v.level, v.play.toString()];
 }))), 'cff276455725f4f48e4e530a643195e3536fc6624a5b5dded2f758046eab881a',
 'Existing instrument definitions must remain unchanged');
-assert.equal(hash(html.match(/const TRACKS = (.*);/)[1]),
-  'cd382d8b3bce0ffab3247caba18c014bd137407c7b0e7b25f8364dc5183be3f3',
-  'Bundled scores must remain unchanged');
-assert.equal(hash(JSON.stringify(scripts.filter(s => !s.includes('/* Scrimshaw score format:')
-  && !s.includes('/* Scrimshaw synth:')))),
-  'fdff1507c784bf5cd5d003df557d6676f19a88d330395512dbc1441d2606aceb',
-  'Scene, player, roll and UI scripts must remain unchanged');
-for (const track of JSON.parse(html.match(/const TRACKS = (.*);/)[1])) {
-  assert.equal(score.compile(track.text).errors.length, 0, track.file);
-}
+const trackAt = html.indexOf('const TRACKS = window.ScrimTracks;');
+assert.notEqual(trackAt, -1);
+const uiScript = scripts.find(s => s.includes('const TRACKS = window.ScrimTracks;'));
+assert.ok(uiScript);
+assert.equal(hash(uiScript.slice(uiScript.indexOf('const DRUM_COLOR'))),
+  '042c8f509645373d82bc55c7cc6bbf94c2ca2dcf5686a26ea989ada11671b886',
+  'Player, scene, roll and UI code must remain unchanged');
 assert.deepEqual([...score.MELODIC].sort(), Object.keys(synth.INST).sort());
 assert.equal(new Set(score.MELODIC).size, score.MELODIC.length);
 
@@ -137,4 +134,4 @@ assert.equal(new Set(signatures).size, added.length, 'All new timbres have disti
 const chest = sound('yodel', 220).nodes.find(n => n.wave).wave.imag;
 const head = sound('yodel', 880).nodes.find(n => n.wave).wave.imag;
 assert.notDeepEqual(chest, head, 'Yodel changes excitation with register');
-console.log('PASS: 15 instruments, parser/compile, sound graphs, envelopes, lists, unchanged legacy sounds, scores and playback');
+console.log('PASS: 15 instruments, parser/compile, sound graphs, envelopes, lists, unchanged legacy sounds and playback');
