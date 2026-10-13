@@ -1905,7 +1905,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     const stars = Array.from({ length: 36 }, (_, i) => ({
       x: (i * 73 + 11) % W, y: (i * 17 + 3) % 32, phase: i * 1.7
     }));
-    const moon = { x: 262, y: 30, r: 10 };
+    const moon = { x: 262, y: 13, r: 10 };
     function drawMoon() {
       g.fillStyle = '#efe6c4';
       for (let y = -moon.r; y <= moon.r; y++) for (let x = -moon.r; x <= moon.r; x++) {
@@ -2027,6 +2027,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
         g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
         g.fillRect(star.x, star.y, 1, 1);
       }
+      drawMoon();
       clouds(distantClouds, t, '#b0a8bc', 1);
       g.drawImage(mountainLayer, 0, 0);
       clouds(valleyClouds, t, '#c1ccd1', .4);
@@ -2045,7 +2046,6 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           g.fillRect(Math.round(257 + Math.sin(rise * .3 + 1) * 2), Math.round(76 - rise), 2, 1);
         }
       }
-      drawMoon();
     }
     requestAnimationFrame(draw);
   })();
