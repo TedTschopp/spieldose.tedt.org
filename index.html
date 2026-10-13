@@ -36,9 +36,7 @@ body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
 
 /* ---------------- game screen */
 .screen { position: relative; background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
-#scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
 #alpine-scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
-.scene-label { margin: 0; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
 .creature-label { margin: 0 0 12px; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-top: 0; }
 .caption { position: absolute; left: 0; right: 0; top: 7%; text-align: center; pointer-events: none; font-family: var(--font-ui); font-weight: 600; font-size: clamp(15px, 2.6vw, 26px); letter-spacing: -.01em; color: var(--lamp); text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 2px 2px 0 #000; padding-inline: 16px; }
 .caption.idle { color: var(--ink); }
@@ -133,12 +131,8 @@ footer a { color: var(--lamp); }
   </header>
 
   <div class="screen">
-    <canvas id="scene" width="320" height="120" aria-label="Music-box scene that reacts to the music" role="img"></canvas>
-    <div class="caption idle" id="caption">Moonlit Harbor<small>Press Play</small></div>
-  </div>
-  <p class="scene-label">Swiss alpine village &middot; work in progress</p>
-  <div class="screen">
     <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music; Swiss folklore creatures pass through" role="img"></canvas>
+    <div class="caption idle" id="caption">Moonlit Harbor<small>Press Play</small></div>
   </div>
   <p class="creature-label" id="alpine-creature" aria-live="polite">The next creature arrives soon</p>
   <div class="sentence" id="sentence" aria-live="polite">Play Moonlit Harbor</div>
@@ -1723,163 +1717,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     return { part, sec: s, bar: Math.min(s.bars, Math.floor((t - s.start) / s.barDur) + 1) };
   }
 
-  /* ------------------------------------------------------------- scene */
-  const scene = (() => {
-    const W = 320, H = 120, HZ = 80;
-    const cv = $('#scene'), g = cv.getContext('2d');
-    g.imageSmoothingEnabled = false;
-    const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
-    const SIL = '#07051a';
-    const back = document.createElement('canvas'); back.width = W; back.height = H;
-    const b = back.getContext('2d');
-    function dither(ctx, y0, y1, bands, curve) {
-      for (let y = y0; y < y1; y++) {
-        const f = Math.pow((y - y0) / (y1 - y0), curve) * (bands.length - 1);
-        const i = Math.min(bands.length - 2, Math.floor(f)), fr = f - i;
-        for (let x = 0; x < W; x++) {
-          ctx.fillStyle = fr > (bayer[y & 3][x & 3] + .5) / 16 ? bands[i + 1] : bands[i];
-          ctx.fillRect(x, y, 1, 1);
-        }
-      }
-    }
-    dither(b, 0, HZ, ['#08061a', '#0f0b2a', '#17113c', '#211852', '#2d2166', '#3b2c78', '#4a3786'], 1.25);
-    dither(b, HZ, H, ['#1b1d52', '#141641', '#0e1033', '#090a26'], 0.8);
-
-    // static silhouettes on their own layer: island, palms, tavern, dock
-    function px(ctx, x, y, w = 1, h = 1, c = SIL) { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), w, h); }
-    b.fillStyle = '#0c0a24';
-    b.beginPath(); b.moveTo(140, 81); b.bezierCurveTo(165, 75, 200, 74, 226, 81); b.closePath(); b.fill(); // distant islet
-    const fgc = document.createElement('canvas'); fgc.width = W; fgc.height = H;
-    const f = fgc.getContext('2d');
-    f.fillStyle = SIL;
-    f.beginPath(); f.moveTo(0, 58); f.bezierCurveTo(30, 50, 60, 54, 86, 64); f.bezierCurveTo(108, 72, 124, 76, 140, 81); f.lineTo(0, 82); f.closePath(); f.fill();
-    function palm(x0, y0, h, lean) {
-      for (let i = 0; i <= h; i++) { const k = i / h; px(f, x0 + lean * k * k * h * .35, y0 - i, k > .75 ? 1 : 2, 1); }
-      const tx = Math.round(x0 + lean * h * .35), ty = y0 - h;
-      for (const [dir, len, rise, droop] of [[-1, 14, 3, 9], [1, 15, 3, 10], [-1, 10, 4, 4], [1, 11, 4, 5], [-.45, 8, 5, 2], [.55, 8, 5, 2]]) {
-        for (let i = 0; i <= len; i++) { const k = i / len; px(f, tx + dir * i, ty - Math.sin(k * Math.PI * .8) * rise + k * k * droop, 1, i < len * .6 ? 2 : 1); }
-      }
-      px(f, tx - 1, ty + 1, 3, 2);
-    }
-    palm(22, 57, 26, 1); palm(36, 55, 20, -1.2); palm(122, 76, 17, .8);
-    f.fillRect(70, 52, 30, 12); f.beginPath(); f.moveTo(66, 53); f.lineTo(85, 43); f.lineTo(104, 53); f.closePath(); f.fill();
-    f.fillRect(94, 41, 4, 8);
-    f.fillRect(118, 79, 72, 2);
-    for (let x = 121; x < 190; x += 10) f.fillRect(x, 81, 2, 7);
-    // star field
-    const stars = Array.from({ length: 72 }, () => ({ x: Math.random() * W | 0, y: Math.random() * 62 | 0, ph: Math.random() * 6.28, sp: .6 + Math.random() * 1.8, fl: 0 }));
-    const moon = { x: 262, y: 24, r: 10 };
-    const notes = [];
-    const glyph = [[0, 0, 1, 1], [0, 0, 1, 0], [0, 0, 1, 0], [1, 1, 1, 0], [1, 1, 1, 0]];
-    let energy = 0, last = 0, frame = 0;
-
-    function ship(ctx, x, y) {
-      ctx.fillStyle = SIL;
-      ctx.beginPath(); ctx.moveTo(x - 24, y - 6); ctx.lineTo(x + 26, y - 7); ctx.lineTo(x + 21, y); ctx.lineTo(x - 19, y); ctx.closePath(); ctx.fill();
-      ctx.fillRect(x - 26, y - 11, 11, 5);
-      ctx.fillRect(x + 26, y - 9, 11, 1);
-      for (const [mx, mh] of [[-12, 25], [2, 31], [15, 21]]) {
-        ctx.fillRect(x + mx, y - 6 - mh, 1, mh);
-        const sw = Math.round(mh * .34);
-        const sails = [[y - 4 - mh, Math.round(mh * .26), sw - 2], [y - 4 - mh + Math.round(mh * .34), Math.round(mh * .3), sw]];
-        for (const [top, hgt, w] of sails) for (let r = 0; r < hgt; r++) {
-          const bulge = Math.round(Math.sin((r / hgt) * Math.PI) * 2);
-          ctx.fillRect(x + mx - w + bulge, top + r, w * 2 + 1, 1);
-        }
-        ctx.fillRect(x + mx, y - 8 - mh, 3, 2);
-      }
-    }
-
-    function frameDraw(now) {
-      requestAnimationFrame(frameDraw);
-      if (now - last < 33) return;
-      last = now; frame++;
-      const t = now / 1000;
-      const playing = player.playing;
-      const target = playing ? Math.min(1, player.energy() * 4) : 0;
-      energy += (target - energy) * .2;
-
-      // effects from scheduled events
-      if (playing) {
-        const ct = player.ctx.currentTime;
-        while (player.fx.length && player.fx[0].t <= ct) {
-          const { ev } = player.fx.shift();
-          const v = player.song.voices[ev.v];
-          if (v.drum) {
-            for (let k = 0; k < 2; k++) stars[(Math.random() * stars.length) | 0].fl = 1;
-          } else if (player.leads.includes(ev.v)) {
-            if (notes.length < 36 && Math.random() < .55 && !reduceMotion)
-              notes.push({ x: 92 + Math.random() * 8, y: 40, vx: (Math.random() - .3) * 6, life: 0, c: player.colors[ev.v] });
-          }
-        }
-      }
-
-      g.drawImage(back, 0, 0);
-      // stars
-      for (const s of stars) {
-        const tw = reduceMotion ? .6 : .5 + .5 * Math.sin(t * s.sp + s.ph);
-        s.fl *= .9;
-        const lvl = tw * .7 + s.fl;
-        if (lvl > .25) px(g, s.x, s.y, 1, 1, lvl > .95 ? '#ffffff' : lvl > .6 ? '#c9c2ee' : '#6e64a8');
-        if (s.fl > .5) { px(g, s.x - 1, s.y, 1, 1, '#8f86c8'); px(g, s.x + 1, s.y, 1, 1, '#8f86c8'); px(g, s.x, s.y - 1, 1, 1, '#8f86c8'); px(g, s.x, s.y + 1, 1, 1, '#8f86c8'); }
-      }
-      // moon glow (dithered ring)
-      const gr = moon.r + 4 + energy * 7;
-      for (let y = -gr; y <= gr; y++) for (let x = -gr; x <= gr; x++) {
-        const d = Math.sqrt(x * x + y * y);
-        if (d > moon.r && d < gr && ((x + y + 64) & 1) === 0 && (d - moon.r) / (gr - moon.r) < .3 + ((bayer[(y + 64) & 3][(x + 64) & 3]) / 16) * .7)
-          px(g, moon.x + x, moon.y + y, 1, 1, '#4b3f8c');
-      }
-      g.fillStyle = '#efe6c4'; g.beginPath(); g.arc(moon.x, moon.y, moon.r, 0, 6.283); g.fill();
-      px(g, moon.x - 4, moon.y - 3, 3, 2, '#d6cba3'); px(g, moon.x + 2, moon.y + 2, 4, 3, '#d6cba3'); px(g, moon.x - 1, moon.y + 5, 2, 1, '#d6cba3');
-
-      // sea sparkle and moon reflection
-      for (let y = HZ + 1; y < H; y++) {
-        const depth = (y - HZ) / (H - HZ);
-        const w = 3 + depth * 26 * (.7 + energy * .6);
-        const sway = reduceMotion ? 0 : Math.sin(y * .9 + t * 2.1) * (1 + depth * 3);
-        if ((y + (frame >> 1)) % 3 !== 0) {
-          const seg = 2 + ((y * 7) % 5);
-          for (let x = -w; x < w; x += seg + 3) {
-            if (Math.abs(x) / w > .5 + .5 * Math.sin(y * 1.7 + t)) continue;
-            px(g, moon.x + x + sway, y, seg, 1, depth < .35 ? '#e7dfbd' : '#a8a6d6');
-          }
-        }
-        if (y % 4 === 1) {
-          const off = reduceMotion ? 0 : (t * (6 + depth * 10)) % 40;
-          for (let x = (y * 13) % 40 - off; x < W; x += 40) {
-            if (Math.abs(x - moon.x) < w + 8) continue;
-            px(g, x, y, 3 + depth * 3, 1, '#262a6a');
-          }
-        }
-      }
-      // ship (bobbing)
-      const bob = reduceMotion ? 0 : Math.round(Math.sin(t * .9) * 1);
-      ship(g, 186, 80 + bob);
-      px(g, 161, 71 + bob, 1, 1, frame % 40 < 30 ? '#ffd96b' : '#b88a3a');
-      // foreground silhouettes
-      g.drawImage(fgc, 0, 0);
-      // tavern windows flicker with the music
-      const lit = .55 + energy * .9 + (reduceMotion ? 0 : Math.sin(t * 7) * .05);
-      const wc = lit > .9 ? '#ffe9a0' : lit > .7 ? '#ffd96b' : '#e0a948';
-      px(g, 75, 56, 4, 4, wc); px(g, 89, 56, 4, 4, wc); px(g, 82, 57, 3, 7, '#3a2410');
-      // reflections of the windows
-      if (frame % 2) { px(g, 76, 84, 3, 1, '#6a5323'); px(g, 90, 85, 3, 1, '#6a5323'); }
-
-      // floating notes from the chimney
-      for (let i = notes.length - 1; i >= 0; i--) {
-        const n = notes[i];
-        n.life += .033; n.y -= 7 * .033; n.x += (n.vx + Math.sin(n.life * 2.5) * 4) * .033;
-        if (n.life > 3.2 || n.y < 2) { notes.splice(i, 1); continue; }
-        if (n.life > 2.4 && (frame + i) % 2) continue;
-        for (let r = 0; r < 5; r++) for (let c = 0; c < 4; c++) if (glyph[r][c]) px(g, n.x + c, n.y + r, 1, 1, n.c);
-      }
-    }
-    requestAnimationFrame(frameDraw);
-    return {};
-  })();
-
-  /* Alpine comparison scene: reads audio energy without consuming playback events. */
+  /* Alpine comparison scene: Swiss alpine village; reads audio energy without consuming playback events. */
   (() => {
     const W = 320, H = 120;
     const cv = $('#alpine-scene'), g = cv.getContext('2d');
