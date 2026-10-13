@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tedtschopp.github.io/spieldose.tedt.org/sitemap.xml

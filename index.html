@@ -1,5 +1,32 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- social-metadata:start -->
+<base href="./">
 <title>Swiss Music Box</title>
+<meta name="description" content="Six haunted Swiss folk-inspired tunes, played live by a procedural synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#171f22">
+<link rel="canonical" href="https://tedtschopp.github.io/spieldose.tedt.org/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Swiss Music Box">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Swiss Music Box">
+<meta property="og:description" content="Six haunted Swiss folk-inspired tunes, played live by a procedural synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.">
+<meta property="og:url" content="https://tedtschopp.github.io/spieldose.tedt.org/">
+<meta property="og:image" content="https://tedtschopp.github.io/spieldose.tedt.org/assets/social/site.png">
+<meta property="og:image:secure_url" content="https://tedtschopp.github.io/spieldose.tedt.org/assets/social/site.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Swiss Music Box: a moonlit Swiss Alpine village with six folk-inspired tunes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Swiss Music Box">
+<meta name="twitter:description" content="Six haunted Swiss folk-inspired tunes, played live by a procedural synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.">
+<meta name="twitter:image" content="https://tedtschopp.github.io/spieldose.tedt.org/assets/social/site.png">
+<meta name="twitter:image:alt" content="Swiss Music Box: a moonlit Swiss Alpine village with six folk-inspired tunes">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://tedtschopp.github.io/spieldose.tedt.org/#website","url":"https://tedtschopp.github.io/spieldose.tedt.org/","name":"Swiss Music Box","description":"Six haunted Swiss folk-inspired tunes, played live by a procedural synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.","inLanguage":"en"},{"@type":"WebApplication","@id":"https://tedtschopp.github.io/spieldose.tedt.org/#app","name":"Swiss Music Box","url":"https://tedtschopp.github.io/spieldose.tedt.org/","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","browserRequirements":"Requires JavaScript and Web Audio API","isAccessibleForFree":true,"license":"https://tedtschopp.github.io/spieldose.tedt.org/LICENSE"},{"@type":"WebPage","@id":"https://tedtschopp.github.io/spieldose.tedt.org/#page","url":"https://tedtschopp.github.io/spieldose.tedt.org/","name":"Swiss Music Box","description":"Six haunted Swiss folk-inspired tunes, played live by a procedural synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.","inLanguage":"en","isPartOf":{"@id":"https://tedtschopp.github.io/spieldose.tedt.org/#website"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://tedtschopp.github.io/spieldose.tedt.org/assets/social/site.png","width":1200,"height":630}}]}</script>
+<!-- social-metadata:end -->
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -110,7 +137,7 @@ pre.sample .c { color: var(--ink-dim); }
 pre.prompt { margin: 0; white-space: pre-wrap; overflow-wrap: break-word; max-height: 520px; overflow-y: auto; }
 pre.prompt:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
 footer { margin-top: 44px; padding-top: 14px; border-top: 1px solid var(--rule); color: var(--ink-dim); font-size: 13px; }
-footer a { color: var(--lamp); }
+footer a, nav[aria-label="Song permalinks"] a { color: var(--lamp); }
 
 @media (max-width: 760px) {
   .console { grid-template-columns: minmax(0, 1fr); }
@@ -123,6 +150,7 @@ footer a { color: var(--lamp); }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
+</head><body>
 
 <div class="wrap">
   <header class="masthead">
@@ -148,6 +176,13 @@ footer a { color: var(--lamp); }
     </div>
     <ul class="inventory" id="tracks" aria-label="Tracks"></ul>
   </div>
+  <div class="editor-bar" role="group" aria-label="Share music">
+    <button class="btn" id="b-share">Copy song link</button>
+    <button class="btn ghost" id="b-native-share" hidden>Share song…</button>
+    <button class="btn ghost" id="b-share-site">Copy website link</button>
+  </div>
+  <p id="share-status" role="status" aria-live="polite"></p>
+  <input id="share-link" aria-label="Share link: select and copy" readonly hidden style="width:100%;box-sizing:border-box">
 
   <section aria-labelledby="roll-h">
     <div class="sec-head">
@@ -501,7 +536,9 @@ loop A A2 B*2 A2+2
 Compose the piece I describe below. If I haven't described one, compose an original piece in a style of your choice.</pre>
   </section>
 
-  <footer>Swiss Music Box branding by Ted Tschopp. Music, scores and synthesizer from <a href="https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html">Simon Willison’s Scrimshaw Jukebox</a>, used under the <a href="LICENSE">Apache License 2.0</a>. All sounds are generated live with the Web Audio API; there are no samples.</footer>
+<!-- song-about:start --><section id="song-about" aria-label="About this tune" hidden><h2></h2><p></p></section><!-- song-about:end -->
+<!-- song-links:start --><nav aria-label="Song permalinks"><p><a href="songs/sennentuntschis-lullaby/">The Sennentuntschi&#39;s Lullaby</a> · <a href="songs/stollenwurm-behind-the-stove/">The Stollenwurm Behind the Stove</a> · <a href="songs/wildmannlis-midnight-dance/">The Wildmannli&#39;s Midnight Dance</a> · <a href="songs/do-not-wake-the-rollibock/">Do Not Wake the Rollibock</a> · <a href="songs/three-steps-aside-for-the-tuerst/">Three Steps Aside for the Tuerst</a> · <a href="songs/devils-bridge-mazurka/">The Devil&#39;s Bridge Mazurka</a></p><p><a href="./">Swiss Music Box home</a></p></nav><!-- song-links:end -->
+  <footer>Swiss Music Box by Ted Tschopp, with original Swiss folk-inspired scores credited to ChatGPT. Based on the player and synthesizer from <a href="https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html">Simon Willison’s Scrimshaw Jukebox</a>, used under the <a href="LICENSE">Apache License 2.0</a>. All sounds are generated live with the Web Audio API; there are no samples.</footer>
 </div>
 
 <script>
@@ -1742,6 +1779,7 @@ Compose the piece I describe below. If I haven't described one, compose an origi
 
 </script>
 <script src="scores.js"></script>
+<script src="sharing.js"></script>
 <script>
 const TRACKS = window.ScrimTracks;
 (function () {
@@ -1750,6 +1788,7 @@ const TRACKS = window.ScrimTracks;
   const COLORS = ['#ffd96b', '#5fd1a6', '#ff8a70', '#8fc8ff', '#c9a2ff', '#f2c48d', '#b4e67a', '#ff9fcf', '#7fe0e0', '#e6e08a'];
   const DRUM_COLOR = '#8a84b8';
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let sharing = null;
 
   /* ------------------------------------------------------------- state */
   const state = {
@@ -1764,10 +1803,12 @@ const TRACKS = window.ScrimTracks;
     const saved = JSON.parse(localStorage.getItem('scrimshaw-edits') || '{}');
     TRACKS.forEach((t, i) => { if (typeof saved[t.file] === 'string') state.texts[i] = saved[t.file]; });
   } catch (e) { }
+  const savedTexts = state.texts.slice();
   function saveEdits() {
     try {
+      savedTexts[state.idx] = state.texts[state.idx];
       const out = {};
-      TRACKS.forEach((t, i) => { if (state.texts[i] !== t.text) out[t.file] = state.texts[i]; });
+      TRACKS.forEach((t, i) => { if (savedTexts[i] !== t.text) out[t.file] = savedTexts[i]; });
       localStorage.setItem('scrimshaw-edits', JSON.stringify(out));
     } catch (e) { }
   }
@@ -2528,18 +2569,20 @@ const TRACKS = window.ScrimTracks;
       state.idx = i;
       if (changed) { ta.value = state.texts[i]; roll.reset(); }
       renderList(); renderLegend(); renderErrors(state.songs[i]); refresh();
+      if (sharing) sharing.selected(i);
       if (play) startTrack();
     }
     function startTrack() {
       const s = compileAt(state.idx);
       renderErrors(s);
       if (!s.intro.events.length && !s.loop.events.length) { refresh(); return; }
+      if (sharing) sharing.selected(state.idx);
       roll.reset();
       player.start(s, state.idx);
       state.playingIdx = state.idx;
       renderList(); renderLegend(); refresh();
     }
-    function stopTrack() { player.stop(); refresh(); lastPos = ''; }
+    function stopTrack() { if (sharing) sharing.cancelAutoplay(); player.stop(); refresh(); lastPos = ''; }
 
     // wiring
     $('#v-play').addEventListener('click', startTrack);
@@ -2601,7 +2644,7 @@ const TRACKS = window.ScrimTracks;
       if (player.playing) stopTrack(); else startTrack();
     });
 
-    return { select, refresh, tickPos, renderErrors, gotoLine, hint };
+    return { select, refresh, tickPos, renderErrors, gotoLine, hint, startTrack };
   })();
 
   // boot (keeps edits across live updates of this page)
@@ -2612,13 +2655,14 @@ const TRACKS = window.ScrimTracks;
     } catch (e) { }
     $('#score').value = state.texts[state.idx];
     ui.select(state.idx, false);
+    sharing = ScrimSharing.connect({ tracks: TRACKS, state, player, ui, compileAt });
   }
   const hot = window.claude && window.claude.hot;
   try { if (hot && hot.snapshot) hot.snapshot(() => ({ texts: state.texts, idx: state.idx })); } catch (e) { }
   if (hot && hot.ready) hot.ready(boot); else boot((hot && hot.data) || {});
 
   // expose for testing
-  window.__scrim = { state, player, ui };
+  window.__scrim = { state, player, ui, get sharing() { return sharing; } };
 })();
 
 </script>

@@ -6,6 +6,20 @@ The original harbour scene has been replaced by an animated pixel-art Swiss alpi
 
 Upstream source: https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html
 
+## Song links and sharing
+
+Selecting or playing a song updates its URL under `songs/<slug>/`. Back and Forward restore the selected tune. A direct song link attempts playback; browser autoplay restrictions may require pressing **Play**. The homepage keeps its general website preview until you select or play a song.
+
+**Copy song link** copies the selected score's URL; **Share song** opens the device's share sheet where Web Share is supported. **Copy website link** shares the general homepage instead. Clipboard denial exposes a selectable link for manual copying. HTTPS (or localhost for development) is required for clipboard and native sharing.
+
+Edited scores are compressed into a versioned URL fragment, not uploaded to a server. Anyone with the link can read the score, and sharing apps receive the full link: do not include private information. Edits do not change the bundled music. Opening a shared link does not save its score over a local draft; typing or reverting explicitly saves the current song. Edited links are limited to 16,000 URL characters and 64,000 uncompressed UTF-8 bytes; malformed, oversized and invalid-score links show errors instead of autoplaying. Compression requires a current browser. Some messaging apps impose smaller link limits or strip fragments; **Copy score** remains an alternative.
+
+Each bundled song has a complete, crawlable static page with its own title, description, canonical URL, Open Graph/X (Twitter) tags, structured data and 1200 x 630 PNG preview. The homepage has a separate site image and metadata. Edited links use their underlying bundled song's preview because crawlers cannot read fragment contents. There is no downloadable audio file, so metadata does not claim a hosted recording or embeddable social audio player. Social platforms control preview display and caching; no metadata can guarantee identical previews everywhere.
+
+After changing `index.html` or `scores.js`, run `node scripts/build-sharing.js` and commit the generated `songs/` pages, `sitemap.xml` and `robots.txt`. Check drift with `node scripts/build-sharing.js --check`. The canonical base is the actual GitHub Pages address, `https://tedtschopp.github.io/spieldose.tedt.org/`; update the generator if a custom domain is configured. The project-level robots file is included, but only a host-root `/robots.txt` controls crawling on a shared GitHub Pages domain. Submit the sitemap directly in search webmaster tools if needed.
+
+Preview images live in `assets/social/`. To regenerate them, serve the site, load `scripts/social-images-browser.js` into the page, call `buildSocialPreview(-1)` for the site or `buildSocialPreview(0)` through `buildSocialPreview(5)` for songs, and capture the `#social-preview` canvas as a 1200 x 630 PNG with its existing filename. The helper uses the live Alpine illustration; it does not alter the scene or audio.
+
 ## Additional instruments
 
 Use these ASCII identifiers in a `voice NAME INSTRUMENT` declaration. They also appear in the page's instrument reference and copyable composition prompt.
@@ -59,6 +73,8 @@ The new voices reuse scheduled Web Audio envelopes, bounded filters, cached peri
 ### Verification
 
 Run `node tests/instruments.js` for parser/compiler coverage, instrument/list consistency, source scheduling checks and fingerprints protecting the existing voices and playback. Run `node tests/tunes.js` to compile and validate all six bundled tunes and their intended instrument assignments. No packages are required.
+
+Run `node tests/sharing.js` for song routing, edited-score encoding, size limits, static metadata, sitemap and preview image dimensions. `tests/sharing-browser.js` is an async Playwright page function for the local server on port 8765; it covers history, direct links, exact edited-score restoration, local-draft preservation, clipboard denial, native sharing, malformed links, autoplay restrictions and Stop cancellation. Run it in an isolated browser test profile; it temporarily changes local edits and restores their saved value.
 
 For actual Web Audio checks, serve the repository with `python3 -m http.server 8765`, open `http://localhost:8765/`, load `tests/audio-browser.js` in that page (for example with a browser developer-tools script tag), and run `await runInstrumentAudioTests()` and `await runTuneAudioTests()`. The instrument test renders all 15 voices with normal, short/bright, chord and long-attack settings; the tune test renders a four-second excerpt of all six tracks. They check finite, non-silent audio, peaks below clipping and decaying release tails. These checks do not establish acoustic realism; timbre remains a perceptual approximation.
 
