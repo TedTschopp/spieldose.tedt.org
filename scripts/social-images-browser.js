@@ -1,5 +1,10 @@
 /* Load on the running site, then capture buildSocialPreview(-1..5) as PNG. */
-window.buildSocialPreview = function (index) {
+window.buildSocialPreview = async function (index) {
+  const heading = getComputedStyle(document.querySelector('.masthead h1'));
+  const style = getComputedStyle(document.body);
+  const titleFont = `${heading.fontWeight} 42px ${heading.fontFamily}`;
+  const bodyFont = `${style.fontWeight} 24px ${style.fontFamily}`;
+  await Promise.all([document.fonts.load(titleFont), document.fonts.load(bodyFont)]);
   document.querySelector('#social-preview')?.remove();
   const canvas = document.createElement('canvas');
   canvas.id = 'social-preview';
@@ -8,11 +13,10 @@ window.buildSocialPreview = function (index) {
   const g = canvas.getContext('2d');
   g.imageSmoothingEnabled = false;
   g.drawImage(document.querySelector('#alpine-scene'), 0, 0, 1200, 450);
-  const style = getComputedStyle(document.body);
   g.fillStyle = style.backgroundColor;
   g.fillRect(0, 450, 1200, 180);
   g.fillStyle = style.color;
-  g.font = 'bold 42px Georgia, serif';
+  g.font = titleFont;
   const title = index < 0 ? 'Swiss Music Box' : window.__scrim.state.songs[index].title;
   const words = title.split(' ');
   let line = '', y = 505;
@@ -21,7 +25,7 @@ window.buildSocialPreview = function (index) {
     line += word + ' ';
   }
   g.fillText(line.trim(), 52, y);
-  g.font = '24px Georgia, serif';
+  g.font = bodyFont;
   g.fillText(index < 0 ? 'Six haunted Swiss folk-inspired tunes · Listen, edit, share' : 'Swiss Music Box · Original folk-inspired music, synthesized live', 52, 603);
   document.body.append(canvas);
   return canvas;

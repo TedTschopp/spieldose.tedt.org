@@ -51,6 +51,8 @@ async function main() {
     assert.ok(graph['@graph'].some(n => n['@type'] === (i < 0 ? 'WebSite' : 'MusicComposition')));
     assert.ok(fs.existsSync(`assets/social/${slug}.png`), `image ${slug}`);
     const image = fs.readFileSync(`assets/social/${slug}.png`);
+    const version = require('node:crypto').createHash('sha256').update(image).digest('hex').slice(0, 12);
+    assert.ok(html.includes(`${slug}.png?v=${version}`), 'Preview image URL must change when image changes');
     assert.equal(image.readUInt32BE(16), 1200);
     assert.equal(image.readUInt32BE(20), 630);
     const head = html.slice(0, html.indexOf('</head>'));

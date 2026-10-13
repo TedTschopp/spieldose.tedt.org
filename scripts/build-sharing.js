@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('node:fs');
 const vm = require('node:vm');
+const { createHash } = require('node:crypto');
 const { slug, songURL } = require('../sharing.js');
 const base = new URL('https://tedtschopp.github.io/spieldose.tedt.org/');
 const sandbox = { window: {} };
@@ -25,7 +26,9 @@ function metadata(track) {
   const title = track ? `${field(track, 'title')} | Swiss Music Box` : 'Swiss Music Box';
   const description = track ? `${field(track, 'about')} Listen, edit, and share this Swiss folk-inspired tune in the Swiss Music Box.` : siteDescription;
   const url = track ? songURL(base, track).href : base.href;
-  const image = new URL(`assets/social/${track ? slug(track) : 'site'}.png`, base).href;
+  const imagePath = `assets/social/${track ? slug(track) : 'site'}.png`;
+  const imageVersion = createHash('sha256').update(fs.readFileSync(imagePath)).digest('hex').slice(0, 12);
+  const image = new URL(`${imagePath}?v=${imageVersion}`, base).href;
   const alt = track ? `${field(track, 'title')} in the Swiss Music Box moonlit Alpine village` : 'Swiss Music Box: a moonlit Swiss Alpine village with six folk-inspired tunes';
   const graph = [
     { '@type': 'WebSite', '@id': base.href + '#website', url: base.href, name: 'Swiss Music Box', description: siteDescription, inLanguage: 'en' },
