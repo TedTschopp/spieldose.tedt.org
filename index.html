@@ -1800,27 +1800,41 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     polygon([[165, 88], [176, 88], [209, 120], [127, 120]], '#a7a390');
     polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
     const groundLayer = snapshot();
-    function shadow(x, y, w, h, roofHeight) {
+    // Cast a point standing on baseY along the ray from the moon onto the valley floor.
+    function moonRay(px, py, baseY) {
+      const endY = baseY + (baseY - py) * .55;
+      const scale = (endY - moon.y) / (py - moon.y);
+      return [moon.x + (px - moon.x) * scale, endY];
+    }
+    const SHADOW_ALPHA = .38;
+    function shadow(x, y, w, h, roofHeight, alpha) {
       const base = y + h;
-      // Project the roof outline along rays from the moon onto the valley floor.
-      const project = (px, py) => {
-        const endY = base + (base - py) * .55;
-        const scale = (endY - moon.y) / (py - moon.y);
-        return [moon.x + (px - moon.x) * scale, endY];
-      };
-      b.globalAlpha = .38;
+      const project = (px, py) => moonRay(px, py, base);
+      b.globalAlpha = alpha;
       polygon([[x, base], project(x - 4, y), project(x + w / 2, y - roofHeight),
         project(x + w + 4, y), [x + w, base]], '#07111c');
       b.globalAlpha = 1;
     }
-    shadow(82, 78, 24, 17, 12);
-    shadow(116, 73, 22, 16, 12);
-    shadow(199, 77, 26, 18, 12);
-    shadow(236, 86, 29, 20, 12);
-    shadow(43, 92, 29, 20, 12);
-    shadow(158, 62, 12, 28, 19);
-    shadow(169, 77, 19, 13, 9);
+    const houseShadows = alpha => {
+      shadow(82, 78, 24, 17, 12, alpha);
+      shadow(116, 73, 22, 16, 12, alpha);
+      shadow(199, 77, 26, 18, 12, alpha);
+      shadow(236, 86, 29, 20, 12, alpha);
+      shadow(43, 92, 29, 20, 12, alpha);
+      shadow(158, 62, 12, 28, 19, alpha);
+      shadow(169, 77, 19, 13, 9, alpha);
+    };
+    houseShadows(SHADOW_ALPHA);
     const shadowLayer = snapshot();
+    // Opaque copy of the house shadows, so creature shadows merge with them instead of doubling.
+    houseShadows(1);
+    const shadowMask = document.createElement('canvas');
+    shadowMask.width = W; shadowMask.height = H;
+    shadowMask.getContext('2d').drawImage(back, 0, 0);
+    b.clearRect(0, 0, W, H);
+    const shade = document.createElement('canvas');
+    shade.width = W; shade.height = H;
+    const shadeCtx = shade.getContext('2d');
     function chalet(x, y, w, h) {
       houses.push({ x, y, w, h });
       rect(x, y, w, h, '#d3bba0');
@@ -2069,6 +2083,22 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       const top = Math.round(point.y - h + (airborne ? Math.sin(elapsed * 2.4) * 2 : 0));
       const flip = point.dx < 0;
       const fade = Math.max(0, Math.min(1, progress * PATH_SECONDS / 2, (1 - progress) * PATH_SECONDS / 2));
+      if (!airborne) {
+        const baseY = top + h;
+        shadeCtx.clearRect(0, 0, W, H);
+        shadeCtx.fillStyle = '#07111c';
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+          if (frame[y][flip ? w - 1 - x : x] === '.') continue;
+          const [sx, sy] = moonRay(left + x + .5, top + y + .5, baseY);
+          shadeCtx.fillRect(Math.floor(sx), Math.floor(sy), 2, 1);
+        }
+        shadeCtx.globalCompositeOperation = 'destination-out';
+        shadeCtx.drawImage(shadowMask, 0, 0);
+        shadeCtx.globalCompositeOperation = 'source-over';
+        g.globalAlpha = SHADOW_ALPHA * fade;
+        g.drawImage(shade, 0, 0);
+        g.globalAlpha = 1;
+      }
       for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
         const ch = frame[y][flip ? w - 1 - x : x];
         if (ch === '.') continue;
