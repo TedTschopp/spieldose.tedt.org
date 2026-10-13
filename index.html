@@ -37,6 +37,8 @@ body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
 /* ---------------- game screen */
 .screen { position: relative; background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
 #scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
+#alpine-scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
+.scene-label { margin: 0; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
 .caption { position: absolute; left: 0; right: 0; top: 7%; text-align: center; pointer-events: none; font-family: var(--font-ui); font-weight: 600; font-size: clamp(15px, 2.6vw, 26px); letter-spacing: -.01em; color: var(--lamp); text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 2px 2px 0 #000; padding-inline: 16px; }
 .caption.idle { color: var(--ink); }
 .caption small { display: block; font-size: .6em; font-weight: 400; color: var(--verb); margin-top: 2px; }
@@ -132,6 +134,10 @@ footer a { color: var(--lamp); }
   <div class="screen">
     <canvas id="scene" width="320" height="120" aria-label="Music-box scene that reacts to the music" role="img"></canvas>
     <div class="caption idle" id="caption">Moonlit Harbor<small>Press Play</small></div>
+  </div>
+  <p class="scene-label">Swiss alpine village &middot; work in progress</p>
+  <div class="screen">
+    <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music" role="img"></canvas>
   </div>
   <div class="sentence" id="sentence" aria-live="polite">Play Moonlit Harbor</div>
   <div class="console">
@@ -1869,6 +1875,125 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     }
     requestAnimationFrame(frameDraw);
     return {};
+  })();
+
+  /* Alpine comparison scene: reads audio energy without consuming playback events. */
+  (() => {
+    const W = 320, H = 120;
+    const cv = $('#alpine-scene'), g = cv.getContext('2d');
+    g.imageSmoothingEnabled = false;
+    const back = document.createElement('canvas');
+    back.width = W; back.height = H;
+    const b = back.getContext('2d');
+    const windows = [];
+    const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+    const sky = ['#10172d', '#202c48', '#3c4662', '#6a6176', '#ac8392'];
+    for (let y = 0; y < H; y++) {
+      const f = Math.min(sky.length - 1.001, y / 90 * (sky.length - 1));
+      const i = Math.floor(f);
+      for (let x = 0; x < W; x++) {
+        b.fillStyle = f - i > (bayer[y & 3][x & 3] + .5) / 16 ? sky[i + 1] : sky[i];
+        b.fillRect(x, y, 1, 1);
+      }
+    }
+    function polygon(points, color) {
+      b.fillStyle = color; b.beginPath();
+      points.forEach(([x, y], i) => i ? b.lineTo(x, y) : b.moveTo(x, y));
+      b.closePath(); b.fill();
+    }
+    function rect(x, y, w, h, color) { b.fillStyle = color; b.fillRect(x, y, w, h); }
+    const stars = Array.from({ length: 36 }, (_, i) => ({
+      x: (i * 73 + 11) % W, y: (i * 17 + 3) % 32, phase: i * 1.7
+    }));
+    rect(271, 11, 9, 9, '#efe4c5');
+    rect(276, 9, 6, 8, '#202c48');
+    polygon([[0, 77], [28, 37], [44, 53], [82, 15], [122, 63], [151, 30], [181, 69], [220, 23], [253, 60], [283, 35], [320, 75]], '#52617c');
+    polygon([[55, 46], [82, 15], [109, 47], [92, 39], [86, 43], [77, 33], [69, 43]], '#d9dce2');
+    polygon([[200, 45], [220, 23], [241, 46], [228, 39], [219, 43], [213, 37]], '#e6e1de');
+    polygon([[16, 54], [28, 37], [41, 51], [30, 47], [25, 50]], '#bdc9d8');
+    polygon([[136, 47], [151, 30], [166, 49], [154, 42], [148, 45]], '#bdc9d8');
+    polygon([[82, 15], [122, 63], [97, 57], [89, 35]], '#74809a');
+    polygon([[220, 23], [253, 60], [230, 53], [226, 38]], '#7c889e');
+    polygon([[0, 74], [40, 63], [77, 76], [117, 61], [150, 77], [195, 63], [241, 73], [278, 60], [320, 75], [320, 120], [0, 120]], '#243d41');
+    polygon([[0, 92], [65, 82], [130, 92], [208, 81], [272, 87], [320, 80], [320, 120], [0, 120]], '#405a50');
+    function pine(x, y, h) {
+      rect(x, y - h, 1, h, '#20312e');
+      for (let k = 0; k < 3; k++) {
+        const top = y - h + k * h * .22, w = 3 + k * 2;
+        polygon([[x, top], [x - w, top + h * .45], [x + w, top + h * .45]], '#182f32');
+      }
+    }
+    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pine(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
+    polygon([[165, 88], [176, 88], [209, 120], [127, 120]], '#a7a390');
+    polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
+    function chalet(x, y, w, h) {
+      rect(x, y, w, h, '#d3bba0');
+      rect(x, y, w, 5, '#735142');
+      for (let row = y + 1; row < y + 5; row += 2) rect(x, row, w, 1, '#8c6250');
+      polygon([[x - 4, y + 1], [x + w / 2, y - 10], [x + w + 4, y + 1]], '#563f3e');
+      polygon([[x - 4, y - 1], [x + w / 2, y - 12], [x + w + 4, y - 1], [x + w / 2, y - 7]], '#e1ddd4');
+      rect(x + w - 7, y - 10, 3, 5, '#6e5751');
+      rect(x + w / 2 - 2, y + h - 7, 4, 7, '#4c3935');
+      for (const wx of [x + 4, x + w - 8]) {
+        rect(wx - 1, y + 6, 6, 6, '#56423b');
+        windows.push([wx, y + 7]);
+      }
+      rect(x - 1, y + h, w + 2, 2, '#263b35');
+    }
+    chalet(82, 78, 24, 17);
+    chalet(116, 73, 22, 16);
+    chalet(199, 77, 26, 18);
+    chalet(236, 86, 29, 20);
+    chalet(43, 92, 29, 20);
+    rect(158, 62, 12, 28, '#d9cdb7');
+    rect(169, 77, 19, 13, '#c5b398');
+    polygon([[167, 77], [178, 68], [190, 77]], '#6b4f46');
+    polygon([[154, 62], [164, 43], [174, 62]], '#494849');
+    polygon([[154, 60], [164, 43], [164, 48], [159, 60]], '#d8dce0');
+    rect(164, 38, 1, 7, '#e8c170');
+    rect(162, 40, 5, 1, '#e8c170');
+    rect(160, 66, 8, 8, '#f2e6c9');
+    rect(163, 67, 1, 4, '#414b51');
+    rect(163, 70, 3, 1, '#414b51');
+    rect(162, 81, 4, 9, '#55463d');
+    windows.push([174, 80], [181, 80]);
+    rect(145, 75, 1, 16, '#bea783');
+    rect(146, 75, 8, 7, '#c83c43');
+    rect(149, 76, 2, 5, '#fff2df');
+    rect(147, 78, 6, 1, '#fff2df');
+    rect(115, 104, 12, 2, '#78634b');
+    rect(116, 106, 1, 4, '#78634b');
+    rect(125, 106, 1, 4, '#78634b');
+    pine(12, 120, 28); pine(303, 120, 32);
+    let last = 0, energy = 0;
+    function draw(now) {
+      requestAnimationFrame(draw);
+      if (now - last < 33) return;
+      last = now;
+      const t = reduceMotion ? 0 : now / 1000;
+      const target = player.playing && !reduceMotion ? Math.min(1, player.energy() * 4) : 0;
+      energy += (target - energy) * .2;
+      g.drawImage(back, 0, 0);
+      for (const star of stars) {
+        g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
+        g.fillRect(star.x, star.y, 1, 1);
+      }
+      g.fillStyle = energy > .25 ? '#ffe8a6' : '#d5a25d';
+      for (const [x, y] of windows) {
+        g.fillRect(x, y, 4, 4);
+        g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
+        g.fillStyle = energy > .25 ? '#ffe8a6' : '#d5a25d';
+      }
+      if (!reduceMotion) {
+        g.fillStyle = '#9c9699';
+        for (let i = 0; i < 4; i++) {
+          const rise = (t * 3 + i * 4) % 16;
+          g.fillRect(Math.round(98 + Math.sin(rise * .3) * 2), Math.round(68 - rise), 2, 1);
+          g.fillRect(Math.round(257 + Math.sin(rise * .3 + 1) * 2), Math.round(76 - rise), 2, 1);
+        }
+      }
+    }
+    requestAnimationFrame(draw);
   })();
 
   /* -------------------------------------------------------------- roll */
