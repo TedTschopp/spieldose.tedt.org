@@ -1906,13 +1906,17 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       x: (i * 73 + 11) % W, y: (i * 17 + 3) % 32, phase: i * 1.7
     }));
     const moon = { x: 262, y: 30, r: 10 };
-    for (let y = -moon.r; y <= moon.r; y++) for (let x = -moon.r; x <= moon.r; x++) {
-      if (x * x + y * y <= moon.r * moon.r)
-        rect(moon.x + x, moon.y + y, 1, 1, '#efe6c4');
+    function drawMoon() {
+      g.fillStyle = '#efe6c4';
+      for (let y = -moon.r; y <= moon.r; y++) for (let x = -moon.r; x <= moon.r; x++) {
+        if (x * x + y * y <= moon.r * moon.r)
+          g.fillRect(moon.x + x, moon.y + y, 1, 1);
+      }
+      g.fillStyle = '#d6cba3';
+      g.fillRect(moon.x - 4, moon.y - 3, 3, 2);
+      g.fillRect(moon.x + 2, moon.y + 2, 4, 3);
+      g.fillRect(moon.x - 1, moon.y + 5, 2, 1);
     }
-    rect(moon.x - 4, moon.y - 3, 3, 2, '#d6cba3');
-    rect(moon.x + 2, moon.y + 2, 4, 3, '#d6cba3');
-    rect(moon.x - 1, moon.y + 5, 2, 1, '#d6cba3');
     function snapshot() {
       const layer = document.createElement('canvas');
       layer.width = W; layer.height = H;
@@ -2023,7 +2027,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
         g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
         g.fillRect(star.x, star.y, 1, 1);
       }
-      clouds(distantClouds, t, '#b0a8bc', .45);
+      clouds(distantClouds, t, '#b0a8bc', 1);
       g.drawImage(mountainLayer, 0, 0);
       clouds(valleyClouds, t, '#c1ccd1', .4);
       g.drawImage(back, 0, 0);
@@ -2041,6 +2045,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
           g.fillRect(Math.round(257 + Math.sin(rise * .3 + 1) * 2), Math.round(76 - rise), 2, 1);
         }
       }
+      drawMoon();
     }
     requestAnimationFrame(draw);
   })();
