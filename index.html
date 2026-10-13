@@ -241,17 +241,19 @@ loop  A A+2     <span class="c"># then forever (A+2 = up a tone)</span></pre>
         <h3>Instruments</h3>
         <dl class="inst">
           <dt>Mallets &amp; bells</dt><dd>steeldrum marimba vibes celesta glock xylophone musicbox bell</dd>
-          <dt>Keyboards</dt><dd>organ pipe harpsichord</dd>
-          <dt>Strings</dt><dd>strings pizz fiddle harp guitar banjo upright</dd>
-          <dt>Winds &amp; brass</dt><dd>flute clarinet oboe bassoon accordion trumpet brass horn tuba</dd>
+          <dt>Keyboards</dt><dd>organ pipe harpsichord piano epiano</dd>
+          <dt>Strings</dt><dd>strings pizz fiddle violin viola cello harp guitar elecguitar banjo upright</dd>
+          <dt>Winds &amp; brass</dt><dd>flute clarinet oboe bassoon saxalto saxtenor accordion trumpet brass horn tuba trombone</dd>
+          <dt>Swiss instruments</dt><dd>schwyzeroergeli hackbrett alphorn buechel yodel</dd>
           <dt>Voices &amp; pads</dt><dd>choir voices pad</dd>
-          <dt>Bass &amp; timpani</dt><dd>fretless synbass timpani</dd>
+          <dt>Bass &amp; timpani</dt><dd>fretless synbass elecbass timpani</dd>
           <dt>Plain synths</dt><dd>chip sine square saw triangle</dd>
           <dt>Drums</dt><dd>kick snare rim hat ohat ride crash clap</dd>
           <dt>Hand percussion</dt><dd>conga tumba bongo bongolo timbale bodhran shaker tamb clave block cowbell guiro tri</dd>
           <dt>Toms &amp; effects</dt><dd>tomlo tommid tomhi gong thunder surf</dd>
           <dt>Chord names</dt><dd>[C] [Cm] [C7] [Cm7] [Cmaj7] [C6] [Cm6] [C9] [Cm9] [Cadd9] [Csus2] [Csus4] [C7sus4] [Cdim] [Cdim7] [Cm7b5] [Caug] [C5] [C7b9]</dd>
         </dl>
+        <p><code>epiano</code> is a tine-style electric piano; <code>elecguitar</code> and <code>elecbass</code> are clean, picked electric strings. <code>schwyzeroergeli</code> is a Schwyzerörgeli with a main reed and two beating octave reeds; write bass notes and detached chords explicitly. <code>hackbrett</code> is a ringing hammered dulcimer. <code>alphorn</code> is warm and breathy; <code>buechel</code> is brighter and quicker. Both retain written pitches rather than forcing a natural-harmonic scale. <code>yodel</code> switches from chest to head timbre at C5; write quick low/high note alternations for register leaps. These are procedural approximations, not recordings.</p>
       </div>
     </div>
   </section>
@@ -327,11 +329,12 @@ Voice options:
 Melodic instruments:
 
 - Mallets and bells: steeldrum marimba vibes celesta glock xylophone musicbox bell
-- Keyboards: organ pipe harpsichord
-- Strings: strings pizz fiddle harp guitar banjo upright
-- Winds and brass: flute clarinet oboe bassoon accordion trumpet brass horn tuba
+- Keyboards: organ pipe harpsichord piano epiano
+- Strings: strings pizz fiddle violin viola cello harp guitar elecguitar banjo upright
+- Winds and brass: flute clarinet oboe bassoon saxalto saxtenor accordion trumpet brass horn tuba trombone
+- Swiss instruments: schwyzeroergeli hackbrett alphorn buechel yodel
 - Voices and pads: choir voices pad
-- Bass and timpani: fretless synbass timpani
+- Bass and timpani: fretless synbass elecbass timpani
 - Plain synths: chip sine square saw triangle
 
 Drum instruments, one sound per voice:
@@ -341,6 +344,10 @@ Drum instruments, one sound per voice:
 - Toms and effects: tomlo tommid tomhi gong thunder surf
 
 Some of these names are short: pipe is a pipe organ, pizz is pizzicato strings, upright is an upright bass, chip is a square-wave game console lead, ohat is an open hi-hat, tamb is a tambourine, tri is a triangle, thunder is a long thunder roll and surf is a wave breaking on a beach (both last several seconds).
+
+New voices: piano is acoustic; epiano is a tine-style electric piano. saxalto and saxtenor are alto and tenor saxophones; violin, viola and cello are solo bowed strings. elecguitar and elecbass are clean, picked electric strings.
+
+Swiss voices are distinct procedural approximations, not aliases or samples. schwyzeroergeli (Schwyzerörgeli) has beating octave reeds; use separate low bass notes and short chord parts with gate=0.4 to 0.6 for a Ländler pulse. hackbrett is a ringing hammered dulcimer suited to fast ornaments. alphorn is warm and breathy; buechel (Büchel) is brighter and more agile. Neither retunes written notes. For natural-horn-style passages, use an overtone-shaped melody: for example C3, C4, G4, C5, E5, G5 are equal-tempered approximations to partials 2, 4, 6, 8, 10, 12 above C2. yodel switches chest/head timbre at C5; write quick alternations such as G4 G5 to make register leaps, rather than expecting added notes inside a sustain.
 
 ## Patterns
 
@@ -506,7 +513,9 @@ Compose the piece I describe below. If I haven't described one, compose an origi
     'organ', 'pipe', 'strings', 'pad', 'choir', 'voices', 'brass', 'trumpet', 'horn', 'tuba',
     'flute', 'clarinet', 'oboe', 'bassoon', 'accordion', 'fiddle',
     'harp', 'guitar', 'banjo', 'harpsichord', 'pizz', 'upright', 'fretless', 'synbass', 'timpani',
-    'chip', 'sine', 'square', 'saw', 'triangle'];
+    'chip', 'sine', 'square', 'saw', 'triangle',
+    'piano', 'epiano', 'saxalto', 'saxtenor', 'elecguitar', 'elecbass',
+    'violin', 'viola', 'cello', 'trombone', 'schwyzeroergeli', 'hackbrett', 'alphorn', 'buechel', 'yodel'];
   const DRUMS = ['kick', 'snare', 'rim', 'hat', 'ohat', 'ride', 'crash', 'shaker', 'tamb',
     'conga', 'tumba', 'bongo', 'bongolo', 'clave', 'block', 'cowbell', 'guiro',
     'tomlo', 'tommid', 'tomhi', 'bodhran', 'timbale', 'tri', 'clap', 'gong', 'thunder', 'surf'];
@@ -1005,7 +1014,18 @@ Compose the piece I describe below. If I haven't described one, compose an origi
     oboe: [.5, 1, .85, .5, .36, .22, .15, .1, .06],
     bassoon: [.45, 1, .78, .56, .42, .3, .22, .14, .1, .06],
     reed: [1, .55, .45, .32, .3, .22, .18, .13, .11, .08, .06, .05],
-    horn: [1, .5, .3, .18, .1, .05]
+    horn: [1, .5, .3, .18, .1, .05],
+    saxalto: [.72, 1, .83, .65, .47, .35, .27, .18, .12, .08, .05, .03],
+    saxtenor: [1, .88, .67, .52, .38, .29, .2, .14, .09, .05, .03],
+    violin: [1, .65, .46, .36, .29, .24, .2, .17, .14, .12, .09, .07],
+    viola: [1, .6, .43, .32, .24, .18, .14, .1, .07, .05],
+    cello: [1, .7, .47, .3, .2, .14, .09, .06, .04],
+    trombone: [1, .72, .52, .37, .26, .18, .12, .08, .05, .03],
+    schwyzeroergeli: [1, .7, .52, .4, .31, .24, .18, .13, .1, .07],
+    alphorn: [1, .38, .17, .075, .035, .015],
+    buechel: [1, .63, .4, .26, .16, .09, .045, .02],
+    yodelchest: [1, .58, .34, .22, .15, .1, .07, .05, .035, .02],
+    yodelhead: [1, .16, .06, .025, .012]
   };
   function wave(S, name) {
     if (!S.waves[name]) {
@@ -1059,12 +1079,158 @@ Compose the piece I describe below. If I haven't described one, compose an origi
     banjo: { id: 'banjo', b: .18, decay: .988, color: .05, dur: 1.1, hang: .1, dampTau: .05 },
     harpsichord: { id: 'hpsi', b: .14, decay: .994, color: 0, dur: 1.6, hang: .12, dampTau: .05 },
     pizz: { id: 'pizz', b: .5, decay: .982, color: .6, dur: .8, hang: .15, dampTau: .05 },
-    upright: { id: 'upr', b: .5, decay: .996, color: .7, dur: 1.7, hang: .04, dampTau: .07 }
+    upright: { id: 'upr', b: .5, decay: .996, color: .7, dur: 1.7, hang: .04, dampTau: .07 },
+    elecguitar: { id: 'egtr', b: .22, decay: .9982, color: .2, dur: 3.2, hang: .08, dampTau: .045 },
+    elecbass: { id: 'ebass', b: .42, decay: .999, color: .55, dur: 3.5, hang: .03, dampTau: .07 }
   };
 
   /* ------------------------------------------------------------ instruments */
+  // Compact spectral models, not full nonlinear physical simulations. See README sources.
+  function soloVoice(S, out, t, d, f, v, p, cfg) {
+    const g = G(S);
+    const lp = F(S, 'lowpass', (cfg.cutoff + f * 2) * p.bright, .65);
+    let body = lp;
+    for (const [hz, db] of cfg.body) {
+      const filter = F(S, 'peaking', hz, 1.1, db);
+      body.connect(filter); body = filter;
+    }
+    body.connect(g).connect(out);
+    const attack = p.att ?? cfg.attack;
+    const end = adsr(g.gain, t, d, { a: attack, dc: .15, s: .88,
+      r: p.rel ?? cfg.release, peak: v * .42 });
+    const cutoff = clamp((cfg.cutoff + f * 2) * p.bright * (.55 + .45 * Math.min(v, 1)), 10, S.nyq * .9);
+    lp.frequency.setValueAtTime(Math.min(cutoff, f * 2), t);
+    lp.frequency.linearRampToValueAtTime(cutoff, t + attack);
+    const o = O(S, wave(S, cfg.wave), f, t, end, p);
+    o.connect(lp);
+    vibrato(S, t, end, [o], { rate: cfg.rate, depth: cfg.depth, delay: .18, rise: .2 });
+    const breath = noiseSrc(S, t, end);
+    const ng = G(S, cfg.noise);
+    breath.connect(F(S, 'bandpass', cfg.noiseHz, .7)).connect(ng).connect(g);
+  }
+
+  function hammeredStrings(S, out, t, d, f, v, p, cfg) {
+    const lp = F(S, 'lowpass', cfg.cutoff * p.bright * (.55 + .45 * Math.min(v, 1)), .6);
+    lp.connect(F(S, 'peaking', cfg.body, .8, 2)).connect(out);
+    const tau = clamp(cfg.decay * Math.pow(220 / f, .35), .15, 1.3);
+    cfg.harmonics.forEach((amp, i) => {
+      const n = i + 1;
+      // Stiff strings stretch upper partials while leaving the requested fundamental intact.
+      const ratio = n * Math.sqrt((1 + cfg.stiffness * n * n) / (1 + cfg.stiffness));
+      if (f * ratio >= S.nyq * .9) return;
+      for (const cents of cfg.courses) {
+        const g = G(S); g.connect(lp);
+        const end = perc(g.gain, t, { a: p.att ?? .002, tau: tau / Math.pow(n, .7),
+          peak: v * amp * .42 / cfg.courses.length, damp: t + d + cfg.hang,
+          dampTau: Math.max(.002, (p.rel ?? cfg.release) / 4) });
+        O(S, 'sine', f, t, end, p, ratio, cents).connect(g);
+      }
+    });
+    noise(S, lp, t, { f: cfg.cutoff, q: .5, tau: .005, peak: v * .025 });
+  }
+
   // play(S, out, t, dur, freq, vel, p) ; p = {from, glide, bright, att, rel}
   const INST = {
+    piano: { rev: .26, level: 1.5, play(S, out, t, d, f, v, p) {
+      hammeredStrings(S, out, t, d, f, v, p, { cutoff: 6500, body: 280,
+        decay: .85, stiffness: .00012, courses: [0, 1.5], hang: .02, release: .12,
+        harmonics: [1, .55, .32, .2, .13, .09, .06, .035] });
+    } },
+    epiano: { rev: .28, level: 1.35, play(S, out, t, d, f, v, p) {
+      const lp = F(S, 'lowpass', 5500 * p.bright, .6); lp.connect(out);
+      const g = G(S); g.connect(lp);
+      const end = perc(g.gain, t, { a: p.att ?? .003, tau: .85, peak: v * .42,
+        damp: t + d + .03, dampTau: Math.max(.002, (p.rel ?? .18) / 4) });
+      const carrier = O(S, 'sine', f, t, end, p); carrier.connect(g);
+      const mod = O(S, 'sine', f, t, end, p);
+      const mg = G(S);
+      const index = Math.min(Math.min(v, 1) * 2 * p.bright, Math.max(0, S.nyq * .85 / f - 2));
+      mg.gain.setValueAtTime(f * index, t);
+      mg.gain.setTargetAtTime(0, t, .12);
+      mod.connect(mg).connect(carrier.frequency);
+      partial(S, lp, t, f * 7, { tau: .045, peak: v * .025, damp: t + d });
+    } },
+    saxalto: { rev: .24, level: 1.2, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'saxalto', cutoff: 3800,
+        body: [[900, 3], [1800, 4]], attack: .035, release: .1,
+        rate: 5.4, depth: 14, noise: .025, noiseHz: 2400 });
+    } },
+    saxtenor: { rev: .24, level: 1.2, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'saxtenor', cutoff: 2700,
+        body: [[450, 3], [1200, 4]], attack: .045, release: .13,
+        rate: 5, depth: 17, noise: .035, noiseHz: 1600 });
+    } },
+    elecguitar: { rev: .18, level: 1.25, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .48, PLUCK.elecguitar,
+        [F(S, 'highpass', 75, .5), F(S, 'peaking', 2200, 1.2, 4), F(S, 'lowpass', 4800 * p.bright, .7)]);
+      noise(S, out, t, { f: 1800, tau: .004, peak: v * .018 });
+    } },
+    elecbass: { rev: .1, level: 1.3, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .55, PLUCK.elecbass,
+        [F(S, 'peaking', 110, .8, 3), F(S, 'peaking', 850, 1, 2), F(S, 'lowpass', 2400 * p.bright, .6)]);
+    } },
+    violin: { rev: .32, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'violin', cutoff: 5800,
+        body: [[460, 3], [2700, 5]], attack: .07, release: .16,
+        rate: 5.7, depth: 13, noise: .012, noiseHz: 3500 });
+    } },
+    viola: { rev: .32, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'viola', cutoff: 4200,
+        body: [[300, 4], [1800, 4]], attack: .09, release: .19,
+        rate: 5.2, depth: 11, noise: .014, noiseHz: 2800 });
+    } },
+    cello: { rev: .34, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'cello', cutoff: 3000,
+        body: [[180, 4], [900, 3]], attack: .12, release: .24,
+        rate: 4.8, depth: 10, noise: .016, noiseHz: 2100 });
+    } },
+    trombone: { rev: .25, level: 1.05, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'trombone', cutoff: 3300,
+        body: [[650, 3], [1400, 2]], attack: .055, release: .12,
+        rate: 4.8, depth: 7, noise: .012, noiseHz: 1300 });
+    } },
+    schwyzeroergeli: { rev: .2, level: 1.4, play(S, out, t, d, f, v, p) {
+      const g = G(S), lp = F(S, 'lowpass', (3600 + f) * p.bright, .6);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att ?? .012, dc: .08, s: .93,
+        r: p.rel ?? .045, peak: v * .42 });
+      // Schwyzerton: one main reed plus two slightly mistuned octave reeds (MHH).
+      [[1, 0, .5], [2, -7, .25], [2, 7, .25]].forEach(([ratio, cents, amp]) => {
+        if (f * ratio >= S.nyq * .9) return;
+        O(S, wave(S, 'schwyzeroergeli'), f, t, end, p, ratio, cents).connect(G(S, amp)).connect(lp);
+      });
+    } },
+    hackbrett: { rev: .32, level: 1.35, play(S, out, t, d, f, v, p) {
+      hammeredStrings(S, out, t, d, f, v, p, { cutoff: 9000, body: 650,
+        decay: 1.05, stiffness: .000025, courses: [-3, 0, 4], hang: 1.2, release: .4,
+        harmonics: [1, .65, .45, .3, .21, .14, .09, .06] });
+    } },
+    alphorn: { rev: .42, level: 1.25, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'alphorn', cutoff: 1300,
+        body: [[420, 2]], attack: .14, release: .3,
+        rate: 4.2, depth: 2, noise: .035, noiseHz: 800 });
+    } },
+    buechel: { rev: .3, level: 1.15, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'buechel', cutoff: 2800,
+        body: [[1100, 3]], attack: .035, release: .09,
+        rate: 4.8, depth: 4, noise: .022, noiseHz: 1400 });
+    } },
+    yodel: { rev: .36, level: 2.4, play(S, out, t, d, f, v, p) {
+      const head = f >= mtof(72);
+      const g = G(S); g.connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att ?? .012, dc: .06, s: .92,
+        r: p.rel ?? .065, peak: v * .5 });
+      const o = O(S, wave(S, head ? 'yodelhead' : 'yodelchest'), f, t, end, p);
+      const formants = head ? [[350, 5, .75], [2000, 7, .2], [2800, 9, .05]]
+        : [[750, 5, .65], [1150, 6, .25], [2600, 8, .1]];
+      for (const [hz, q, amp] of formants) {
+        o.connect(F(S, 'bandpass', hz * Math.sqrt(p.bright), q)).connect(G(S, amp)).connect(g);
+      }
+      const direct = G(S, head ? .22 : .12); o.connect(direct).connect(g);
+      const breath = noiseSrc(S, t, end);
+      breath.connect(F(S, 'highpass', 1800, .6)).connect(G(S, head ? .04 : .015)).connect(g);
+      vibrato(S, t, end, [o], { rate: 5.5, depth: head ? 8 : 12, delay: .12, rise: .15 });
+    } },
     steeldrum: { rev: 0.22, level: 0.66, play(S, out, t, d, f, v, p) {
       const tau = clamp(0.5 * Math.pow(440 / f, 0.45), 0.15, 1.1);
       const lp = F(S, 'lowpass', 5200 * p.bright, 0.5); lp.connect(out);
