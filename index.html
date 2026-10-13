@@ -1919,6 +1919,10 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       g.fillRect(moon.x - 1, moon.y + 5, 2, 1);
     }
     function snapshot() {
+      b.globalCompositeOperation = 'source-atop';
+      b.fillStyle = '#07111c'; b.globalAlpha = .3;
+      b.fillRect(0, 0, W, H);
+      b.globalAlpha = 1; b.globalCompositeOperation = 'source-over';
       const layer = document.createElement('canvas');
       layer.width = W; layer.height = H;
       layer.getContext('2d').drawImage(back, 0, 0);
@@ -2019,6 +2023,7 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
     rect(116, 106, 1, 4, '#78634b');
     rect(125, 106, 1, 4, '#78634b');
     pine(12, 120, 28); pine(303, 120, 32);
+    const villageLayer = snapshot();
     const distantClouds = [
       { x: 18, y: 20, w: 39, speed: .9 },
       { x: 132, y: 13, w: 47, speed: .7 },
@@ -2068,18 +2073,12 @@ const TRACKS = [{"file": "01-moonlit-harbor.scrim", "text": "title    Moonlit Ha
       drawMoon();
       clouds(distantClouds, t, '#b0a8bc', 1);
       g.drawImage(mountainLayer, 0, 0);
-      g.fillStyle = '#07111c'; g.globalAlpha = .28;
-      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
       clouds(valleyClouds, t, '#c1ccd1', .4);
       g.drawImage(groundLayer, 0, 0);
-      g.fillStyle = '#07111c'; g.globalAlpha = .25;
-      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
       g.drawImage(shadowLayer, 0, 0);
       houses.forEach((house, i) => glow(house.x, house.y + house.h - 3,
         house.w, 5, windowLight(i * 2, t)));
-      g.drawImage(back, 0, 0);
-      g.fillStyle = '#07111c'; g.globalAlpha = .3;
-      g.fillRect(0, 0, W, H); g.globalAlpha = 1;
+      g.drawImage(villageLayer, 0, 0);
       for (const [i, [x, y]] of windows.entries()) {
         const light = windowLight(i, t);
         glow(x, y, 4, 4, light);
