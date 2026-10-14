@@ -8,7 +8,7 @@ async function main() {
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync('scores.js', 'utf8'), sandbox);
   const tracks = sandbox.window.ScrimTracks;
-  const base = new URL('https://tedtschopp.github.io/spieldose.tedt.org/');
+  const base = new URL('https://spieldose.tedt.org/');
   assert.equal(share.slug(tracks[0]), 'sennentuntschis-lullaby');
   for (let i = 0; i < tracks.length; i++) {
     const url = share.songURL(base, tracks[i]);

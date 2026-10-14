@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const { createHash } = require('node:crypto');
 const { slug, songURL } = require('../sharing.js');
-const base = new URL('https://tedtschopp.github.io/spieldose.tedt.org/');
+const base = new URL('https://spieldose.tedt.org/');
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync('scores.js', 'utf8'), sandbox);
 const tracks = sandbox.window.ScrimTracks;

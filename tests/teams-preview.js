@@ -6,7 +6,7 @@ const { createHash } = require('node:crypto');
 const { slug, songURL } = require('../sharing.js');
 
 async function main() {
-  const base = new URL('https://tedtschopp.github.io/spieldose.tedt.org/');
+  const base = new URL('https://spieldose.tedt.org/');
   const sandbox = { window: {} };
   vm.runInNewContext(fs.readFileSync('scores.js', 'utf8'), sandbox);
   // A crawler-style request checks unauthenticated raw HTML, not Teams' actual card renderer.
