@@ -298,16 +298,16 @@
       }
     }
     const trees = [];
-    const treeCount = 6 + Math.floor(random() * 11);
+    const treeCount = 12 + Math.floor(random() * 21);
     for (let i = 0; i < treeCount; i++) {
       let placed = null;
-      for (let attempt = 0; attempt < 300 && !placed; attempt++) {
+      for (let attempt = 0; attempt < 600 && !placed; attempt++) {
         const x = intBetween(18, 302, random);
         const h = intBetween(14, 22, random);
         const y = Math.min(105, Math.round(terrainAt(x) + 8 + random() * 12));
         const candidate = { x, y, h };
         const box = treeObstacle(candidate);
-        if (obstacles.some(other => !BUILDING_TYPE_SET.has(other.kind) && overlaps(box, other, 3)) ||
+        if (obstacles.some(other => !BUILDING_TYPE_SET.has(other.kind) && other.kind !== 'tree' && overlaps(box, other, 3)) ||
           trees.some(other => Math.abs(other.x - x) < 6 && Math.abs(other.y - y) < 4)) continue;
         placed = candidate;
         trees.push(candidate);
@@ -318,8 +318,57 @@
     return { buildings, landmarks, trees, obstacles, paths };
   }
 
+  // Random skylines. Ridges dip into a pass behind the church cross and stay below the moon.
+  const SKY_WINDOWS = [[152, 176, 34], [246, 278, 27]];
+  function keepSkyOpen(points) {
+    for (const [x0, x1, minY] of SKY_WINDOWS) {
+      for (const edge of [x0, x1]) {
+        const i = points.findIndex(([x]) => x >= edge);
+        if (points[i][0] === edge) continue;
+        const [ax, ay] = points[i - 1], [bx, by] = points[i];
+        points.splice(i, 0, [edge, ay + (by - ay) * (edge - ax) / (bx - ax)]);
+      }
+      for (const point of points)
+        if (point[0] >= x0 && point[0] <= x1) point[1] = Math.max(point[1], minY);
+    }
+    return points.map(([x, y]) => [x, Math.round(y)]);
+  }
+  function ridgeLine(random, [peakLo, peakHi], [valleyLo, valleyHi], [gapLo, gapHi]) {
+    const points = [[0, intBetween(valleyLo - 12, valleyHi, random)]];
+    let high = random() < .5;
+    for (let x = intBetween(6, gapHi, random); x < 320; x += intBetween(gapLo, gapHi, random)) {
+      points.push([x, high ? intBetween(peakLo, peakHi, random) : intBetween(valleyLo, valleyHi, random)]);
+      high = !high;
+    }
+    points.push([320, intBetween(peakHi, valleyHi, random)]);
+    return keepSkyOpen(points);
+  }
+  function nearRidge(random) {
+    const left = intBetween(12, 40, random), right = intBetween(282, 310, random);
+    return keepSkyOpen([
+      [0, intBetween(18, 34, random)],
+      [left, intBetween(6, 22, random)],
+      [left + intBetween(18, 28, random), intBetween(34, 48, random)],
+      [intBetween(72, 92, random), intBetween(46, 60, random)],
+      [intBetween(118, 132, random), intBetween(72, 82, random)],
+      [157, intBetween(84, 90, random)],
+      [intBetween(190, 214, random), intBetween(70, 82, random)],
+      [intBetween(234, 252, random), intBetween(42, 60, random)],
+      [right - intBetween(14, 22, random), intBetween(30, 44, random)],
+      [right, intBetween(6, 22, random)],
+      [320, intBetween(20, 32, random)]
+    ]);
+  }
+  function createMountains(random = Math.random) {
+    return [
+      { depth: 'far', points: ridgeLine(random, [9, 22], [36, 48], [14, 28]) },
+      { depth: 'middle', points: ridgeLine(random, [15, 32], [52, 70], [22, 40]) },
+      { depth: 'near', points: nearRidge(random) }
+    ];
+  }
+
   const api = {
-    createVillage, terrainAt, bodyClearAt, BUILDING_VARIANTS,
+    createVillage, createMountains, terrainAt, bodyClearAt, BUILDING_VARIANTS,
     LANDMARK_VARIANTS, planGroundPaths
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

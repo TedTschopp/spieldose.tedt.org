@@ -2,7 +2,7 @@
 
 A Swiss music box adaptation of Simon Willison’s Scrimshaw Jukebox. The title, copy, visual styling and scene illustration have been adapted. Additional procedural instruments and six user-supplied, original Swiss folk-inspired scores extend the jukebox; existing instrument definitions and playback behavior remain unchanged.
 
-The original harbour scene has been replaced by an animated pixel-art Swiss alpine village. Each load varies the placement and styles of 3–7 buildings, 1–3 landmarks, and 6–16 trees. The church combines a nave with stained-glass windows and a clock tower that flies the village flag below the clock. Moon shadows, including per-tier pine shadows, and three ground-creature routes are calculated from the selected geometry; the routes clear each creature's full sprite footprint, while flying creatures retain their sky paths. The scene reads audio energy for window lighting without changing playback.
+The original harbour scene has been replaced by an animated pixel-art Swiss alpine village. Each load varies the placement and styles of 3–7 buildings, 1–3 landmarks, 12–32 trees, and a random three-layer mountain skyline that always leaves the church cross and moon against open sky. The church combines a nave with stained-glass windows and a clock tower that flies the village flag below the clock. Moon shadows, including per-tier pine shadows, and three ground-creature routes are calculated from the selected geometry; the routes clear each creature's full sprite footprint, while flying creatures retain their sky paths. The scene reads audio energy for window lighting without changing playback.
 
 Upstream source: https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html
 

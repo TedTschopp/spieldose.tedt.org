@@ -16,8 +16,8 @@ for (let i = 0; i < 80; i++) {
   assert.ok(village.landmarks.length >= 1 && village.landmarks.length <= 3,
     'village has 1–3 landmarks');
   assert.equal(village.landmarks[0].type, 'flag', 'every village keeps its municipal flag');
-  assert.ok(village.trees.length >= 6 && village.trees.length <= 16,
-    'each village has a random group of 6–16 trees');
+  assert.ok(village.trees.length >= 12 && village.trees.length <= 32,
+    'each village has a random group of 12–32 trees');
   for (const building of village.buildings) {
     assert.ok(layout.BUILDING_VARIANTS[building.type][building.variant], 'building variant exists');
     assert.ok(building.x >= 0 && building.x + building.w <= 320, 'building stays in scene bounds');
@@ -41,6 +41,29 @@ for (let i = 0; i < 80; i++) {
   }
 }
 assert.ok(seenPositions.size > 75, 'building layouts use varied positions across page loads');
+
+const ridgeAt = (points, x) => {
+  for (let i = 1; i < points.length; i++) {
+    const [x0, y0] = points[i - 1], [x1, y1] = points[i];
+    if (x <= x1) return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
+  }
+  return points[points.length - 1][1];
+};
+const skylines = new Set();
+for (let i = 0; i < 60; i++) {
+  const ranges = layout.createMountains(random);
+  assert.equal(ranges.length, 3, 'far, middle and near ranges');
+  skylines.add(ranges[0].points.map(p => p.join(',')).join(';'));
+  for (const range of ranges) {
+    assert.equal(range.points[0][0], 0);
+    assert.equal(range.points[range.points.length - 1][0], 320);
+    for (let x = 160; x <= 169; x++)
+      assert.ok(ridgeAt(range.points, x) >= 31, 'church cross (y 22–29) always stands against open sky');
+    for (let x = 250; x <= 274; x++)
+      assert.ok(ridgeAt(range.points, x) >= 25, 'moon (y 3–23) stays unobstructed');
+  }
+}
+assert.ok(skylines.size > 55, 'mountain skyline changes between loads');
 
 for (const [type, variants] of Object.entries(layout.BUILDING_VARIANTS)) {
   assert.equal(variants.length, 3, `${type} has three visual versions`);
