@@ -1792,6 +1792,7 @@ Compose the piece I describe below. If I haven't described one, compose an origi
 <script src="scores.js"></script>
 <script src="sharing.js"></script>
 <script src="village-clock.js"></script>
+<script src="village-layout.js"></script>
 <script>
 const TRACKS = window.ScrimTracks;
 (function () {
@@ -2093,6 +2094,20 @@ const TRACKS = window.ScrimTracks;
       { name: "Lauterbrunnen", canton: 'BE', colors: ['#ffffff', '#009944', '#0e110f'],
         rows: ["aaaaaacaaa", "aaaaccacaa", "aaacccacaa", "aacaccaaaa", "aaaaabaaaa", "abbbbbbabb", "ababbbbabb", "ababaababb", "ababaababb"] }
     ];
+    const village = window.VillageLayout.createVillage();
+    const villageFlag = VILLAGE_FLAGS[Math.floor(Math.random() * VILLAGE_FLAGS.length)];
+    const flagStyle = window.VillageLayout.LANDMARK_VARIANTS.flag[
+      village.landmarks.find(item => item.type === 'flag').variant
+    ];
+    const hasLandmark = type => village.landmarks.some(item => item.type === type);
+    const landmarkStyle = type => {
+      const item = village.landmarks.find(entry => entry.type === type);
+      return item && window.VillageLayout.LANDMARK_VARIANTS[type][item.variant];
+    };
+    const roofHeight = building => building.type === 'bakehouse'
+      ? 12 : Math.min(12, Math.max(9, Math.round(building.w * .42)));
+    const shadowHeight = building => roofHeight(building) +
+      (building.type === 'chapel' ? 3 : 0);
     const SHADOW_ALPHA = .38;
     function shadow(x, y, w, h, roofHeight, alpha) {
       const base = y + h;
@@ -2103,13 +2118,14 @@ const TRACKS = window.ScrimTracks;
       b.globalAlpha = 1;
     }
     const houseShadows = alpha => {
-      shadow(82, 78, 24, 17, 12, alpha);
-      shadow(116, 73, 22, 16, 12, alpha);
-      shadow(199, 77, 26, 18, 12, alpha);
-      shadow(236, 86, 29, 20, 12, alpha);
-      shadow(43, 92, 29, 20, 12, alpha);
       shadow(158, 62, 12, 28, 19, alpha);
-      shadow(169, 77, 19, 13, 9, alpha);
+      for (const building of village.buildings)
+        shadow(building.x, building.y, building.w, building.h, shadowHeight(building), alpha);
+      shadow(144, 75, 12, 16, 0, alpha);
+      if (hasLandmark('hitchingPost'))
+        shadow(115, 104, 12, 6, 2, alpha);
+      if (hasLandmark('fountain'))
+        shadow(114, 99, 14, 11, 2, alpha);
     };
     houseShadows(SHADOW_ALPHA);
     const shadowLayer = snapshot();
@@ -2122,21 +2138,6 @@ const TRACKS = window.ScrimTracks;
     const shade = document.createElement('canvas');
     shade.width = W; shade.height = H;
     const shadeCtx = shade.getContext('2d');
-    function chalet(x, y, w, h) {
-      houses.push({ x, y, w, h });
-      rect(x, y, w, h, '#d3bba0');
-      rect(x, y, w, 5, '#735142');
-      for (let row = y + 1; row < y + 5; row += 2) rect(x, row, w, 1, '#8c6250');
-      polygon([[x - 4, y + 1], [x + w / 2, y - 10], [x + w + 4, y + 1]], '#563f3e');
-      polygon([[x - 4, y - 1], [x + w / 2, y - 12], [x + w + 4, y - 1], [x + w / 2, y - 7]], '#e1ddd4');
-      rect(x + w - 7, y - 10, 3, 5, '#6e5751');
-      rect(x + w / 2 - 2, y + h - 7, 4, 7, '#4c3935');
-      for (const wx of [x + 4, x + w - 8]) {
-        rect(wx - 1, y + 6, 6, 6, '#56423b');
-        windows.push([wx, y + 7]);
-      }
-      rect(x - 1, y + h, w + 2, 2, '#263b35');
-    }
     // Each building and tree becomes its own layer so walkers can be depth-sorted by their feet.
     // foot is the strip of ground it stands on; creature paths keep their whole width out of it.
     const props = [];
@@ -2147,18 +2148,95 @@ const TRACKS = window.ScrimTracks;
     }
     const ground = (x0, x1, baseY, depth) => ({ x0, x1, y0: baseY - depth, y1: baseY });
     const pineProp = (x, y, h) => prop(ground(x - 4, x + 4, y, 4), () => pine(x, y, h));
-    const chaletProp = (x, y, w, h) => prop(ground(x - 2, x + w + 2, y + h + 2, 9), () => chalet(x, y, w, h));
+    const attachedLandmarks = slot => village.landmarks.filter(item => item.buildingSlot === slot);
+    function drawAttachedLandmark(item, x, y, w) {
+      const style = window.VillageLayout.LANDMARK_VARIANTS[item.type][item.variant];
+      if (item.type === 'flowerBox') {
+        rect(x + 2, y + 11, 6, 2, style.box);
+        rect(x + 3, y + 9, 1, 2, style.leaf);
+        rect(x + 5, y + 8, 1, 3, style.flower);
+        rect(x + 7, y + 9, 1, 2, style.leaf);
+      } else if (item.type === 'innSign') {
+        rect(x + w - 2, y + 2, 2, 1, style.board);
+        rect(x + w - 1, y + 2, 1, 4, style.board);
+        rect(x + w - 5, y + 5, 4, 4, style.board);
+        if (style.shape === 'bell') {
+          rect(x + w - 4, y + 6, 2, 2, style.symbol);
+          rect(x + w - 4, y + 8, 2, 1, style.symbol);
+        } else if (style.shape === 'goat') {
+          rect(x + w - 4, y + 6, 2, 1, style.symbol);
+          rect(x + w - 3, y + 7, 1, 1, style.symbol);
+        } else {
+          rect(x + w - 4, y + 7, 1, 1, style.symbol);
+          rect(x + w - 3, y + 6, 1, 2, style.symbol);
+          rect(x + w - 2, y + 7, 1, 1, style.symbol);
+        }
+      } else if (item.type === 'noticeboard') {
+        rect(x + 2, y + 5, 6, 5, style.wood);
+        rect(x + 3, y + 6, 4, 3, style.paper);
+        rect(x + 4, y + 6, 1, 1, style.pin);
+        rect(x + 2, y + 10, 1, 2, style.wood);
+        rect(x + 7, y + 10, 1, 2, style.wood);
+      } else if (item.type === 'bells') {
+        rect(x + 3, y + 1, Math.min(w - 6, 10), 1, style.beam);
+        for (let i = 0; i < 3; i++) {
+          const bx = x + 4 + i * 3;
+          rect(bx, y + 2, 2, 2 + i % 2, style.bell);
+          rect(bx, y + 4 + i % 2, 2, 1, style.beam);
+        }
+      }
+    }
+    function drawBuilding(building) {
+      const { x, y, w, h, type } = building;
+      const style = window.VillageLayout.BUILDING_VARIANTS[type][building.variant];
+      const roof = roofHeight(building);
+      houses.push({ x, y, w, h });
+      if (style.form === 'raised') {
+        rect(x + 2, y + h - 3, 2, 5, style.accent);
+        rect(x + w - 4, y + h - 3, 2, 5, style.accent);
+        rect(x, y + 2, w, h - 4, style.wall);
+      } else {
+        rect(x, y, w, h, style.wall);
+      }
+      rect(x, y + 1, w, 2, style.trim);
+      if (style.form === 'oven') {
+        rect(x + 2, y - 3, w - 4, 4, style.roof);
+        rect(x + 4, y - 6, w - 8, 3, style.roof);
+        rect(x + 6, y - 8, Math.max(3, w - 12), 2, style.roof);
+        rect(x + w - 5, y - roof, 2, 4, style.accent);
+        rect(x + 2, y + h - 5, 4, 5, style.accent);
+        rect(x + 3, y + h - 5, 2, 3, '#171719');
+      } else {
+        polygon([[x - 4, y + 1], [x + w / 2, y - roof], [x + w + 4, y + 1]], style.roof);
+        polygon([[x - 3, y], [x + w / 2, y - roof + 2], [x + w + 3, y]], style.trim);
+        rect(x + w - 6, y - roof + 2, 2, Math.max(2, roof - 2), style.accent);
+        if (style.form === 'loft') {
+          rect(x + Math.floor(w / 2) - 2, y + 3, 4, 3, style.accent);
+          rect(x + Math.floor(w / 2) - 1, y + 4, 2, 1, style.trim);
+          rect(x + 2, y + 6, w - 4, 1, style.accent);
+        }
+        if (style.form === 'chapel') {
+          rect(x + Math.floor(w / 2), y - roof - 2, 1, 3, '#e8c170');
+          rect(x + Math.floor(w / 2) - 2, y - roof - 1, 5, 1, '#e8c170');
+        }
+      }
+      for (const wx of [x + 3, x + w - 7]) {
+        rect(wx, y + 5, 4, 5, style.accent);
+        rect(wx + 1, y + 6, 2, 3, '#f2e6c9');
+        windows.push([wx + 1, y + 6]);
+      }
+      rect(x + Math.floor(w / 2) - 2, y + h - 7, 4, 7, style.accent);
+      rect(x - 1, y + h, w + 2, 2, '#263b35');
+      for (const landmark of attachedLandmarks(building.slot))
+        drawAttachedLandmark(landmark, x, y, w);
+    }
     [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pineProp(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
-    chaletProp(82, 78, 24, 17);
-    chaletProp(116, 73, 22, 16);
-    chaletProp(199, 77, 26, 18);
-    chaletProp(236, 86, 29, 20);
-    chaletProp(43, 92, 29, 20);
+    for (const building of village.buildings)
+      prop(ground(building.x - 2, building.x + building.w + 2, building.baseY, 9),
+        () => drawBuilding(building));
     prop(ground(156, 190, 90, 11), () => {
       rect(158, 62, 12, 28, '#8c857a');
       rect(166, 62, 4, 28, '#d9cdb7');
-      rect(169, 77, 19, 13, '#c5b398');
-      polygon([[167, 77], [178, 68], [190, 77]], '#6b4f46');
       polygon([[154, 62], [164, 43], [174, 62]], '#494849');
       polygon([[164, 43], [174, 62], [169, 60], [164, 48]], '#d8dce0');
       rect(164, 38, 1, 7, '#e8c170');
@@ -2170,17 +2248,42 @@ const TRACKS = window.ScrimTracks;
     props[props.length - 1].clock = { x: 163.5, y: 69.5 };
     prop(ground(144, 147, 91, 3), () => {
       rect(145, 75, 1, 16, '#bea783');
-      const flag = VILLAGE_FLAGS[Math.floor(Math.random() * VILLAGE_FLAGS.length)];
-      flag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
-        rect(146 + fx, 75 + fy, 1, 1, flag.colors['abcdef'.indexOf(c)])));
-      cv.dataset.flag = flag.name + ' (' + flag.canton + ')';
-      cv.setAttribute('aria-label', cv.getAttribute('aria-label') + '; the village flies the flag of ' + flag.name + ', ' + flag.canton);
+      villageFlag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
+        rect(146 + fx, 75 + fy, 1, 1, villageFlag.colors['abcdef'.indexOf(c)])));
+      if (flagStyle.fringe) rect(146, 84, 10, 1, flagStyle.hem);
     });
-    prop(ground(114, 128, 110, 6), () => {
-      rect(115, 104, 12, 2, '#78634b');
-      rect(116, 106, 1, 4, '#78634b');
-      rect(125, 106, 1, 4, '#78634b');
-    });
+    if (hasLandmark('hitchingPost')) {
+      const style = landmarkStyle('hitchingPost');
+      prop(ground(114, 128, 110, 6), () => {
+        rect(116, 104, 2, 6, style.wood);
+        rect(124, 104, 2, 6, style.wood);
+        rect(115, 104 + style.railY, 12, 2, style.rail);
+        rect(116, 102, 2, 2, style.wood);
+        rect(124, 102, 2, 2, style.wood);
+      });
+    } else if (hasLandmark('fountain')) {
+      const style = landmarkStyle('fountain');
+      prop(ground(114, 128, 110, 6), () => {
+        rect(116, 104, 10, 2, style.rim);
+        rect(115, 106, 12, 3, style.stone);
+        rect(116, 109, 10, 1, style.rim);
+        rect(120, 99, 2, 5, style.stone);
+        rect(119, 98, 4, 2, style.rim);
+        rect(117, 107, 8, 1, style.water);
+      });
+    }
+    const attachedNames = {
+      flowerBox: 'flower box', innSign: 'hanging inn sign',
+      noticeboard: 'noticeboard', bells: 'cattle bells'
+    };
+    const landmarkDescription = village.landmarks.map(item => item.type === 'flag'
+      ? `${villageFlag.name} village flag (${villageFlag.canton})`
+      : item.type === 'hitchingPost' ? 'hitching post'
+        : item.type === 'fountain' ? 'stone fountain' : attachedNames[item.type]).join(', ');
+    cv.dataset.flag = `${villageFlag.name} (${villageFlag.canton})`;
+    cv.dataset.village = `${village.buildings.length + 1} buildings`;
+    cv.dataset.landmarks = landmarkDescription;
+    cv.setAttribute('aria-label', `Pixel-art Swiss alpine village with snowy peaks, chalets, a clock tower, ${village.buildings.length + 1} varied buildings and ${landmarkDescription}; window lights respond to the music; Swiss folklore creatures pass through`);
     pineProp(12, 120, 28);
     pineProp(303, 120, 32);
     props.sort((a, c) => a.baseY - c.baseY);

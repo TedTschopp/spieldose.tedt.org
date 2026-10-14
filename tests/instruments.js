@@ -46,9 +46,16 @@ assert.equal(hash(scripts.find(s => s.includes('/* Scrimshaw score format:'))),
 assert.equal(hash(scripts.find(s => s.includes('/* Scrimshaw synth:'))),
   '0025f7f142c91b8ac0796adb049e5a5c246fb0003e8866928918079039aad777',
   'Synth source must remain unchanged');
-assert.equal(hash(uiScript.slice(uiScript.indexOf('  const player ='), uiScript.indexOf('  const ui ='))),
-  '6056b98fb5c74da9e1427ac10d06e19626546876e55a586d7c261bc396498be6',
-  'Player, scene and roll must remain unchanged; sharing only connects to UI');
+const playerStart = uiScript.indexOf('  const player = {');
+const playerEnd = uiScript.indexOf('\n\n  // where are we in the song?', playerStart);
+const rollStart = uiScript.indexOf('  const roll = (() => {');
+const rollEnd = uiScript.indexOf('  const ui = (() => {', rollStart);
+assert.equal(hash(uiScript.slice(playerStart, playerEnd)),
+  'a1b519748f0cb7595748060fd4f1221d06b38e0525f7f95caa6d09ee929f116b',
+  'Playback scheduling and audio lifecycle must remain unchanged');
+assert.equal(hash(uiScript.slice(rollStart, rollEnd)),
+  '7104e9d6b38de7e7e52c7055cacbb5d85792e6c437037159da038622f169e430',
+  'Score-roll rendering must remain unchanged');
 assert.deepEqual([...score.MELODIC].sort(), Object.keys(synth.INST).sort());
 assert.equal(new Set(score.MELODIC).size, score.MELODIC.length);
 

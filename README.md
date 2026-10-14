@@ -2,7 +2,7 @@
 
 A Swiss music box adaptation of Simon Willison’s Scrimshaw Jukebox. The title, copy, visual styling and scene illustration have been adapted. Additional procedural instruments and six user-supplied, original Swiss folk-inspired scores extend the jukebox; existing instrument definitions and playback behavior remain unchanged.
 
-The original harbour scene has been replaced by an animated pixel-art Swiss alpine village. It reads audio energy for window lighting without changing playback.
+The original harbour scene has been replaced by an animated pixel-art Swiss alpine village. Each load varies the placement and styles of 3–7 buildings, 1–3 landmarks, and 3–6 trees. Moon shadows and three ground-creature routes are calculated from the selected geometry; the routes clear each creature's full sprite footprint, while flying creatures retain their sky paths. The scene reads audio energy for window lighting without changing playback.
 
 Upstream source: https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html
 
@@ -85,6 +85,8 @@ Run `node tests/sharing.js` for song routing, edited-score encoding, size limits
 Run `node tests/social-images.js` to verify preview font inheritance and font-loading order.
 
 Run `node tests/village-clock.js` to check the church clock. The scene is always night, so `village-clock.js` maps the visitor's local day onto tonight's Swiss night: local sunrise shows the Swiss sunset time, and the moment before local sunrise shows the moment before the next Swiss sunrise. Sunrise and sunset are calculated for Bern in Europe/Zurich time. The page does not ask for the visitor's location, so the Swiss sunrise clock time stands in for local sunrise.
+
+Run `node tests/village-layout.js` to verify randomized building and landmark variants, placement counts, and full-sprite clearance across all three calculated ground paths.
 
 For actual Web Audio checks, serve the repository with `python3 -m http.server 8765`, open `http://localhost:8765/`, load `tests/audio-browser.js` in that page (for example with a browser developer-tools script tag), and run `await runInstrumentAudioTests()` and `await runTuneAudioTests()`. The instrument test renders all 15 voices with normal, short/bright, chord and long-attack settings; the tune test renders a four-second excerpt of all six tracks. They check finite, non-silent audio, peaks below clipping and decaying release tails. These checks do not establish acoustic realism; timbre remains a perceptual approximation.
 
