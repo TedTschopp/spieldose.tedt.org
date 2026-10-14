@@ -164,6 +164,17 @@
   const BUILDING_TYPES = Object.keys(BUILDING_VARIANTS);
   const BUILDING_TYPE_SET = new Set(BUILDING_TYPES);
   const ATTACHED_LANDMARKS = Object.keys(ATTACHED_SLOTS);
+  // The village road runs from the church door (y 88) down to the bottom edge.
+  const ROAD = { top: 88, bottom: 120, topLeft: 165, topRight: 176, bottomLeft: 127, bottomRight: 209 };
+  // Street furniture that belongs on the road; everything else stands beside it.
+  const ROAD_FEATURES = new Set(['marketStall', 'handcart']);
+  function roadSpanOverlaps(x0, x1, y, margin = 2) {
+    if (y < ROAD.top || y > ROAD.bottom) return false;
+    const f = (y - ROAD.top) / (ROAD.bottom - ROAD.top);
+    const left = ROAD.topLeft + (ROAD.bottomLeft - ROAD.topLeft) * f;
+    const right = ROAD.topRight + (ROAD.bottomRight - ROAD.topRight) * f;
+    return x0 < right + margin && x1 > left - margin;
+  }
   const GROUND_TYPES = Object.keys(GROUND_FEATURES);
   const GRID = { x0: -24, x1: 344, dx: 4, y0: 48, y1: 120, dy: 2 };
   const MAX_SPRITE = { width: 16, height: 12 };
@@ -366,7 +377,7 @@
           variant: Math.floor(random() * BUILDING_VARIANTS[type].length)
         };
         const box = buildingObstacle(candidate);
-        if (box.y0 < 38 || box.x0 < 16 || box.x1 > 304 ||
+        if (box.y0 < 38 || box.x0 < 16 || box.x1 > 304 || roadSpanOverlaps(x - 2, x + w + 2, baseY) ||
           obstacles.some(other => overlaps(box, other, 3))) continue;
         placed = candidate;
         buildings.push(candidate);
@@ -386,7 +397,9 @@
         landmarks.push({ type, variant: Math.floor(random() * 3), buildingId: building.id });
       }
     }
-    const groundWanted = 5 + Math.floor(random() * 6);
+    // 1–5 everyday features on a bell curve: 1 + Binomial(4, 1/2), most often three.
+    let groundWanted = 1;
+    for (let coin = 0; coin < 4; coin++) if (random() < .5) groundWanted++;
     let groundPlaced = 0;
     for (const type of shuffle(GROUND_TYPES, random)) {
       if (groundPlaced >= groundWanted) break;
@@ -395,6 +408,7 @@
         const x = intBetween(20, 300, random);
         const baseY = Math.min(107, Math.round(terrainAt(x) + 6 + random() * 18));
         const box = { x0: x - spec.left, x1: x + spec.right, y0: baseY - spec.height, y1: baseY };
+        if (!ROAD_FEATURES.has(type) && roadSpanOverlaps(box.x0, box.x1, baseY)) continue;
         if (obstacles.some(other => overlaps(box, other, 2))) continue;
         landmarks.push({ type, variant: Math.floor(random() * 3), x, baseY, box });
         obstacles.push({ ...box, kind: type });
@@ -412,6 +426,7 @@
         const y = Math.min(105, Math.round(terrainAt(x) + 8 + random() * 12));
         const candidate = { x, y, h };
         const box = treeObstacle(candidate);
+        if (roadSpanOverlaps(x - 4, x + 4, y)) continue;
         if (obstacles.some(other => !BUILDING_TYPE_SET.has(other.kind) && other.kind !== 'tree' && overlaps(box, other, 3)) ||
           trees.some(other => Math.abs(other.x - x) < 6 && Math.abs(other.y - y) < 4)) continue;
         placed = candidate;
@@ -474,7 +489,7 @@
 
   const api = {
     createVillage, createMountains, createParade, terrainAt, bodyClearAt, BUILDING_VARIANTS,
-    LANDMARK_VARIANTS, GROUND_FEATURES, ATTACHED_LANDMARKS, ATTACHED_SLOTS, planGroundPaths
+    LANDMARK_VARIANTS, GROUND_FEATURES, ROAD, ROAD_FEATURES, roadSpanOverlaps, ATTACHED_LANDMARKS, ATTACHED_SLOTS, planGroundPaths
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.VillageLayout = api;

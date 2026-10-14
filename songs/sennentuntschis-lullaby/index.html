@@ -2028,7 +2028,9 @@ const TRACKS = window.ScrimTracks;
         polygon([[x, top], [x - w, top + h * .45], [x + w, top + h * .45]], '#182f32');
       }
     }
-    polygon([[165, 88], [176, 88], [209, 120], [127, 120]], '#a7a390');
+    const road = window.VillageLayout.ROAD;
+    polygon([[road.topLeft, road.top], [road.topRight, road.top],
+      [road.bottomRight, road.bottom], [road.bottomLeft, road.bottom]], '#a7a390');
     polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
     const groundLayer = snapshot();
     // Cast a point standing on baseY along the ray from the moon onto the valley floor.
@@ -2608,7 +2610,6 @@ const TRACKS = window.ScrimTracks;
     ];
     const PATH_SECONDS = 45;
     const ARRIVAL_SECONDS = 60;
-    // Introduce every creature once, then pick at random; a repeat never reuses its last path.
     function pathPoint(points, progress) {
       const lengths = [];
       let total = 0;

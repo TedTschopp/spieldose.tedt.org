@@ -16,8 +16,8 @@ for (let i = 0; i < 80; i++) {
     'village has 3–7 buildings, counting the church');
   const ground = village.landmarks.filter(l => l.baseY !== undefined);
   const attached = village.landmarks.filter(l => l.buildingId !== undefined);
-  assert.ok(ground.length >= 5 && ground.length <= 10, 'village has 5–10 everyday ground features');
-  assert.ok(new Set(ground.map(l => l.type)).size >= Math.min(5, ground.length),
+  assert.ok(ground.length >= 1 && ground.length <= 5, 'village has 1–5 everyday ground features');
+  assert.equal(new Set(ground.map(l => l.type)).size, ground.length,
     'ground features are a varied mix, not one repeated item');
   for (const building of village.buildings) {
     const own = attached.filter(l => l.buildingId === building.id);
@@ -58,6 +58,35 @@ assert.deepEqual([...seenGroundTypes].sort(), Object.keys(layout.GROUND_FEATURES
   'every everyday ground feature appears across loads');
 assert.deepEqual([...seenAttachedTypes].sort(), [...layout.ATTACHED_LANDMARKS].sort(),
   'every household detail appears across loads');
+
+// Feature count follows a bell curve centred on three (1 + Binomial(4, 1/2)).
+{
+  const counts = [0, 0, 0, 0, 0, 0];
+  const runs = 1600;
+  for (let run = 0; run < runs; run++)
+    counts[layout.createVillage(random).landmarks.filter(l => l.baseY !== undefined).length]++;
+  const expected = [0, 1, 4, 6, 4, 1].map(k => k / 16);
+  for (let n = 1; n <= 5; n++)
+    assert.ok(Math.abs(counts[n] / runs - expected[n]) < .04,
+      `count ${n} appears ${(counts[n] / runs).toFixed(3)}, expected about ${expected[n].toFixed(3)}`);
+}
+
+// Road: only things that belong on a street may stand on it.
+assert.deepEqual([...layout.ROAD_FEATURES].sort(), ['handcart', 'marketStall']);
+for (let run = 0; run < 400; run++) {
+  const village = layout.createVillage(random);
+  const onRoad = (x0, x1, y) => layout.roadSpanOverlaps(x0, x1, y);
+  for (const b of village.buildings)
+    assert.ok(!onRoad(b.x - 2, b.x + b.w + 2, b.baseY), `${b.type} stays off the road`);
+  for (const t of village.trees)
+    assert.ok(!onRoad(t.x - 4, t.x + 4, t.y), 'trees stay off the road');
+  for (const item of village.landmarks.filter(l => l.baseY !== undefined)) {
+    if (layout.ROAD_FEATURES.has(item.type)) continue;
+    const spec = layout.GROUND_FEATURES[item.type];
+    assert.ok(!onRoad(item.x - spec.left, item.x + spec.right, item.baseY),
+      `${item.type} at ${item.x},${item.baseY} stays off the road`);
+  }
+}
 
 // Creature parade: shuffled rounds, each creature once per round, never back-to-back.
 const openings = new Set();
