@@ -47,7 +47,7 @@ assert.equal(hash(scripts.find(s => s.includes('/* Scrimshaw synth:'))),
   '0025f7f142c91b8ac0796adb049e5a5c246fb0003e8866928918079039aad777',
   'Synth source must remain unchanged');
 assert.equal(hash(uiScript.slice(uiScript.indexOf('  const player ='), uiScript.indexOf('  const ui ='))),
-  '2d6f9f3bd67750b531c8036a3e2b4aa515db7bc72d702970725d8df1a0bf48b6',
+  '6056b98fb5c74da9e1427ac10d06e19626546876e55a586d7c261bc396498be6',
   'Player, scene and roll must remain unchanged; sharing only connects to UI');
 assert.deepEqual([...score.MELODIC].sort(), Object.keys(synth.INST).sort());
 assert.equal(new Set(score.MELODIC).size, score.MELODIC.length);

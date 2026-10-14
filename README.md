@@ -84,6 +84,8 @@ Run `node tests/sharing.js` for song routing, edited-score encoding, size limits
 
 Run `node tests/social-images.js` to verify preview font inheritance and font-loading order.
 
+Run `node tests/village-clock.js` to check the church clock. The scene is always night, so `village-clock.js` maps the visitor's local day onto tonight's Swiss night: local sunrise shows the Swiss sunset time, and the moment before local sunrise shows the moment before the next Swiss sunrise. Sunrise and sunset are calculated for Bern in Europe/Zurich time. The page does not ask for the visitor's location, so the Swiss sunrise clock time stands in for local sunrise.
+
 For actual Web Audio checks, serve the repository with `python3 -m http.server 8765`, open `http://localhost:8765/`, load `tests/audio-browser.js` in that page (for example with a browser developer-tools script tag), and run `await runInstrumentAudioTests()` and `await runTuneAudioTests()`. The instrument test renders all 15 voices with normal, short/bright, chord and long-attack settings; the tune test renders a four-second excerpt of all six tracks. They check finite, non-silent audio, peaks below clipping and decaying release tails. These checks do not establish acoustic realism; timbre remains a perceptual approximation.
 
 The source is distributed under the Apache License 2.0; see [LICENSE](LICENSE).

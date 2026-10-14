@@ -1791,6 +1791,7 @@ Compose the piece I describe below. If I haven't described one, compose an origi
 </script>
 <script src="scores.js"></script>
 <script src="sharing.js"></script>
+<script src="village-clock.js"></script>
 <script>
 const TRACKS = window.ScrimTracks;
 (function () {
@@ -2163,11 +2164,10 @@ const TRACKS = window.ScrimTracks;
       rect(164, 38, 1, 7, '#e8c170');
       rect(162, 40, 5, 1, '#e8c170');
       rect(160, 66, 8, 8, '#f2e6c9');
-      rect(163, 67, 1, 4, '#414b51');
-      rect(163, 70, 3, 1, '#414b51');
       rect(162, 81, 4, 9, '#55463d');
       windows.push([174, 80], [181, 80]);
     });
+    props[props.length - 1].clock = { x: 163.5, y: 69.5 };
     prop(ground(144, 147, 91, 3), () => {
       rect(145, 75, 1, 16, '#bea783');
       const flag = VILLAGE_FLAGS[Math.floor(Math.random() * VILLAGE_FLAGS.length)];
@@ -2400,6 +2400,22 @@ const TRACKS = window.ScrimTracks;
       g.globalAlpha = 1;
     }
     let last = 0, energy = 0;
+    // Church clock: the visitor's local day, scaled onto tonight's Swiss sunset-to-sunrise night.
+    function drawClockHands(face) {
+      const local = new Date();
+      const time = window.VillageClock.villageTime(local.getTime(),
+        local.getHours() * 60 + local.getMinutes() + local.getSeconds() / 60);
+      const hand = (turn, length) => {
+        const angle = turn * Math.PI * 2;
+        for (let r = 0; r <= length; r += .5)
+          g.fillRect(Math.floor(face.x + Math.sin(angle) * r), Math.floor(face.y - Math.cos(angle) * r), 1, 1);
+      };
+      g.fillStyle = '#414b51';
+      hand((time.hours + time.minutes / 60) / 12, 2.2);
+      hand(time.minutes / 60, 3.4);
+      const label = `${String(time.hours || 12)}:${String(Math.floor(time.minutes)).padStart(2, '0')}`;
+      if (cv.dataset.clock !== label) cv.dataset.clock = label;
+    }
     function draw(now) {
       requestAnimationFrame(draw);
       if (now - last < 33) return;
@@ -2436,6 +2452,7 @@ const TRACKS = window.ScrimTracks;
           g.fillRect(x, y, 4, 4);
           g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
         }
+        if (item.clock) drawClockHands(item.clock);
       }, () => drawCreature(active));
       if (!reduceMotion) {
         g.fillStyle = '#9c9699';
