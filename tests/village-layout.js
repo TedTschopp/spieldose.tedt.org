@@ -16,8 +16,8 @@ for (let i = 0; i < 80; i++) {
   assert.ok(village.landmarks.length >= 1 && village.landmarks.length <= 3,
     'village has 1–3 landmarks');
   assert.equal(village.landmarks[0].type, 'flag', 'every village keeps its municipal flag');
-  assert.ok(village.trees.length >= 3 && village.trees.length <= 6,
-    'each village has a variable group of at least three trees');
+  assert.ok(village.trees.length >= 6 && village.trees.length <= 16,
+    'each village has a random group of 6–16 trees');
   for (const building of village.buildings) {
     assert.ok(layout.BUILDING_VARIANTS[building.type][building.variant], 'building variant exists');
     assert.ok(building.x >= 0 && building.x + building.w <= 320, 'building stays in scene bounds');

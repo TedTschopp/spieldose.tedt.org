@@ -1947,6 +1947,7 @@ const TRACKS = window.ScrimTracks;
     back.width = W; back.height = H;
     const b = back.getContext('2d');
     const windows = [];
+    const stainedGlass = [];
     const houses = [];
     const chimneys = [];
     const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
@@ -2109,7 +2110,7 @@ const TRACKS = window.ScrimTracks;
     const SHADOW_ALPHA = .38;
     // The single village church: bell/clock tower joined to a nave on its right.
     const CHURCH = {
-      tower: { x: 158, y: 62, w: 12, h: 28, roof: 19 },
+      tower: { x: 158, y: 46, w: 12, h: 44, roof: 19 },
       nave: { x: 170, y: 77, w: 24, h: 13, roof: 9 }
     };
     function shadow(x, y, w, h, roofHeight, alpha) {
@@ -2120,14 +2121,23 @@ const TRACKS = window.ScrimTracks;
         project(x + w + 4, y), [x + w, base]], '#07111c');
       b.globalAlpha = 1;
     }
-    // Pine silhouette (trunk foot, widest bough, tip) projected away from the moon.
+    // Project each part of the pine sprite (trunk and three bough tiers) away from the moon.
     function treeShadow(tree, alpha) {
       const { x, y, h } = tree;
       const project = (px, py) => moonRay(px, py, y);
-      const bough = y - h * .11;
       b.globalAlpha = alpha;
-      polygon([[x - 1, y], project(x - 7, bough), project(x, y - h),
-        project(x + 7, bough), [x + 2, y]], '#07111c');
+      b.fillStyle = '#07111c';
+      b.beginPath();
+      const trunk = [[x, y], project(x, y - h), project(x + 1, y - h), [x + 1, y]];
+      const tiers = [0, 1, 2].map(k => {
+        const top = y - h + k * h * .22, w = 3 + k * 2, foot = top + h * .45;
+        return [project(x, top), project(x - w, foot), project(x + w, foot)];
+      });
+      for (const shape of [trunk, ...tiers]) {
+        shape.forEach(([px, py], i) => i ? b.lineTo(px, py) : b.moveTo(px, py));
+        b.closePath();
+      }
+      b.fill('nonzero');
       b.globalAlpha = 1;
     }
     const houseShadows = alpha => {
@@ -2135,7 +2145,6 @@ const TRACKS = window.ScrimTracks;
         shadow(part.x, part.y, part.w, part.h, part.roof, alpha);
       for (const building of village.buildings)
         shadow(building.x, building.y, building.w, building.h, roofHeight(building), alpha);
-      shadow(144, 75, 12, 16, 0, alpha);
       for (const tree of village.trees) treeShadow(tree, alpha);
       const groundLandmark = village.landmarks.find(item =>
         item.type === 'hitchingPost' || item.type === 'fountain');
@@ -2162,8 +2171,10 @@ const TRACKS = window.ScrimTracks;
     const props = [];
     function prop(foot, paint) {
       const firstWindow = windows.length;
+      const firstStained = stainedGlass.length;
       paint();
-      props.push({ baseY: foot.y1, foot, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]) });
+      props.push({ baseY: foot.y1, foot, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]),
+        stained: stainedGlass.slice(firstStained) });
     }
     const ground = (x0, x1, baseY, depth) => ({ x0, x1, y0: baseY - depth, y1: baseY });
     const pineProp = (x, y, h) => prop(ground(x - 4, x + 4, y, 4), () => pine(x, y, h));
@@ -2261,27 +2272,26 @@ const TRACKS = window.ScrimTracks;
       rect(nave.x, nave.y, nave.w, nave.h, '#a49c8e');
       rect(nave.x, nave.y + 1, nave.w, 1, '#c9bfae');
       for (const wx of [nave.x + 5, nave.x + 15]) {
-        rect(wx - 1, nave.y + 2, 6, 7, '#6d665c');
-        rect(wx, nave.y + 2, 4, 1, '#6d665c');
-        windows.push([wx, nave.y + 3]);
+        rect(wx - 1, nave.y + 2, 6, 9, '#6d665c');
+        rect(wx, nave.y + 1, 4, 1, '#6d665c');
+        stainedGlass.push([wx, nave.y + 3]);
       }
       rect(nave.x - 1, nave.y + nave.h, nave.w + 2, 2, '#263b35');
       rect(tower.x, tower.y, tower.w, tower.h, '#8c857a');
-      rect(166, 62, 4, 28, '#d9cdb7');
-      polygon([[154, 62], [164, 43], [174, 62]], '#494849');
-      polygon([[164, 43], [174, 62], [169, 60], [164, 48]], '#d8dce0');
-      rect(164, 38, 1, 7, '#e8c170');
-      rect(162, 40, 5, 1, '#e8c170');
-      rect(160, 66, 8, 8, '#f2e6c9');
+      rect(166, tower.y, 4, tower.h, '#d9cdb7');
+      polygon([[154, 46], [164, 27], [174, 46]], '#494849');
+      polygon([[164, 27], [174, 46], [169, 44], [164, 32]], '#d8dce0');
+      rect(164, 22, 1, 7, '#e8c170');
+      rect(162, 24, 5, 1, '#e8c170');
+      rect(160, 50, 8, 8, '#f2e6c9');
+      // Village flag hung from an iron rod on the tower face, just below the clock.
+      rect(158, 60, 12, 1, '#3a3330');
+      villageFlag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
+        rect(159 + fx, 61 + fy, 1, 1, villageFlag.colors['abcdef'.indexOf(c)])));
+      if (flagStyle.fringe) rect(159, 70, 10, 1, flagStyle.hem);
       rect(162, 81, 4, 9, '#55463d');
     });
-    props[props.length - 1].clock = { x: 163.5, y: 69.5 };
-    prop(ground(144, 147, 91, 3), () => {
-      rect(145, 75, 1, 16, '#bea783');
-      villageFlag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
-        rect(146 + fx, 75 + fy, 1, 1, villageFlag.colors['abcdef'.indexOf(c)])));
-      if (flagStyle.fringe) rect(146, 84, 10, 1, flagStyle.hem);
-    });
+    props[props.length - 1].clock = { x: 163.5, y: 53.5 };
     const groundLandmark = village.landmarks.find(item =>
       item.type === 'hitchingPost' || item.type === 'fountain');
     if (groundLandmark?.type === 'hitchingPost') {
@@ -2356,6 +2366,23 @@ const TRACKS = window.ScrimTracks;
         g.globalAlpha = light * .025;
         g.fillRect(x - spread, y - spread, w + spread * 2, h + spread * 2);
       }
+      g.globalAlpha = 1;
+    }
+    // Lancet window of red, blue, gold and green panes with dark leading; candlelight sets its brightness.
+    const STAINED_PANES = [' bb ', 'abca', 'cdac', 'adbd', 'bcda', 'dabc'];
+    const PANE_COLORS = { a: '#b8323a', b: '#2f5fb3', c: '#e3b44a', d: '#3f8a52' };
+    function drawStainedGlass(x, y, light) {
+      glow(x, y, 4, 6, light * .8);
+      STAINED_PANES.forEach((row, py) => [...row].forEach((c, px) => {
+        if (c === ' ') return;
+        g.fillStyle = PANE_COLORS[c];
+        g.fillRect(x + px, y + py, 1, 1);
+      }));
+      g.fillStyle = '#2a2320';
+      g.fillRect(x, y + 3, 4, 1);
+      g.globalAlpha = Math.max(0, .55 - light * .5);
+      g.fillStyle = '#0b0d14';
+      g.fillRect(x, y, 4, 6);
       g.globalAlpha = 1;
     }
     // Folklore parade: sprites face right; `step` swaps rows for the second animation frame.
@@ -2586,6 +2613,7 @@ const TRACKS = window.ScrimTracks;
           g.fillRect(x, y, 4, 4);
           g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
         }
+        for (const [x, y] of item.stained) drawStainedGlass(x, y, windowLight(x, t));
         if (item.clock) drawClockHands(item.clock);
       }, () => drawCreature(active));
       if (!reduceMotion) {

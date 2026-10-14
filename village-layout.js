@@ -241,8 +241,7 @@
 
   function createVillage(random = Math.random) {
     const obstacles = [
-      { x0: 154, x1: 196, y0: 38, y1: 92, kind: 'church' },
-      { x0: 144, x1: 157, y0: 74, y1: 92, kind: 'flag' }
+      { x0: 154, x1: 196, y0: 22, y1: 92, kind: 'church' }
     ];
     const buildings = [];
     const count = 2 + Math.floor(random() * 5);
@@ -299,7 +298,7 @@
       }
     }
     const trees = [];
-    const treeCount = 4 + Math.floor(random() * 3);
+    const treeCount = 6 + Math.floor(random() * 11);
     for (let i = 0; i < treeCount; i++) {
       let placed = null;
       for (let attempt = 0; attempt < 300 && !placed; attempt++) {
@@ -309,7 +308,7 @@
         const candidate = { x, y, h };
         const box = treeObstacle(candidate);
         if (obstacles.some(other => !BUILDING_TYPE_SET.has(other.kind) && overlaps(box, other, 3)) ||
-          trees.some(other => overlaps(box, treeObstacle(other), 3))) continue;
+          trees.some(other => Math.abs(other.x - x) < 6 && Math.abs(other.y - y) < 4)) continue;
         placed = candidate;
         trees.push(candidate);
         obstacles.push({ ...box, kind: 'tree' });
