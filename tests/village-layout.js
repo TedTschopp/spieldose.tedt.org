@@ -21,8 +21,8 @@ for (let i = 0; i < 80; i++) {
     'ground features are a varied mix, not one repeated item');
   for (const building of village.buildings) {
     const own = attached.filter(l => l.buildingId === building.id);
-    assert.ok(own.length >= 1 && own.length <= 2, 'each building carries 1–2 household details');
-    assert.equal(new Set(own.map(l => l.type)).size, own.length, 'no duplicate detail on one building');
+    assert.equal(new Set(own.map(l => layout.ATTACHED_SLOTS[l.type])).size, own.length,
+      'no two details share a wall slot on one building');
   }
   for (const item of ground) {
     seenGroundTypes.add(item.type);
@@ -69,6 +69,23 @@ assert.deepEqual([...seenAttachedTypes].sort(), [...layout.ATTACHED_LANDMARKS].s
   for (let n = 1; n <= 5; n++)
     assert.ok(Math.abs(counts[n] / runs - expected[n]) < .04,
       `count ${n} appears ${(counts[n] / runs).toFixed(3)}, expected about ${expected[n].toFixed(3)}`);
+}
+
+// One roll pool: building details are placed when rolled but never count toward the 1–5 ground limit.
+{
+  let villagesWithoutDetails = 0, totalDetails = 0, totalGround = 0;
+  const runs = 1200;
+  for (let run = 0; run < runs; run++) {
+    const village = layout.createVillage(random);
+    const details = village.landmarks.filter(l => l.buildingId !== undefined).length;
+    totalDetails += details;
+    totalGround += village.landmarks.filter(l => l.baseY !== undefined).length;
+    if (!details) villagesWithoutDetails++;
+  }
+  // Six detail kinds against twelve ground kinds: about one detail per two ground features.
+  const ratio = totalDetails / totalGround;
+  assert.ok(ratio > .3 && ratio < .8, `details per ground feature ${ratio.toFixed(2)} follows the roll pool`);
+  assert.ok(villagesWithoutDetails > runs * .1, 'some villages roll no building details at all');
 }
 
 // Road: only things that belong on a street may stand on it.

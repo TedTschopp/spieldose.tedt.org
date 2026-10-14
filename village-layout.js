@@ -387,22 +387,26 @@
     }
 
     const landmarks = [{ type: 'flag', variant: Math.floor(random() * 3) }];
-    for (const building of buildings) {
-      const used = new Set();
-      const wanted = 1 + Math.floor(random() * 2);
-      for (const type of shuffle(ATTACHED_LANDMARKS, random)) {
-        if (used.size >= wanted) break;
-        if (used.has(ATTACHED_SLOTS[type])) continue;
-        used.add(ATTACHED_SLOTS[type]);
-        landmarks.push({ type, variant: Math.floor(random() * 3), buildingId: building.id });
-      }
-    }
-    // 1–5 everyday features on a bell curve: 1 + Binomial(4, 1/2), most often three.
+    // 1–5 ground features on a bell curve: 1 + Binomial(4, 1/2), most often three.
     let groundWanted = 1;
     for (let coin = 0; coin < 4; coin++) if (random() < .5) groundWanted++;
-    let groundPlaced = 0;
-    for (const type of shuffle(GROUND_TYPES, random)) {
-      if (groundPlaced >= groundWanted) break;
+    // Roll from every feature kind. Building details are placed when rolled but do not
+    // count toward the ground limit; keep rolling until the ground target is filled.
+    const usedSlots = new Map(buildings.map(building => [building.id, new Set()]));
+    const placedGround = new Set();
+    const ALL_FEATURES = [...GROUND_TYPES, ...ATTACHED_LANDMARKS];
+    for (let roll = 0; roll < 200 && placedGround.size < groundWanted; roll++) {
+      const type = pick(ALL_FEATURES, random);
+      if (ATTACHED_SLOTS[type]) {
+        const slot = ATTACHED_SLOTS[type];
+        const open = buildings.filter(building => !usedSlots.get(building.id).has(slot));
+        if (!open.length) continue;
+        const building = pick(open, random);
+        usedSlots.get(building.id).add(slot);
+        landmarks.push({ type, variant: Math.floor(random() * 3), buildingId: building.id });
+        continue;
+      }
+      if (placedGround.has(type)) continue;
       const spec = GROUND_FEATURES[type];
       for (let attempt = 0; attempt < 500; attempt++) {
         const x = intBetween(20, 300, random);
@@ -412,7 +416,7 @@
         if (obstacles.some(other => overlaps(box, other, 2))) continue;
         landmarks.push({ type, variant: Math.floor(random() * 3), x, baseY, box });
         obstacles.push({ ...box, kind: type });
-        groundPlaced++;
+        placedGround.add(type);
         break;
       }
     }
