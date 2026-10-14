@@ -1948,6 +1948,7 @@ const TRACKS = window.ScrimTracks;
     const b = back.getContext('2d');
     const windows = [];
     const houses = [];
+    const chimneys = [];
     const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
     const sky = ['#090f20', '#131e33', '#26334c', '#403e57', '#655264'];
     for (let y = 0; y < H; y++) {
@@ -2099,16 +2100,18 @@ const TRACKS = window.ScrimTracks;
     const flagStyle = window.VillageLayout.LANDMARK_VARIANTS.flag[
       village.landmarks.find(item => item.type === 'flag').variant
     ];
-    const hasLandmark = type => village.landmarks.some(item => item.type === type);
     const landmarkStyle = type => {
       const item = village.landmarks.find(entry => entry.type === type);
       return item && window.VillageLayout.LANDMARK_VARIANTS[type][item.variant];
     };
     const roofHeight = building => building.type === 'bakehouse'
       ? 12 : Math.min(12, Math.max(9, Math.round(building.w * .42)));
-    const shadowHeight = building => roofHeight(building) +
-      (building.type === 'chapel' ? 3 : 0);
     const SHADOW_ALPHA = .38;
+    // The single village church: bell/clock tower joined to a nave on its right.
+    const CHURCH = {
+      tower: { x: 158, y: 62, w: 12, h: 28, roof: 19 },
+      nave: { x: 170, y: 77, w: 24, h: 13, roof: 9 }
+    };
     function shadow(x, y, w, h, roofHeight, alpha) {
       const base = y + h;
       const project = (px, py) => moonRay(px, py, base);
@@ -2117,15 +2120,31 @@ const TRACKS = window.ScrimTracks;
         project(x + w + 4, y), [x + w, base]], '#07111c');
       b.globalAlpha = 1;
     }
+    // Pine silhouette (trunk foot, widest bough, tip) projected away from the moon.
+    function treeShadow(tree, alpha) {
+      const { x, y, h } = tree;
+      const project = (px, py) => moonRay(px, py, y);
+      const bough = y - h * .11;
+      b.globalAlpha = alpha;
+      polygon([[x - 1, y], project(x - 7, bough), project(x, y - h),
+        project(x + 7, bough), [x + 2, y]], '#07111c');
+      b.globalAlpha = 1;
+    }
     const houseShadows = alpha => {
-      shadow(158, 62, 12, 28, 19, alpha);
+      for (const part of [CHURCH.nave, CHURCH.tower])
+        shadow(part.x, part.y, part.w, part.h, part.roof, alpha);
       for (const building of village.buildings)
-        shadow(building.x, building.y, building.w, building.h, shadowHeight(building), alpha);
+        shadow(building.x, building.y, building.w, building.h, roofHeight(building), alpha);
       shadow(144, 75, 12, 16, 0, alpha);
-      if (hasLandmark('hitchingPost'))
-        shadow(115, 104, 12, 6, 2, alpha);
-      if (hasLandmark('fountain'))
-        shadow(114, 99, 14, 11, 2, alpha);
+      for (const tree of village.trees) treeShadow(tree, alpha);
+      const groundLandmark = village.landmarks.find(item =>
+        item.type === 'hitchingPost' || item.type === 'fountain');
+      if (groundLandmark) {
+        const isFountain = groundLandmark.type === 'fountain';
+        const width = isFountain ? 14 : 12, height = isFountain ? 11 : 6;
+        shadow(groundLandmark.x - width / 2, groundLandmark.baseY - height,
+          width, height, 2, alpha);
+      }
     };
     houseShadows(SHADOW_ALPHA);
     const shadowLayer = snapshot();
@@ -2148,7 +2167,7 @@ const TRACKS = window.ScrimTracks;
     }
     const ground = (x0, x1, baseY, depth) => ({ x0, x1, y0: baseY - depth, y1: baseY });
     const pineProp = (x, y, h) => prop(ground(x - 4, x + 4, y, 4), () => pine(x, y, h));
-    const attachedLandmarks = slot => village.landmarks.filter(item => item.buildingSlot === slot);
+    const attachedLandmarks = buildingId => village.landmarks.filter(item => item.buildingId === buildingId);
     function drawAttachedLandmark(item, x, y, w) {
       const style = window.VillageLayout.LANDMARK_VARIANTS[item.type][item.variant];
       if (item.type === 'flowerBox') {
@@ -2204,20 +2223,18 @@ const TRACKS = window.ScrimTracks;
         rect(x + 4, y - 6, w - 8, 3, style.roof);
         rect(x + 6, y - 8, Math.max(3, w - 12), 2, style.roof);
         rect(x + w - 5, y - roof, 2, 4, style.accent);
+        chimneys.push([x + w - 5, y - roof]);
         rect(x + 2, y + h - 5, 4, 5, style.accent);
         rect(x + 3, y + h - 5, 2, 3, '#171719');
       } else {
         polygon([[x - 4, y + 1], [x + w / 2, y - roof], [x + w + 4, y + 1]], style.roof);
         polygon([[x - 3, y], [x + w / 2, y - roof + 2], [x + w + 3, y]], style.trim);
         rect(x + w - 6, y - roof + 2, 2, Math.max(2, roof - 2), style.accent);
+        chimneys.push([x + w - 6, y - roof + 2]);
         if (style.form === 'loft') {
           rect(x + Math.floor(w / 2) - 2, y + 3, 4, 3, style.accent);
           rect(x + Math.floor(w / 2) - 1, y + 4, 2, 1, style.trim);
           rect(x + 2, y + 6, w - 4, 1, style.accent);
-        }
-        if (style.form === 'chapel') {
-          rect(x + Math.floor(w / 2), y - roof - 2, 1, 3, '#e8c170');
-          rect(x + Math.floor(w / 2) - 2, y - roof - 1, 5, 1, '#e8c170');
         }
       }
       for (const wx of [x + 3, x + w - 7]) {
@@ -2227,15 +2244,29 @@ const TRACKS = window.ScrimTracks;
       }
       rect(x + Math.floor(w / 2) - 2, y + h - 7, 4, 7, style.accent);
       rect(x - 1, y + h, w + 2, 2, '#263b35');
-      for (const landmark of attachedLandmarks(building.slot))
+      for (const landmark of attachedLandmarks(building.id))
         drawAttachedLandmark(landmark, x, y, w);
     }
-    [5, 17, 31, 55, 73, 243, 258, 281, 307, 317].forEach((x, i) => pineProp(x, 82 + i % 3 * 3, 12 + i % 4 * 3));
+    for (const tree of village.trees) pineProp(tree.x, tree.y, tree.h);
     for (const building of village.buildings)
       prop(ground(building.x - 2, building.x + building.w + 2, building.baseY, 9),
         () => drawBuilding(building));
-    prop(ground(156, 190, 90, 11), () => {
-      rect(158, 62, 12, 28, '#8c857a');
+    prop(ground(156, 196, 90, 11), () => {
+      const { nave, tower } = CHURCH;
+      houses.push({ x: nave.x, y: nave.y, w: nave.w, h: nave.h });
+      polygon([[nave.x - 2, nave.y + 1], [nave.x + nave.w / 2, nave.y - nave.roof],
+        [nave.x + nave.w + 2, nave.y + 1]], '#494849');
+      polygon([[nave.x + nave.w / 2, nave.y - nave.roof], [nave.x + nave.w + 2, nave.y + 1],
+        [nave.x + nave.w - 2, nave.y], [nave.x + nave.w / 2, nave.y - nave.roof + 3]], '#d8dce0');
+      rect(nave.x, nave.y, nave.w, nave.h, '#a49c8e');
+      rect(nave.x, nave.y + 1, nave.w, 1, '#c9bfae');
+      for (const wx of [nave.x + 5, nave.x + 15]) {
+        rect(wx - 1, nave.y + 2, 6, 7, '#6d665c');
+        rect(wx, nave.y + 2, 4, 1, '#6d665c');
+        windows.push([wx, nave.y + 3]);
+      }
+      rect(nave.x - 1, nave.y + nave.h, nave.w + 2, 2, '#263b35');
+      rect(tower.x, tower.y, tower.w, tower.h, '#8c857a');
       rect(166, 62, 4, 28, '#d9cdb7');
       polygon([[154, 62], [164, 43], [174, 62]], '#494849');
       polygon([[164, 43], [174, 62], [169, 60], [164, 48]], '#d8dce0');
@@ -2243,7 +2274,6 @@ const TRACKS = window.ScrimTracks;
       rect(162, 40, 5, 1, '#e8c170');
       rect(160, 66, 8, 8, '#f2e6c9');
       rect(162, 81, 4, 9, '#55463d');
-      windows.push([174, 80], [181, 80]);
     });
     props[props.length - 1].clock = { x: 163.5, y: 69.5 };
     prop(ground(144, 147, 91, 3), () => {
@@ -2252,24 +2282,26 @@ const TRACKS = window.ScrimTracks;
         rect(146 + fx, 75 + fy, 1, 1, villageFlag.colors['abcdef'.indexOf(c)])));
       if (flagStyle.fringe) rect(146, 84, 10, 1, flagStyle.hem);
     });
-    if (hasLandmark('hitchingPost')) {
-      const style = landmarkStyle('hitchingPost');
-      prop(ground(114, 128, 110, 6), () => {
-        rect(116, 104, 2, 6, style.wood);
-        rect(124, 104, 2, 6, style.wood);
-        rect(115, 104 + style.railY, 12, 2, style.rail);
-        rect(116, 102, 2, 2, style.wood);
-        rect(124, 102, 2, 2, style.wood);
+    const groundLandmark = village.landmarks.find(item =>
+      item.type === 'hitchingPost' || item.type === 'fountain');
+    if (groundLandmark?.type === 'hitchingPost') {
+      const style = landmarkStyle('hitchingPost'), x = groundLandmark.x, y = groundLandmark.baseY;
+      prop(ground(x - 7, x + 8, y, 6), () => {
+        rect(x - 5, y - 6, 2, 6, style.wood);
+        rect(x + 3, y - 6, 2, 6, style.wood);
+        rect(x - 6, y - 6 + style.railY, 12, 2, style.rail);
+        rect(x - 5, y - 8, 2, 2, style.wood);
+        rect(x + 3, y - 8, 2, 2, style.wood);
       });
-    } else if (hasLandmark('fountain')) {
-      const style = landmarkStyle('fountain');
-      prop(ground(114, 128, 110, 6), () => {
-        rect(116, 104, 10, 2, style.rim);
-        rect(115, 106, 12, 3, style.stone);
-        rect(116, 109, 10, 1, style.rim);
-        rect(120, 99, 2, 5, style.stone);
-        rect(119, 98, 4, 2, style.rim);
-        rect(117, 107, 8, 1, style.water);
+    } else if (groundLandmark) {
+      const style = landmarkStyle('fountain'), x = groundLandmark.x, y = groundLandmark.baseY;
+      prop(ground(x - 8, x + 9, y, 11), () => {
+        rect(x - 5, y - 7, 10, 2, style.rim);
+        rect(x - 6, y - 5, 12, 3, style.stone);
+        rect(x - 5, y - 2, 10, 1, style.rim);
+        rect(x - 1, y - 11, 2, 5, style.stone);
+        rect(x - 2, y - 12, 4, 2, style.rim);
+        rect(x - 4, y - 4, 8, 1, style.water);
       });
     }
     const attachedNames = {
@@ -2284,8 +2316,6 @@ const TRACKS = window.ScrimTracks;
     cv.dataset.village = `${village.buildings.length + 1} buildings`;
     cv.dataset.landmarks = landmarkDescription;
     cv.setAttribute('aria-label', `Pixel-art Swiss alpine village with snowy peaks, chalets, a clock tower, ${village.buildings.length + 1} varied buildings and ${landmarkDescription}; window lights respond to the music; Swiss folklore creatures pass through`);
-    pineProp(12, 120, 28);
-    pineProp(303, 120, 32);
     props.sort((a, c) => a.baseY - c.baseY);
     function paintByDepth(items, actorY, paintItem, paintActor) {
       let painted = actorY === null;
@@ -2447,6 +2477,7 @@ const TRACKS = window.ScrimTracks;
       }
     }
     for (const c of CREATURES) c.frames = [c.rows, c.rows.map((row, i) => c.step[i] || row)];
+    for (const c of CREATURES) if (!c.flies) c.paths = village.paths;
     const nextShow = createParade(CREATURES.length, 3, Math.random);
     const shows = [];
     const creatureLabel = $('#alpine-creature');
@@ -2561,8 +2592,8 @@ const TRACKS = window.ScrimTracks;
         g.fillStyle = '#9c9699';
         for (let i = 0; i < 4; i++) {
           const rise = (t * 3 + i * 4) % 16;
-          g.fillRect(Math.round(98 + Math.sin(rise * .3) * 2), Math.round(68 - rise), 2, 1);
-          g.fillRect(Math.round(257 + Math.sin(rise * .3 + 1) * 2), Math.round(76 - rise), 2, 1);
+          chimneys.forEach(([cx, cy], k) =>
+            g.fillRect(Math.round(cx + Math.sin(rise * .3 + k) * 2), Math.round(cy - 1 - rise), 2, 1));
         }
       }
     }

@@ -27,10 +27,10 @@
       { wall: '#bd9870', roof: '#4b3935', trim: '#ddc69f', accent: '#a66b45', form: 'gable' },
       { wall: '#d0b58e', roof: '#65473e', trim: '#e8d7b8', accent: '#89563d', form: 'gable' }
     ],
-    chapel: [
-      { wall: '#c2b9a7', roof: '#514746', trim: '#e1ddd4', accent: '#817866', form: 'chapel' },
-      { wall: '#b5aa97', roof: '#484344', trim: '#ddd4c3', accent: '#8d7e69', form: 'chapel' },
-      { wall: '#d0c5b0', roof: '#5a4c49', trim: '#eee5d4', accent: '#756e64', form: 'chapel' }
+    dairy: [
+      { wall: '#d8cdb8', roof: '#4f4440', trim: '#ece3d0', accent: '#5f6f73', form: 'gable' },
+      { wall: '#cbbfa6', roof: '#5b4a41', trim: '#e3d8c1', accent: '#6b5a4a', form: 'gable' },
+      { wall: '#e0d6c4', roof: '#463f3d', trim: '#f0e8d8', accent: '#56656a', form: 'gable' }
     ]
   };
   const BUILDING_SIZES = {
@@ -39,7 +39,7 @@
     granary: [14, 19, 14, 19],
     bakehouse: [16, 23, 11, 15],
     inn: [22, 30, 15, 20],
-    chapel: [15, 22, 16, 22]
+    dairy: [18, 25, 13, 18]
   };
   const LANDMARK_VARIANTS = {
     flag: [
@@ -108,7 +108,7 @@
   function buildingObstacle(building) {
     return {
       x0: building.x - 4, x1: building.x + building.w + 4,
-      y0: building.y - roofHeight(building) - (building.type === 'chapel' ? 3 : 0),
+      y0: building.y - roofHeight(building),
       y1: building.baseY, kind: building.type
     };
   }
@@ -241,7 +241,7 @@
 
   function createVillage(random = Math.random) {
     const obstacles = [
-      { x0: 154, x1: 174, y0: 38, y1: 91, kind: 'church' },
+      { x0: 154, x1: 196, y0: 38, y1: 92, kind: 'church' },
       { x0: 144, x1: 157, y0: 74, y1: 92, kind: 'flag' }
     ];
     const buildings = [];
