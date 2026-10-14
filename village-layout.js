@@ -176,7 +176,6 @@
     return x0 < right + margin && x1 > left - margin;
   }
   const GROUND_TYPES = Object.keys(GROUND_FEATURES);
-  const GRID = { x0: -24, x1: 344, dx: 4, y0: 48, y1: 120, dy: 2 };
   const MAX_SPRITE = { width: 16, height: 12 };
 
   function pick(items, random) {
@@ -243,118 +242,23 @@
     const body = { x0: x - width / 2, x1: x + width / 2, y0: baseY - height, y1: baseY };
     return obstacles.every(obstacle => !overlaps(body, obstacle, .5));
   }
-  function segmentClear(a, b, obstacles) {
-    const steps = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]));
-    for (let i = 0; i <= steps; i++) {
-      const f = steps ? i / steps : 0;
-      if (!bodyClearAt(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, obstacles)) return false;
-    }
-    return true;
-  }
-  function priorityPush(heap, item) {
-    let i = heap.length;
-    heap.push(item);
-    while (i) {
-      const parent = (i - 1) >> 1;
-      if (heap[parent].f <= item.f) break;
-      heap[i] = heap[parent]; i = parent;
-    }
-    heap[i] = item;
-  }
-  function priorityPop(heap) {
-    const first = heap[0], last = heap.pop();
-    if (heap.length) {
-      let i = 0;
-      while (true) {
-        const left = i * 2 + 1, right = left + 1;
-        if (left >= heap.length) break;
-        const child = right < heap.length && heap[right].f < heap[left].f ? right : left;
-        if (heap[child].f >= last.f) break;
-        heap[i] = heap[child]; i = child;
+  // Creatures walk the foreground strip, in front of everything placed in the village.
+  // Three depth bands share the strip; each lane wanders gently within its band.
+  const LANE_X = { start: -24, end: 344, step: 23 };
+  function planGroundPaths(obstacles, random = Math.random) {
+    const front = Math.max(107, ...obstacles.map(o => o.y1)) + 3;
+    const band = (120 - front + 1) / 3;
+    return [0, 1, 2].map(lane => {
+      const lo = Math.ceil(front + band * lane), hi = Math.floor(front + band * (lane + 1) - .01);
+      const points = [];
+      let y = intBetween(lo, hi, random);
+      for (let x = LANE_X.start; x < LANE_X.end; x += LANE_X.step) {
+        points.push([x, y]);
+        y = Math.max(lo, Math.min(hi, y + intBetween(-1, 1, random)));
       }
-      heap[i] = last;
-    }
-    return first;
-  }
-  function planPath(laneOffset, obstacles) {
-    const cols = (GRID.x1 - GRID.x0) / GRID.dx + 1;
-    const rows = (GRID.y1 - GRID.y0) / GRID.dy + 1;
-    const count = cols * rows;
-    const idAt = (ix, iy) => iy * cols + ix;
-    const pointAt = id => {
-      const ix = id % cols, iy = Math.floor(id / cols);
-      return [GRID.x0 + ix * GRID.dx, GRID.y0 + iy * GRID.dy];
-    };
-    const laneY = 120;
-    const goalY = (laneY - GRID.y0) / GRID.dy;
-    const start = idAt(0, goalY);
-    const goal = idAt(cols - 1, goalY);
-    const clear = new Uint8Array(count);
-    for (let iy = 0; iy < rows; iy++) for (let ix = 0; ix < cols; ix++) {
-      const id = idAt(ix, iy), [x, y] = pointAt(id);
-      clear[id] = bodyClearAt(x, y, obstacles) ? 1 : 0;
-    }
-    if (!clear[start] || !clear[goal]) throw new Error('Village walking route has no clear entrance.');
-    const costs = new Float64Array(count); costs.fill(Infinity); costs[start] = 0;
-    const previous = new Int32Array(count); previous.fill(-1);
-    const closed = new Uint8Array(count);
-    const heap = [];
-    const heuristic = (ix, iy) => Math.hypot((cols - 1 - ix), (goalY - iy) * GRID.dy / GRID.dx);
-    priorityPush(heap, { id: start, f: heuristic(0, goalY) });
-    let reached = false;
-    const moves = [];
-    for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++)
-      if (dx || dy) moves.push([dx, dy]);
-    while (heap.length) {
-      const current = priorityPop(heap).id;
-      if (closed[current]) continue;
-      if (current === goal) { reached = true; break; }
-      closed[current] = 1;
-      const ix = current % cols, iy = Math.floor(current / cols);
-      const [x, y] = pointAt(current);
-      for (const [mx, my] of moves) {
-        const nx = ix + mx, ny = iy + my;
-        if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
-        const next = idAt(nx, ny);
-        if (!clear[next] || closed[next]) continue;
-        if (mx && my && (!clear[idAt(ix + mx, iy)] || !clear[idAt(ix, iy + my)])) continue;
-        const [nextX, nextY] = pointAt(next);
-        if (!segmentClear([x, y], [nextX, nextY], obstacles)) continue;
-        const lane = nextX >= 0 && nextX <= 320
-          ? Math.min(120, terrainAt(nextX) + laneOffset) : laneY;
-        const step = Math.hypot(mx * GRID.dx, my * GRID.dy) / GRID.dx;
-        const candidate = costs[current] + step + Math.abs(nextY - lane) * .025;
-        if (candidate < costs[next]) {
-          costs[next] = candidate;
-          previous[next] = current;
-          priorityPush(heap, { id: next, f: candidate + heuristic(nx, ny) });
-        }
-      }
-    }
-    if (!reached) throw new Error(`Unable to route a creature through the village at offset ${laneOffset}; obstacles: ${JSON.stringify(obstacles)}`);
-    const raw = [];
-    for (let id = goal; id !== -1; id = previous[id]) {
-      raw.push(pointAt(id));
-      if (id === start) break;
-    }
-    raw.reverse();
-    const points = [raw[0]];
-    let direction = null;
-    for (let i = 1; i < raw.length; i++) {
-      const nextDirection = [Math.sign(raw[i][0] - raw[i - 1][0]), Math.sign(raw[i][1] - raw[i - 1][1])];
-      if (direction && (direction[0] !== nextDirection[0] || direction[1] !== nextDirection[1]))
-        points.push(raw[i - 1]);
-      direction = nextDirection;
-    }
-    points.push(raw[raw.length - 1]);
-    return { layer: 'ground', points };
-  }
-  function planGroundPaths(obstacles) {
-    return [
-      planPath(8, obstacles),
-      planPath(19, obstacles),
-      planPath(30, obstacles)
-    ];
+      points.push([LANE_X.end, y]);
+      return { layer: 'ground', points };
+    });
   }
 
   function createVillage(random = Math.random) {
@@ -438,7 +342,7 @@
         obstacles.push({ ...box, kind: 'tree' });
       }
     }
-    const paths = planGroundPaths(obstacles);
+    const paths = planGroundPaths(obstacles, random);
     return { buildings, landmarks, trees, obstacles, paths };
   }
 

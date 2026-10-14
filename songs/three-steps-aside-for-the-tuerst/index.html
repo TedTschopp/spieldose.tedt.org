@@ -2175,7 +2175,7 @@ const TRACKS = window.ScrimTracks;
     shade.width = W; shade.height = H;
     const shadeCtx = shade.getContext('2d');
     // Each building and tree becomes its own layer so walkers can be depth-sorted by their feet.
-    // foot is the strip of ground it stands on; creature paths keep their whole width out of it.
+    // foot is the strip of ground it stands on; creatures walk the foreground strip in front of every foot.
     const props = [];
     function prop(foot, paint) {
       const firstWindow = windows.length;

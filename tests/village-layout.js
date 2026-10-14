@@ -9,6 +9,7 @@ const random = () => {
 };
 
 const seenPositions = new Set();
+const seenLaneShapes = new Set();
 const seenGroundTypes = new Set(), seenAttachedTypes = new Set();
 for (let i = 0; i < 80; i++) {
   const village = layout.createVillage(random);
@@ -39,20 +40,24 @@ for (let i = 0; i < 80; i++) {
     assert.ok(building.baseY <= 120, 'building stays above the ground edge');
   }
   seenPositions.add(village.buildings.map(b => `${b.x},${b.y}`).join(';'));
-  assert.equal(village.paths.length, 3, 'each village has three calculated ground paths');
+  assert.equal(village.paths.length, 3, 'each village has three foreground walking lanes');
+  const villageFront = Math.max(...village.obstacles.map(o => o.y1));
+  const laneDepths = [];
   for (const path of village.paths) {
     assert.equal(path.layer, 'ground');
-    for (let i = 1; i < path.points.length; i++) {
-      const [x0, y0] = path.points[i - 1], [x1, y1] = path.points[i];
-      const steps = Math.ceil(Math.hypot(x1 - x0, y1 - y0));
-      for (let j = 0; j <= steps; j++) {
-        const f = steps ? j / steps : 0;
-        assert.ok(layout.bodyClearAt(x0 + (x1 - x0) * f, y0 + (y1 - y0) * f, village.obstacles),
-          'full creature footprint clears randomized scene obstacles');
-      }
+    assert.ok(path.points[0][0] < -8 && path.points.at(-1)[0] > 328, 'lane enters and leaves off-canvas');
+    for (let i = 1; i < path.points.length; i++)
+      assert.ok(path.points[i][0] > path.points[i - 1][0], 'creatures walk steadily across, never doubling back');
+    for (const [, y] of path.points) {
+      assert.ok(y >= villageFront + 3, 'creature feet stay in front of every building, tree and feature');
+      assert.ok(y <= 120, 'creature feet stay on the canvas');
     }
+    laneDepths.push(path.points.reduce((sum, [, y]) => sum + y, 0) / path.points.length);
   }
+  assert.ok(laneDepths[0] < laneDepths[1] && laneDepths[1] < laneDepths[2], 'lanes sit at three distinct depths');
+  seenLaneShapes.add(village.paths.map(p => p.points.map(q => q[1]).join(',')).join('|'));
 }
+assert.ok(seenLaneShapes.size > 50, 'lanes meander differently across page loads');
 assert.ok(seenPositions.size > 75, 'building layouts use varied positions across page loads');
 assert.deepEqual([...seenGroundTypes].sort(), Object.keys(layout.GROUND_FEATURES).sort(),
   'every everyday ground feature appears across loads');
@@ -152,4 +157,4 @@ for (const [type, variants] of Object.entries(layout.LANDMARK_VARIANTS)) {
   assert.equal(new Set(variants.map(JSON.stringify)).size, 3, `${type} versions differ`);
 }
 
-console.log('PASS: randomized village size, placement, landmarks, variants, and full-body clear routes');
+console.log('PASS: randomized village size, placement, landmarks, variants, and foreground creature lanes');
