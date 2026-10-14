@@ -176,6 +176,9 @@
     return x0 < right + margin && x1 > left - margin;
   }
   const GROUND_TYPES = Object.keys(GROUND_FEATURES);
+  const GRID = { x0: -24, x1: 344, dx: 4, y0: 48, y1: 120, dy: 2 };
+  // How strongly a route hugs its chosen depth while threading between buildings.
+  const LANE_PULL = .12;
   const MAX_SPRITE = { width: 16, height: 12 };
 
   function pick(items, random) {
@@ -226,44 +229,162 @@
     return {
       x0: building.x - 4, x1: building.x + building.w + 4,
       y0: building.y - roofHeight(building),
-      y1: building.baseY, kind: building.type
+      y1: building.baseY, kind: building.type,
+      foot: footStrip(building.x - 2, building.x + building.w + 2, building.baseY, 9)
     };
   }
   function treeObstacle(tree) {
-    return { x0: tree.x - 7, x1: tree.x + 8, y0: tree.y - tree.h, y1: tree.y, kind: 'tree' };
+    return { x0: tree.x - 7, x1: tree.x + 8, y0: tree.y - tree.h, y1: tree.y, kind: 'tree',
+      foot: footStrip(tree.x - 4, tree.x + 4, tree.y, 4) };
+  }
+  function footStrip(x0, x1, baseY, depth) {
+    return { x0, x1, y0: baseY - depth, y1: baseY };
   }
   function overlaps(a, b, margin = 2) {
     return a.x0 < b.x1 + margin && a.x1 + margin > b.x0 &&
       a.y0 < b.y1 + margin && a.y1 + margin > b.y0;
   }
-  function bodyClearAt(x, baseY, obstacles, width = MAX_SPRITE.width, height = MAX_SPRITE.height) {
+  // Feet across the sprite's full width must never step into the ground strip a prop stands on.
+  // Passing behind a prop is fine: the scene paints whichever stands nearer on top.
+  function bodyClearAt(x, baseY, obstacles, width = MAX_SPRITE.width) {
     if (baseY < 48 || baseY > 120) return false;
     if (x >= 0 && x <= 320 && baseY < terrainAt(x) + 1) return false;
-    const body = { x0: x - width / 2, x1: x + width / 2, y0: baseY - height, y1: baseY };
-    return obstacles.every(obstacle => !overlaps(body, obstacle, .5));
+    const left = x - width / 2, right = x + width / 2;
+    return obstacles.every(({ foot }) => !(baseY > foot.y0 - .5 && baseY < foot.y1 + .5 &&
+      left < foot.x1 + .5 && right > foot.x0 - .5));
   }
-  // Creatures walk the foreground strip, in front of everything placed in the village.
-  // Three depth bands share the strip; each lane wanders gently within its band.
-  const LANE_X = { start: -24, end: 344, step: 23 };
-  function planGroundPaths(obstacles, random = Math.random) {
-    const front = Math.max(107, ...obstacles.map(o => o.y1)) + 3;
-    const band = (120 - front + 1) / 3;
-    return [0, 1, 2].map(lane => {
-      const lo = Math.ceil(front + band * lane), hi = Math.floor(front + band * (lane + 1) - .01);
-      const points = [];
-      let y = intBetween(lo, hi, random);
-      for (let x = LANE_X.start; x < LANE_X.end; x += LANE_X.step) {
-        points.push([x, y]);
-        y = Math.max(lo, Math.min(hi, y + intBetween(-1, 1, random)));
+  function segmentClear(a, b, obstacles) {
+    const steps = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]));
+    for (let i = 0; i <= steps; i++) {
+      const f = steps ? i / steps : 0;
+      if (!bodyClearAt(a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, obstacles)) return false;
+    }
+    return true;
+  }
+  function priorityPush(heap, item) {
+    let i = heap.length;
+    heap.push(item);
+    while (i) {
+      const parent = (i - 1) >> 1;
+      if (heap[parent].f <= item.f) break;
+      heap[i] = heap[parent]; i = parent;
+    }
+    heap[i] = item;
+  }
+  function priorityPop(heap) {
+    const first = heap[0], last = heap.pop();
+    if (heap.length) {
+      let i = 0;
+      while (true) {
+        const left = i * 2 + 1, right = left + 1;
+        if (left >= heap.length) break;
+        const child = right < heap.length && heap[right].f < heap[left].f ? right : left;
+        if (heap[child].f >= last.f) break;
+        heap[i] = heap[child]; i = child;
       }
-      points.push([LANE_X.end, y]);
-      return { layer: 'ground', points };
-    });
+      heap[i] = last;
+    }
+    return first;
+  }
+  function planPath(laneOffset, obstacles) {
+    const cols = (GRID.x1 - GRID.x0) / GRID.dx + 1;
+    const rows = (GRID.y1 - GRID.y0) / GRID.dy + 1;
+    const count = cols * rows;
+    const idAt = (ix, iy) => iy * cols + ix;
+    const pointAt = id => {
+      const ix = id % cols, iy = Math.floor(id / cols);
+      return [GRID.x0 + ix * GRID.dx, GRID.y0 + iy * GRID.dy];
+    };
+    const snap = y => Math.round((Math.max(GRID.y0, Math.min(GRID.y1, y)) - GRID.y0) / GRID.dy);
+    const startY = snap(terrainAt(0) + laneOffset), goalY = snap(terrainAt(320) + laneOffset);
+    const laneAt = x => Math.min(120, terrainAt(Math.max(0, Math.min(320, x))) + laneOffset);
+    const start = idAt(0, startY);
+    const goal = idAt(cols - 1, goalY);
+    const clear = new Uint8Array(count);
+    for (let iy = 0; iy < rows; iy++) for (let ix = 0; ix < cols; ix++) {
+      const id = idAt(ix, iy), [x, y] = pointAt(id);
+      clear[id] = bodyClearAt(x, y, obstacles) ? 1 : 0;
+    }
+    if (!clear[start] || !clear[goal]) throw new Error('Village walking route has no clear entrance.');
+    const costs = new Float64Array(count); costs.fill(Infinity); costs[start] = 0;
+    const previous = new Int32Array(count); previous.fill(-1);
+    const closed = new Uint8Array(count);
+    const heap = [];
+    const heuristic = (ix, iy) => Math.hypot((cols - 1 - ix), (goalY - iy) * GRID.dy / GRID.dx);
+    priorityPush(heap, { id: start, f: heuristic(0, startY) });
+    let reached = false;
+    const moves = [];
+    for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++)
+      if (dx || dy) moves.push([dx, dy]);
+    while (heap.length) {
+      const current = priorityPop(heap).id;
+      if (closed[current]) continue;
+      if (current === goal) { reached = true; break; }
+      closed[current] = 1;
+      const ix = current % cols, iy = Math.floor(current / cols);
+      const [x, y] = pointAt(current);
+      for (const [mx, my] of moves) {
+        const nx = ix + mx, ny = iy + my;
+        if (nx < 0 || nx >= cols || ny < 0 || ny >= rows) continue;
+        const next = idAt(nx, ny);
+        if (!clear[next] || closed[next]) continue;
+        if (mx && my && (!clear[idAt(ix + mx, iy)] || !clear[idAt(ix, iy + my)])) continue;
+        const [nextX, nextY] = pointAt(next);
+        if (!segmentClear([x, y], [nextX, nextY], obstacles)) continue;
+        const step = Math.hypot(mx * GRID.dx, my * GRID.dy) / GRID.dx;
+        const candidate = costs[current] + step + Math.abs(nextY - laneAt(nextX)) * LANE_PULL;
+        if (candidate < costs[next]) {
+          costs[next] = candidate;
+          previous[next] = current;
+          priorityPush(heap, { id: next, f: candidate + heuristic(nx, ny) });
+        }
+      }
+    }
+    if (!reached) throw new Error(`Unable to route a creature through the village at offset ${laneOffset}; obstacles: ${JSON.stringify(obstacles)}`);
+    const raw = [];
+    for (let id = goal; id !== -1; id = previous[id]) {
+      raw.push(pointAt(id));
+      if (id === start) break;
+    }
+    raw.reverse();
+    const points = [raw[0]];
+    let direction = null;
+    for (let i = 1; i < raw.length; i++) {
+      const nextDirection = [Math.sign(raw[i][0] - raw[i - 1][0]), Math.sign(raw[i][1] - raw[i - 1][1])];
+      if (direction && (direction[0] !== nextDirection[0] || direction[1] !== nextDirection[1]))
+        points.push(raw[i - 1]);
+      direction = nextDirection;
+    }
+    points.push(raw[raw.length - 1]);
+    return { layer: 'ground', points };
+  }
+  // Two routes weave among the buildings at random depths; a third strolls the foreground strip
+  // in front of everything placed in the village.
+  const LANE_X = { start: -24, end: 344, step: 23 };
+  function planForegroundLane(obstacles, random) {
+    const lo = Math.max(107, ...obstacles.map(o => o.y1)) + 3, hi = 120;
+    const points = [];
+    let y = intBetween(lo, hi, random);
+    for (let x = LANE_X.start; x < LANE_X.end; x += LANE_X.step) {
+      points.push([x, y]);
+      y = Math.max(lo, Math.min(hi, y + intBetween(-1, 1, random)));
+    }
+    points.push([LANE_X.end, y]);
+    return { layer: 'ground', points };
+  }
+  // Village routes aim this many pixels below the hillside: one up among the back rows, one lower down.
+  const LANES = [[2, 7], [14, 20]];
+  function planGroundPaths(obstacles, random = Math.random) {
+    return [
+      planPath(intBetween(LANES[0][0], LANES[0][1], random), obstacles),
+      planPath(intBetween(LANES[1][0], LANES[1][1], random), obstacles),
+      planForegroundLane(obstacles, random)
+    ];
   }
 
   function createVillage(random = Math.random) {
     const obstacles = [
-      { x0: 154, x1: 196, y0: 22, y1: 92, kind: 'church' }
+      { x0: 154, x1: 196, y0: 22, y1: 92, kind: 'church', foot: footStrip(156, 196, 92, 13) }
     ];
     const buildings = [];
     const count = 2 + Math.floor(random() * 5);
@@ -319,7 +440,7 @@
         if (!ROAD_FEATURES.has(type) && roadSpanOverlaps(box.x0, box.x1, baseY)) continue;
         if (obstacles.some(other => overlaps(box, other, 2))) continue;
         landmarks.push({ type, variant: Math.floor(random() * 3), x, baseY, box });
-        obstacles.push({ ...box, kind: type });
+        obstacles.push({ ...box, kind: type, foot: footStrip(box.x0, box.x1, baseY, spec.depth) });
         placedGround.add(type);
         break;
       }
@@ -339,7 +460,7 @@
           trees.some(other => Math.abs(other.x - x) < 6 && Math.abs(other.y - y) < 4)) continue;
         placed = candidate;
         trees.push(candidate);
-        obstacles.push({ ...box, kind: 'tree' });
+        obstacles.push(box);
       }
     }
     const paths = planGroundPaths(obstacles, random);
@@ -396,7 +517,7 @@
   }
 
   const api = {
-    createVillage, createMountains, createParade, terrainAt, bodyClearAt, BUILDING_VARIANTS,
+    createVillage, createMountains, createParade, terrainAt, bodyClearAt, MAX_SPRITE, BUILDING_VARIANTS,
     LANDMARK_VARIANTS, GROUND_FEATURES, ROAD, ROAD_FEATURES, roadSpanOverlaps, ATTACHED_LANDMARKS, ATTACHED_SLOTS, planGroundPaths
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

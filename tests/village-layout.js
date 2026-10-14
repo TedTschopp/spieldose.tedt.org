@@ -10,6 +10,7 @@ const random = () => {
 
 const seenPositions = new Set();
 const seenLaneShapes = new Set();
+let weavingRoutes = 0, totalVillageRoutes = 0, orderedRoutes = 0, distinctRoutes = 0;
 const seenGroundTypes = new Set(), seenAttachedTypes = new Set();
 for (let i = 0; i < 80; i++) {
   const village = layout.createVillage(random);
@@ -40,23 +41,52 @@ for (let i = 0; i < 80; i++) {
     assert.ok(building.baseY <= 120, 'building stays above the ground edge');
   }
   seenPositions.add(village.buildings.map(b => `${b.x},${b.y}`).join(';'));
-  assert.equal(village.paths.length, 3, 'each village has three foreground walking lanes');
+  assert.equal(village.paths.length, 3, 'each village has two village routes and one foreground lane');
   const villageFront = Math.max(...village.obstacles.map(o => o.y1));
   const laneDepths = [];
-  for (const path of village.paths) {
+  village.paths.forEach((path, index) => {
     assert.equal(path.layer, 'ground');
-    assert.ok(path.points[0][0] < -8 && path.points.at(-1)[0] > 328, 'lane enters and leaves off-canvas');
-    for (let i = 1; i < path.points.length; i++)
-      assert.ok(path.points[i][0] > path.points[i - 1][0], 'creatures walk steadily across, never doubling back');
-    for (const [, y] of path.points) {
-      assert.ok(y >= villageFront + 3, 'creature feet stay in front of every building, tree and feature');
-      assert.ok(y <= 120, 'creature feet stay on the canvas');
+    assert.ok(path.points[0][0] < -8 && path.points.at(-1)[0] > 328, 'route enters and leaves off-canvas');
+    for (let i = 1; index < 2 && i < path.points.length; i++) {
+      const [x0, y0] = path.points[i - 1], [x1, y1] = path.points[i];
+      const steps = Math.ceil(Math.hypot(x1 - x0, y1 - y0)) * 2;
+      for (let j = 0; j <= steps; j++) {
+        const f = steps ? j / steps : 0;
+        const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
+        if (x >= 0 && x <= 320) assert.ok(y >= layout.terrainAt(x) + 1, 'feet stay on the ground');
+        const left = x - layout.MAX_SPRITE.width / 2, right = x + layout.MAX_SPRITE.width / 2;
+        for (const o of village.obstacles) {
+          assert.ok(o.foot, `${o.kind} has a footprint strip`);
+          assert.ok(!(y > o.foot.y0 && y < o.foot.y1 && left < o.foot.x1 && right > o.foot.x0),
+            `creature feet never step into the ${o.kind} footprint`);
+        }
+      }
     }
-    laneDepths.push(path.points.reduce((sum, [, y]) => sum + y, 0) / path.points.length);
-  }
-  assert.ok(laneDepths[0] < laneDepths[1] && laneDepths[1] < laneDepths[2], 'lanes sit at three distinct depths');
+    const depth = path.points.reduce((sum, [, y]) => sum + y, 0) / path.points.length;
+    laneDepths.push(depth);
+    if (index < 2) {
+      assert.ok(depth < villageFront, 'village route walks among the buildings, not below them');
+      const behind = path.points.some(([x, y]) => village.obstacles.some(o =>
+        o.kind !== 'church' && o.y1 > y && Math.abs((o.x0 + o.x1) / 2 - x) < 30));
+      const inFront = path.points.some(([x, y]) => village.obstacles.some(o =>
+        o.y1 < y && Math.abs((o.x0 + o.x1) / 2 - x) < 30));
+      if (behind && inFront) weavingRoutes++;
+      totalVillageRoutes++;
+    } else {
+      for (let i = 1; i < path.points.length; i++)
+        assert.ok(path.points[i][0] > path.points[i - 1][0], 'foreground lane never doubles back');
+      for (const [, y] of path.points)
+        assert.ok(y >= villageFront + 3 && y <= 120, 'foreground lane stays in front of the whole village');
+    }
+  });
+  if (JSON.stringify(village.paths[0].points) !== JSON.stringify(village.paths[1].points)) distinctRoutes++;
+  assert.ok(Math.max(laneDepths[0], laneDepths[1]) < laneDepths[2], 'village routes sit behind the foreground lane');
+  if (laneDepths[0] < laneDepths[1]) orderedRoutes++;
   seenLaneShapes.add(village.paths.map(p => p.points.map(q => q[1]).join(',')).join('|'));
 }
+assert.ok(weavingRoutes / totalVillageRoutes > .8, 'village routes pass both behind and in front of buildings');
+assert.ok(orderedRoutes / (totalVillageRoutes / 2) > .8, 'upper and lower village routes usually keep distinct depths');
+assert.ok(distinctRoutes / (totalVillageRoutes / 2) > .95, 'the two village routes take different ways through');
 assert.ok(seenLaneShapes.size > 50, 'lanes meander differently across page loads');
 assert.ok(seenPositions.size > 75, 'building layouts use varied positions across page loads');
 assert.deepEqual([...seenGroundTypes].sort(), Object.keys(layout.GROUND_FEATURES).sort(),
@@ -157,4 +187,4 @@ for (const [type, variants] of Object.entries(layout.LANDMARK_VARIANTS)) {
   assert.equal(new Set(variants.map(JSON.stringify)).size, 3, `${type} versions differ`);
 }
 
-console.log('PASS: randomized village size, placement, landmarks, variants, and foreground creature lanes');
+console.log('PASS: randomized village size, placement, landmarks, variants, village-weaving and foreground creature routes');
