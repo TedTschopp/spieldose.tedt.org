@@ -2225,6 +2225,8 @@ const TRACKS = window.ScrimTracks;
       }
     }
     function drawBuilding(building) {
+      // Only some households have a fire going tonight.
+      building.hearthLit ??= Math.random() < .5;
       const { x, y, w, h, type } = building;
       const style = window.VillageLayout.BUILDING_VARIANTS[type][building.variant];
       const roof = roofHeight(building);
@@ -2242,14 +2244,14 @@ const TRACKS = window.ScrimTracks;
         rect(x + 4, y - 6, w - 8, 3, style.roof);
         rect(x + 6, y - 8, Math.max(3, w - 12), 2, style.roof);
         rect(x + w - 5, y - roof, 2, 4, style.accent);
-        chimneys.push([x + w - 5, y - roof]);
+        if (building.hearthLit) chimneys.push([x + w - 5, y - roof]);
         rect(x + 2, y + h - 5, 4, 5, style.accent);
         rect(x + 3, y + h - 5, 2, 3, '#171719');
       } else {
         polygon([[x - 4, y + 1], [x + w / 2, y - roof], [x + w + 4, y + 1]], style.roof);
         polygon([[x - 3, y], [x + w / 2, y - roof + 2], [x + w + 3, y]], style.trim);
         rect(x + w - 6, y - roof + 2, 2, Math.max(2, roof - 2), style.accent);
-        chimneys.push([x + w - 6, y - roof + 2]);
+        if (building.hearthLit) chimneys.push([x + w - 6, y - roof + 2]);
         if (style.form === 'loft') {
           rect(x + Math.floor(w / 2) - 2, y + 3, 4, 3, style.accent);
           rect(x + Math.floor(w / 2) - 1, y + 4, 2, 1, style.trim);
