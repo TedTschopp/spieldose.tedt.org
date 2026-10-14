@@ -2230,7 +2230,7 @@ const TRACKS = window.ScrimTracks;
       const { x, y, w, h, type } = building;
       const style = window.VillageLayout.BUILDING_VARIANTS[type][building.variant];
       const roof = roofHeight(building);
-      houses.push({ x, y, w, h });
+      if (building.hearthLit) houses.push({ x, y, w, h });
       if (style.form === 'raised') {
         rect(x + 2, y + h - 3, 2, 5, style.accent);
         rect(x + w - 4, y + h - 3, 2, 5, style.accent);
@@ -2260,8 +2260,14 @@ const TRACKS = window.ScrimTracks;
       }
       for (const wx of [x + 3, x + w - 7]) {
         rect(wx, y + 5, 4, 5, style.accent);
-        rect(wx + 1, y + 6, 2, 3, '#f2e6c9');
-        windows.push([wx + 1, y + 6]);
+        if (building.hearthLit) {
+          rect(wx + 1, y + 6, 2, 3, '#f2e6c9');
+          windows.push([wx + 1, y + 6]);
+        } else {
+          // Cold house: dark panes with a faint moonlit glint, no lamplight.
+          rect(wx + 1, y + 6, 2, 3, '#1b2430');
+          rect(wx + 2, y + 6, 1, 1, '#4a5768');
+        }
       }
       rect(x + Math.floor(w / 2) - 2, y + h - 7, 4, 7, style.accent);
       rect(x - 1, y + h, w + 2, 2, '#263b35');
@@ -2288,7 +2294,7 @@ const TRACKS = window.ScrimTracks;
       }
       rect(nave.x - 1, nave.y + nave.h, nave.w + 2, 2, '#263b35');
       rect(tower.x, tower.y, tower.w, tower.h, '#8c857a');
-      rect(166, tower.y, 4, tower.h, '#d9cdb7');
+      rect(tower.x + tower.w - 2, tower.y, 2, tower.h, '#a39b8d');
       polygon([[154, 46], [164, 27], [174, 46]], '#494849');
       polygon([[164, 27], [174, 46], [169, 44], [164, 32]], '#d8dce0');
       rect(164, 22, 1, 7, '#e8c170');
@@ -2369,6 +2375,11 @@ const TRACKS = window.ScrimTracks;
     function windowLight(i, t) {
       return .65 + .16 * Math.sin(t * 1.7 + i * 2.3)
         + .08 * Math.sin(t * 4.1 + i * .9) + energy * .25;
+    }
+    // Church candles: always lit, with a quick irregular flicker independent of the music.
+    function candleLight(i, t) {
+      return .78 + .1 * Math.sin(t * 9.3 + i * 1.7) + .07 * Math.sin(t * 23.1 + i * 3.1)
+        + .05 * Math.sin(t * 5.2 + i);
     }
     function glow(x, y, w, h, light) {
       g.fillStyle = '#efad51';
@@ -2623,7 +2634,7 @@ const TRACKS = window.ScrimTracks;
           g.fillRect(x, y, 4, 4);
           g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
         }
-        for (const [x, y] of item.stained) drawStainedGlass(x, y, windowLight(x, t));
+        for (const [x, y] of item.stained) drawStainedGlass(x, y, candleLight(x, t));
         if (item.clock) drawClockHands(item.clock);
       }, () => drawCreature(active));
       if (!reduceMotion) {
