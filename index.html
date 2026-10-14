@@ -2025,6 +2025,73 @@ const TRACKS = window.ScrimTracks;
       const scale = (endY - moon.y) / (py - moon.y);
       return [moon.x + (px - moon.x) * scale, endY];
     }
+    // 10x9 pixel-art village flags (simplified from municipal flags), one chosen per page load.
+    const VILLAGE_FLAGS = [
+      { name: "Stans", canton: 'NW', colors: ['#f00000', '#231f20', '#e4c604'],
+        rows: ["aaaaaaaaaa", "aaaabbbbaa", "aaabbbabaa", "aaabbbaaaa", "aaaabbbaaa", "aaaacccaaa", "aabaaacaaa", "aaaaacaaaa", "aaaaaaaaaa"] },
+      { name: "Baden", canton: 'AG', colors: ['#ffffff', '#f00000', '#000000'],
+        rows: ["bbbbbbbbbb", "bbbbbbbbbb", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa"] },
+      { name: "Versoix", canton: 'GE', colors: ['#0093dd', '#ffffff', '#fafcfe'],
+        rows: ["baaabbaaab", "bcaabbaacb", "baaabbaaab", "baaabbaaab", "bbbbbbbbbb", "baaabbaaab", "baaabbaaaa", "baaabbaaaa", "baaabbaaaa"] },
+      { name: "Ascona", canton: 'TI', colors: ['#0093dd', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaabaaaa", "aababbabaa", "aabbaabbaa", "aaaabbaaaa", "aaaaaaaaaa", "aaabaabaaa", "aaabaabaaa", "aaaaaaaaaa"] },
+      { name: "Herisau", canton: 'AR', colors: ['#ffffff', '#000000', '#fcda49'],
+        rows: ["aaaaaaaaaa", "aaababccaa", "aaaabccaaa", "aabbbbaaaa", "aaaaabaaaa", "aaaabbbaaa", "aaaaabaaaa", "aaabaabaaa", "aaaaaaaaaa"] },
+      { name: "Grindelwald", canton: 'BE', colors: ['#ffffff', '#f00000', '#1b0303'],
+        rows: ["abbbbbbbba", "abbbbbbbaa", "aaaaaaaaaa", "aaaaacccaa", "aaaccccaaa", "aaacccaaaa", "aaaacccaaa", "ababbbbaba", "abbbbbbbba"] },
+      { name: "Andermatt", canton: 'UR', colors: ['#fddd04', '#000000', '#ffffff'],
+        rows: ["caaaaaaaaa", "cabbbaabac", "caabbbaaac", "cbbbbbbaaa", "caabbbbbaa", "cabbabbbaa", "caaabbbbaa", "caaaaabaaa", "caaaaaaaaa"] },
+      { name: "Baar", canton: 'ZG', colors: ['#0093dd', '#ffffff', '#fcdb00', '#0c0f0b'],
+        rows: ["bccccaaaaa", "bdddcaabaa", "bdddcaaaab", "bcdccbabbb", "bcddcaaaab", "bcddcbabbb", "bdddcaaaaa", "bdddcaaaaa", "bccccaaaaa"] },
+      { name: "Riehen", canton: 'BS', colors: ['#067cff', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaabbaaaa", "aaabbbbaaa", "abbbbbbbba", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Küssnacht", canton: 'SZ', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Lungern", canton: 'OW', colors: ['#0093dd', '#ffffff'],
+        rows: ["baaaaaaaaa", "baaaaaaaaa", "baaabbaaaa", "baaaaaaaaa", "babbbbbbaa", "baaaaaaaaa", "baaabbaaaa", "baaaaaaaaa", "baaaaaaaaa"] },
+      { name: "Entlebuch", canton: 'LU', colors: ['#f00000', '#ffffff', '#21a15a'],
+        rows: ["baaaaaaaaa", "bacaccacaa", "baaabaaaaa", "bacabaacaa", "baaabbaaaa", "bacabbacaa", "baaabaaaaa", "baaabaaaaa", "baaaaaaaaa"] },
+      { name: "Zermatt", canton: 'VS', colors: ['#f00000', '#fcdb00', '#ffffff', '#4c751f', '#330000'],
+        rows: ["caaaaaaaaa", "caaaaebaac", "ccababbaac", "caaabbaeaa", "cabaabaeaa", "caaabbbaaa", "caaababaaa", "caabaaabaa", "caadddddaa"] },
+      { name: "Château-d’Oex", canton: 'VD', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Vals", canton: 'GR', colors: ['#fddd04', '#231f20', '#fffef5'],
+        rows: ["caaaaaaaaa", "cbaaabaaaa", "cbbaaabaaa", "caabaabbba", "cbabbaabba", "cbabbbaabc", "cbbaabbaaa", "cbbbbbbbaa", "cbbbbbbbbc"] },
+      { name: "Saignelégier", canton: 'JU', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Appenzell", canton: 'AI', colors: ['#ffffff', '#000000', '#88231a'],
+        rows: ["aaaaaaaaaa", "aaaaaabaaa", "aaccbbbaaa", "aacaabbaaa", "aaabbbbaaa", "aaaabbbaaa", "aaaababaaa", "aaaabaabaa", "aaaaaaaaaa"] },
+      { name: "Bischofszell", canton: 'TG', colors: ['#cc2918', '#f1e24c'],
+        rows: ["baaaaaaaab", "baaababaab", "baaabbabab", "baaaaabaab", "baaabaaaab", "bbabbaaaab", "bbbabbaaab", "bbbbbbaaab", "bbbbbbaaab"] },
+      { name: "Wattwil", canton: 'SG', colors: ['#fff000', '#0093dd', '#fffef3'],
+        rows: ["caaaaaaaaa", "caabbbbaaa", "cabbbbbbaa", "cabbbbbbac", "caabbbbaaa", "cabbbbbbaa", "cabbaabbaa", "cabbaabbaa", "caaaaaaaaa"] },
+      { name: "Glarus", canton: 'GL', colors: ['#ffffff', '#f00000', '#fcdb04', '#170000'],
+        rows: ["aaaddddccc", "aaaaddcccc", "abaaaddccc", "abaaaacccc", "abbbaaaccc", "abbbbaaacc", "abbbbbaaaa", "abbbbbbaaa", "abbbbbbbaa"] },
+      { name: "Broc", canton: 'FR', colors: ['#f00000', '#ffffff', '#cdac19'],
+        rows: ["baaaabaaab", "bacaaabbbb", "bacabbbbab", "baaabbbaaa", "baaaabbbba", "baaaaaaaaa", "baabccaaaa", "baccccccaa", "cccaaaaccc"] },
+      { name: "Reigoldswil", canton: 'BL', colors: ['#0000ff', '#ffff58', '#d8d8bb', '#4f2487'],
+        rows: ["bcabdbbcbb", "baccaacccb", "bbaaacabbb", "bbdbcabdbb", "bbbbababbb", "acccaaaaaa", "aaacccaaaa", "aaaaacccaa", "aaaaaaaacc"] },
+      { name: "Neunkirch", canton: 'SH', colors: ['#0000ff', '#ffffff', '#dd0000'],
+        rows: ["aaaaaaaaaa", "aaaccaaaaa", "aaacbaaaaa", "aaabbaaaaa", "aaabbaaaaa", "aacbbcccba", "aabbbbbbba", "aabbbbbbba", "aaaaaaaaaa"] },
+      { name: "Gempen", canton: 'SO', colors: ['#0000ff', '#ffffff', '#e00000'],
+        rows: ["aaaaaaaaaa", "aaaabaaaaa", "aaaabbaaaa", "aaaabbbaaa", "aaaabbaaaa", "aaaabbaaaa", "aaaabcaaaa", "aaacccaaaa", "aaaacccaaa"] },
+      { name: "Arth", canton: 'SZ', colors: ['#f00000', '#ffffff', '#1fa258', '#420000'],
+        rows: ["baaaaaaaaa", "baabbbbaaa", "baaabbaaaa", "baaabbaaaa", "baaabbaaaa", "baaadbaaaa", "baabbbbaaa", "baaccccaaa", "baaccccaaa"] },
+      { name: "Lutry", canton: 'VD', colors: ['#f90b1a', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "bbbbbbbbbb", "bbbbbbbbbb", "bbbbbbbbbb", "bbbbbbbbbb"] },
+      { name: "Leukerbad", canton: 'VS', colors: ['#f00000', '#898b24', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aabbacacaa", "aaaaccccaa", "aaaabcccaa", "aaaaabbaaa", "acaabbbaaa", "acaabbaaaa", "acbbbbbaaa"] },
+      { name: "Zuoz", canton: 'GR', colors: ['#231f20', '#decf72'],
+        rows: ["baaaaaaaab", "baabbbbaab", "baaabbaaab", "bbaaaaaaab", "bbbaaaabab", "baaaaabaab", "baaabbaaab", "baabaaaaab", "baaaaaaaab"] },
+      { name: "Poschiavo", canton: 'GR', colors: ['#ed1c24', '#ffffff'],
+        rows: ["babaaaabaa", "babbaabbaa", "bbabbbbabb", "bababbabaa", "baaabbaaaa", "babbaabbaa", "baabaabaaa", "babbaabbaa", "baaaabaaaa"] },
+      { name: "Morcote", canton: 'TI', colors: ['#009944', '#f00000', '#f7f7f7', '#404f42'],
+        rows: ["cbbbbbbbbb", "cbbbccbbbb", "cbbdccbbbb", "cbbdcccbbb", "cbaaaaaabc", "caaaaccaaa", "caaccccaaa", "caccccaaaa", "caaaaaaaaa"] },
+      { name: "Hospental", canton: 'UR', colors: ['#fddd04', '#000000', '#ffffff', '#328732'],
+        rows: ["caaaaaaaaa", "cacaabbaaa", "caaaabbaaa", "caabbbbaaa", "caabbbbaaa", "caaabbbaaa", "caaababaaa", "caadbdbaaa", "caddddddaa"] },
+      { name: "Lauterbrunnen", canton: 'BE', colors: ['#ffffff', '#009944', '#0e110f'],
+        rows: ["aaaaaacaaa", "aaaaccacaa", "aaacccacaa", "aacaccaaaa", "aaaaabaaaa", "abbbbbbabb", "ababbbbabb", "ababaababb", "ababaababb"] }
+    ];
     const SHADOW_ALPHA = .38;
     function shadow(x, y, w, h, roofHeight, alpha) {
       const base = y + h;
@@ -2103,9 +2170,11 @@ const TRACKS = window.ScrimTracks;
     });
     prop(ground(144, 147, 91, 3), () => {
       rect(145, 75, 1, 16, '#bea783');
-      rect(146, 75, 8, 7, '#c83c43');
-      rect(149, 76, 2, 5, '#fff2df');
-      rect(147, 78, 6, 1, '#fff2df');
+      const flag = VILLAGE_FLAGS[Math.floor(Math.random() * VILLAGE_FLAGS.length)];
+      flag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
+        rect(146 + fx, 75 + fy, 1, 1, flag.colors['abcdef'.indexOf(c)])));
+      cv.dataset.flag = flag.name + ' (' + flag.canton + ')';
+      cv.setAttribute('aria-label', cv.getAttribute('aria-label') + '; the village flies the flag of ' + flag.name + ', ' + flag.canton);
     });
     prop(ground(114, 128, 110, 6), () => {
       rect(115, 104, 12, 2, '#78634b');
