@@ -68,9 +68,14 @@ body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
 .caption { position: absolute; left: 1.5%; top: 4%; max-width: 38%; text-align: left; pointer-events: none; font-family: var(--font-ui); font-weight: 600; font-size: clamp(11px, 1.7vw, 17px); line-height: 1.2; letter-spacing: -.01em; color: var(--lamp); text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 2px 2px 0 #000; }
 .caption.idle { color: var(--ink); }
 .caption small { display: block; font-size: .72em; font-weight: 400; color: var(--verb); margin-top: 2px; }
-.caption-play { pointer-events: auto; display: block; width: fit-content; margin-top: 4px; padding: 2px 8px; font: inherit; font-size: .78em; font-weight: 600; color: var(--screen); background: var(--verb); border: 2px solid #000; cursor: pointer; text-shadow: none; }
-.caption-play:hover { background: var(--lamp); }
-.caption-play:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+.transport { pointer-events: auto; display: flex; align-items: center; gap: 3px; width: fit-content; margin-top: 5px; padding: 3px; background: #14100c; border: 2px solid #000; box-shadow: inset 0 0 0 1px #4a3b2c; text-shadow: none; }
+.transport button { display: grid; place-items: center; width: 1.9em; height: 1.55em; padding: 0; color: #2a2118; background: linear-gradient(#e9dcc0, #b9a77f); border: 1px solid #000; border-bottom-width: 3px; cursor: pointer; }
+.transport button svg { width: .9em; height: .9em; fill: currentColor; }
+.transport button:hover { background: linear-gradient(#fff3d6, #d2bf93); }
+.transport button[aria-pressed="true"], .transport button.tap { color: var(--lamp); background: linear-gradient(#3d3122, #5a4830); border-bottom-width: 1px; margin-top: 2px; box-shadow: inset 0 1px 2px #000, 0 0 6px rgba(242, 200, 110, .55); }
+.transport button:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+.transport .sep { width: 1px; align-self: stretch; margin: 0 2px; background: #4a3b2c; }
+.transport-count { min-width: 3.2em; padding: 0 4px; font-size: .62em; font-variant-numeric: tabular-nums; color: var(--lamp); text-align: center; }
 .sentence { font-family: var(--font-ui); font-weight: 500; font-size: 15px; color: var(--verb); text-align: center; padding: 6px 12px; background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; min-height: 2.2em; }
 .console { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); background: var(--screen); border: 2px solid var(--rule); }
 .verbs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; padding: 12px 14px; align-content: start; }
@@ -163,7 +168,7 @@ footer a, nav[aria-label="Song permalinks"] a { color: var(--lamp); }
 
   <div class="screen">
     <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music; Swiss folklore creatures pass through" role="img"></canvas>
-    <div class="caption idle" id="caption"><span id="caption-title">The Sennentuntschi's Lullaby</span><small id="caption-about" hidden></small><button class="caption-play" id="caption-play" type="button" aria-label="Play The Sennentuntschi's Lullaby">▶ Press Play</button></div>
+    <div class="caption idle" id="caption"><span id="caption-title">The Sennentuntschi's Lullaby</span><small id="caption-about" hidden></small><div class="transport" id="transport" role="group" aria-label="Music box controls"><button type="button" data-action="prev" aria-label="Previous song" title="Previous song"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h2v12H2zM14 2v12L5 8z"/></svg></button><button type="button" data-action="stop" aria-label="Stop" title="Stop" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h10v10H3z"/></svg></button><button type="button" data-action="play" aria-label="Play" title="Play" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2v12l10-6z"/></svg></button><button type="button" data-action="next" aria-label="Next song" title="Next song"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12 2h2v12h-2zM2 2v12l9-6z"/></svg></button><span class="sep" aria-hidden="true"></span><button type="button" data-action="loop" aria-label="Repeat song" title="Repeat song" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 7V5.5A2.5 2.5 0 0 1 5.5 3H11V1l3.5 3L11 7V5H5.5a.5.5 0 0 0-.5.5V7zM13 9v1.5a2.5 2.5 0 0 1-2.5 2.5H5v2l-3.5-3L5 9v2h5.5a.5.5 0 0 0 .5-.5V9z"/></svg></button><span class="transport-count" id="transport-count" aria-live="polite"></span></div></div>
   </div>
   <p class="creature-label" id="alpine-creature" aria-live="polite">The next creature arrives soon</p>
   <div class="sentence" id="sentence" aria-live="polite">Play The Sennentuntschi's Lullaby</div>
@@ -2929,9 +2934,14 @@ const TRACKS = window.ScrimTracks;
       const about = $('#caption-about');
       about.textContent = player.playing ? (capSong.about.split('.')[0] || '') : '';
       about.hidden = !player.playing;
-      const capPlay = $('#caption-play');
-      capPlay.textContent = player.playing ? '■ Stop' : '▶ Press Play';
-      capPlay.setAttribute('aria-label', (player.playing ? 'Stop ' : 'Play ') + capSong.title);
+      const deck = $('#transport');
+      deck.querySelector('[data-action="play"]').setAttribute('aria-pressed', player.playing ? 'true' : 'false');
+      deck.querySelector('[data-action="stop"]').setAttribute('aria-pressed', player.playing ? 'false' : 'true');
+      deck.querySelector('[data-action="loop"]').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
+      deck.querySelector('[data-action="play"]').setAttribute('aria-label', 'Play ' + capSong.title);
+      const shownIdx = player.playing ? player.idx : state.idx;
+      $('#transport-count').textContent = `${shownIdx + 1} / ${state.songs.length}`;
+      $('#transport-count').title = `Song ${shownIdx + 1} of ${state.songs.length}`;
       $('#v-loop').textContent = 'Loop: ' + (state.loop ? 'on' : 'off');
       $('#v-loop').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
       $('#ed-file').textContent = TRACKS[state.idx].file + (state.texts[state.idx] !== TRACKS[state.idx].text ? ' · edited' : '');
@@ -2971,7 +2981,26 @@ const TRACKS = window.ScrimTracks;
 
     // wiring
     $('#v-play').addEventListener('click', startTrack);
-    $('#caption-play').addEventListener('click', () => player.playing ? stopTrack() : startTrack());
+    // Old-fashioned deck: play/stop/loop latch down; skip buttons press briefly and keep the deck's state.
+    function skip(step) {
+      const from = player.playing ? player.idx : state.idx;
+      select((from + step + state.songs.length) % state.songs.length, player.playing);
+    }
+    const deckActions = {
+      prev: () => skip(-1), next: () => skip(1),
+      play: () => { if (!player.playing || player.idx !== state.idx) startTrack(); },
+      stop: () => { if (player.playing) stopTrack(); },
+      loop: () => { state.loop = !state.loop; refresh(); }
+    };
+    $('#transport').addEventListener('click', e => {
+      const button = e.target.closest('button[data-action]');
+      if (!button) return;
+      deckActions[button.dataset.action]();
+      if (!button.hasAttribute('aria-pressed')) {
+        button.classList.add('tap');
+        setTimeout(() => button.classList.remove('tap'), 160);
+      }
+    });
     $('#v-stop').addEventListener('click', stopTrack);
     $('#v-restart').addEventListener('click', startTrack);
     $('#v-loop').addEventListener('click', () => { state.loop = !state.loop; refresh(); });
