@@ -9,12 +9,27 @@ const random = () => {
 };
 
 const seenPositions = new Set();
+const seenGroundTypes = new Set(), seenAttachedTypes = new Set();
 for (let i = 0; i < 80; i++) {
   const village = layout.createVillage(random);
   assert.ok(village.buildings.length + 1 >= 3 && village.buildings.length + 1 <= 7,
     'village has 3–7 buildings, counting the church');
-  assert.ok(village.landmarks.length >= 1 && village.landmarks.length <= 3,
-    'village has 1–3 landmarks');
+  const ground = village.landmarks.filter(l => l.baseY !== undefined);
+  const attached = village.landmarks.filter(l => l.buildingId !== undefined);
+  assert.ok(ground.length >= 5 && ground.length <= 10, 'village has 5–10 everyday ground features');
+  assert.ok(new Set(ground.map(l => l.type)).size >= Math.min(5, ground.length),
+    'ground features are a varied mix, not one repeated item');
+  for (const building of village.buildings) {
+    const own = attached.filter(l => l.buildingId === building.id);
+    assert.ok(own.length >= 1 && own.length <= 2, 'each building carries 1–2 household details');
+    assert.equal(new Set(own.map(l => l.type)).size, own.length, 'no duplicate detail on one building');
+  }
+  for (const item of ground) {
+    seenGroundTypes.add(item.type);
+    assert.ok(layout.GROUND_FEATURES[item.type], 'ground feature has a footprint');
+    assert.ok(item.baseY <= 107, 'ground feature keeps the bottom walking lane open');
+  }
+  for (const item of attached) seenAttachedTypes.add(item.type);
   assert.equal(village.landmarks[0].type, 'flag', 'every village keeps its municipal flag');
   assert.ok(village.trees.length >= 12 && village.trees.length <= 32,
     'each village has a random group of 12–32 trees');
@@ -23,8 +38,6 @@ for (let i = 0; i < 80; i++) {
     assert.ok(building.x >= 0 && building.x + building.w <= 320, 'building stays in scene bounds');
     assert.ok(building.baseY <= 120, 'building stays above the ground edge');
   }
-  const groundLandmarks = village.landmarks.filter(l => ['hitchingPost', 'fountain'].includes(l.type));
-  assert.ok(groundLandmarks.length <= 1, 'ground landmarks do not compete for the same clear site');
   seenPositions.add(village.buildings.map(b => `${b.x},${b.y}`).join(';'));
   assert.equal(village.paths.length, 3, 'each village has three calculated ground paths');
   for (const path of village.paths) {
@@ -41,6 +54,25 @@ for (let i = 0; i < 80; i++) {
   }
 }
 assert.ok(seenPositions.size > 75, 'building layouts use varied positions across page loads');
+assert.deepEqual([...seenGroundTypes].sort(), Object.keys(layout.GROUND_FEATURES).sort(),
+  'every everyday ground feature appears across loads');
+assert.deepEqual([...seenAttachedTypes].sort(), [...layout.ATTACHED_LANDMARKS].sort(),
+  'every household detail appears across loads');
+
+// Creature parade: shuffled rounds, each creature once per round, never back-to-back.
+const openings = new Set();
+for (let run = 0; run < 40; run++) {
+  const next = layout.createParade(9, 3, random);
+  const shows = Array.from({ length: 45 }, (_, i) => next(i));
+  openings.add(shows.slice(0, 9).map(s => s.creature).join(','));
+  for (let round = 0; round < 5; round++)
+    assert.deepEqual(shows.slice(round * 9, round * 9 + 9).map(s => s.creature).sort(),
+      [0, 1, 2, 3, 4, 5, 6, 7, 8], 'each round shows every creature exactly once');
+  for (let i = 1; i < shows.length; i++)
+    assert.notEqual(shows[i].creature, shows[i - 1].creature, 'no creature appears twice in a row');
+  assert.ok(shows.every(s => s.path >= 0 && s.path < 3));
+}
+assert.ok(openings.size > 35, 'opening order differs between page loads');
 
 const ridgeAt = (points, x) => {
   for (let i = 1; i < points.length; i++) {

@@ -76,18 +76,125 @@
       { beam: '#644a37', bell: '#c9a24a' },
       { beam: '#77583e', bell: '#b98e42' },
       { beam: '#564337', bell: '#d1b25e' }
+    ],
+    sundial: [
+      { face: '#d8cdb2', line: '#5d4b3d', gnomon: '#3a3633', arc: 'half' },
+      { face: '#c9b98f', line: '#6b3f34', gnomon: '#2d2b2a', arc: 'square' },
+      { face: '#e1d7c4', line: '#40566a', gnomon: '#4a3f36', arc: 'half' }
+    ],
+    lintel: [
+      { wood: '#5c4434', carve: '#d3b57c', motif: 'date' },
+      { wood: '#6e4f37', carve: '#c84b43', motif: 'heart' },
+      { wood: '#4f3c31', carve: '#d8cfb6', motif: 'edelweiss' }
+    ],
+    trough: [
+      { wood: '#6b5038', water: '#89b3bb', pipe: '#7d7f80' },
+      { wood: '#7f5d3f', water: '#9cc4c6', pipe: '#6b6158' },
+      { wood: '#574234', water: '#82a9b4', pipe: '#8b8d88' }
+    ],
+    signpost: [
+      { post: '#6b5038', arrow: '#d8cdb2', lean: 0 },
+      { post: '#584334', arrow: '#e3c779', lean: 1 },
+      { post: '#7d5f43', arrow: '#c9d3c3', lean: -1 }
+    ],
+    woodpile: [
+      { log: '#8a6545', end: '#c7a477', roof: '#4f3c31' },
+      { log: '#765338', end: '#b98f62', roof: '#5f4a3a' },
+      { log: '#9a7451', end: '#d4b688', roof: '#433630' }
+    ],
+    handcart: [
+      { box: '#7a5a3e', wheel: '#3f3530', load: '#c7a477' },
+      { box: '#5f4a3a', wheel: '#2f2a28', load: '#9cb26b' },
+      { box: '#8c6a48', wheel: '#4a3c33', load: '#d8cdb2' }
+    ],
+    milkPails: [
+      { wood: '#8a6a4a', band: '#55504a', milk: '#efe9da' },
+      { wood: '#a07b52', band: '#3f3a36', milk: '#e8e1cf' },
+      { wood: '#765a40', band: '#6c6660', milk: '#f4efe2' }
+    ],
+    shrine: [
+      { stone: '#9b9b8d', roof: '#5a4136', glow: '#f0c56a' },
+      { stone: '#d8cdb2', roof: '#6d2f2c', glow: '#f2dc8f' },
+      { stone: '#7c766c', roof: '#3f4a4a', glow: '#e8a95a' }
+    ],
+    coveredBench: [
+      { wood: '#7a5a3e', roof: '#4f3c31', seat: '#a17c50' },
+      { wood: '#5f4a3a', roof: '#6d2f2c', seat: '#8a6545' },
+      { wood: '#8c6a48', roof: '#3f4a4a', seat: '#b38b5e' }
+    ],
+    boundaryStone: [
+      { stone: '#8f8b80', mark: '#4a4640', symbol: 'cross' },
+      { stone: '#a49b88', mark: '#5a4f45', symbol: 'key' },
+      { stone: '#77756e', mark: '#3c3a36', symbol: 'line' }
+    ],
+    villageBell: [
+      { wood: '#5c4434', roof: '#6d2f2c', bell: '#c9a24a' },
+      { wood: '#6e4f37', roof: '#3f4a4a', bell: '#b98e42' },
+      { wood: '#4f3c31', roof: '#5a4136', bell: '#d1b25e' }
+    ],
+    marketStall: [
+      { stripe: '#c84b43', cloth: '#efe6d2', counter: '#6b5038', goods: '#e6bd54' },
+      { stripe: '#3f6b8c', cloth: '#e8e1cf', counter: '#5f4a3a', goods: '#c84b43' },
+      { stripe: '#5d7a45', cloth: '#efe6d2', counter: '#7a5a3e', goods: '#ad7194' }
     ]
+  };
+  // Free-standing everyday features: footprint around x, height above baseY,
+  // and the moon-shadow box (width, height) cast from that footprint.
+  const GROUND_FEATURES = {
+    fountain: { left: 8, right: 9, height: 14, depth: 11, shadow: [14, 11] },
+    hitchingPost: { left: 7, right: 8, height: 10, depth: 6, shadow: [12, 6] },
+    trough: { left: 7, right: 8, height: 9, depth: 5, shadow: [14, 5] },
+    signpost: { left: 6, right: 7, height: 13, depth: 4, shadow: [4, 11] },
+    woodpile: { left: 7, right: 8, height: 10, depth: 6, shadow: [14, 8] },
+    handcart: { left: 7, right: 8, height: 8, depth: 5, shadow: [13, 6] },
+    milkPails: { left: 6, right: 7, height: 6, depth: 4, shadow: [11, 4] },
+    shrine: { left: 4, right: 5, height: 13, depth: 4, shadow: [6, 12] },
+    coveredBench: { left: 8, right: 9, height: 10, depth: 5, shadow: [16, 9] },
+    boundaryStone: { left: 3, right: 4, height: 6, depth: 3, shadow: [5, 5] },
+    villageBell: { left: 6, right: 7, height: 15, depth: 5, shadow: [10, 14] },
+    marketStall: { left: 9, right: 10, height: 12, depth: 7, shadow: [18, 10] }
+  };
+  // Household details hang on a wall slot; a building never gets two in the same slot.
+  const ATTACHED_SLOTS = {
+    flowerBox: 'left', noticeboard: 'left', innSign: 'right',
+    bells: 'top', sundial: 'top', lintel: 'door'
   };
   const TERRAIN = [[0, 51], [29, 58], [56, 72], [88, 81], [127, 89],
     [161, 92], [203, 87], [239, 76], [272, 57], [299, 49], [320, 43]];
   const BUILDING_TYPES = Object.keys(BUILDING_VARIANTS);
   const BUILDING_TYPE_SET = new Set(BUILDING_TYPES);
-  const ATTACHED_LANDMARKS = ['flowerBox', 'innSign', 'noticeboard', 'bells'];
+  const ATTACHED_LANDMARKS = Object.keys(ATTACHED_SLOTS);
+  const GROUND_TYPES = Object.keys(GROUND_FEATURES);
   const GRID = { x0: -24, x1: 344, dx: 4, y0: 48, y1: 120, dy: 2 };
   const MAX_SPRITE = { width: 16, height: 12 };
 
   function pick(items, random) {
     return items[Math.floor(random() * items.length)];
+  }
+  function shuffle(items, random) {
+    const out = [...items];
+    for (let i = out.length - 1; i > 0; i--) {
+      const j = Math.floor(random() * (i + 1));
+      [out[i], out[j]] = [out[j], out[i]];
+    }
+    return out;
+  }
+  // Each round shows every creature once in a fresh order; no creature repeats back-to-back.
+  function createParade(count, pathCount, random = Math.random) {
+    let bag = [], previous = null;
+    return () => {
+      if (!bag.length) {
+        bag = shuffle(Array.from({ length: count }, (_, i) => i), random);
+        if (previous && count > 1 && bag[0] === previous.creature) {
+          const swap = 1 + Math.floor(random() * (count - 1));
+          [bag[0], bag[swap]] = [bag[swap], bag[0]];
+        }
+      }
+      const creature = bag.shift();
+      const path = Math.floor(random() * pathCount);
+      previous = { creature, path };
+      return previous;
+    };
   }
   function intBetween(min, max, random) {
     return min + Math.floor(random() * (max - min + 1));
@@ -269,32 +376,30 @@
     }
 
     const landmarks = [{ type: 'flag', variant: Math.floor(random() * 3) }];
-    const extraCount = Math.floor(random() * 3);
-    for (let i = 0; i < extraCount; i++) {
-      const useGroundProp = i === 0 && random() < .55;
-      if (useGroundProp) {
-        const type = pick(['hitchingPost', 'fountain'], random);
-        let placed = null;
-        for (let attempt = 0; attempt < 500 && !placed; attempt++) {
-          const x = intBetween(34, 286, random);
-          const baseY = Math.min(107, Math.round(terrainAt(x) + 8 + random() * 15));
-          const box = type === 'fountain'
-            ? { x0: x - 8, x1: x + 9, y0: baseY - 14, y1: baseY }
-            : { x0: x - 7, x1: x + 8, y0: baseY - 10, y1: baseY };
-          if (obstacles.some(other => overlaps(box, other, 4))) continue;
-          placed = { type, variant: Math.floor(random() * 3), x, baseY, box };
-        }
-        if (placed) {
-          landmarks.push(placed);
-          obstacles.push({ ...placed.box, kind: type });
-        }
+    for (const building of buildings) {
+      const used = new Set();
+      const wanted = 1 + Math.floor(random() * 2);
+      for (const type of shuffle(ATTACHED_LANDMARKS, random)) {
+        if (used.size >= wanted) break;
+        if (used.has(ATTACHED_SLOTS[type])) continue;
+        used.add(ATTACHED_SLOTS[type]);
+        landmarks.push({ type, variant: Math.floor(random() * 3), buildingId: building.id });
       }
-      if (landmarks.length === i + 1) {
-        const type = pick(ATTACHED_LANDMARKS, random);
-        const building = pick(buildings, random);
-        landmarks.push({
-          type, variant: Math.floor(random() * 3), buildingId: building.id
-        });
+    }
+    const groundWanted = 5 + Math.floor(random() * 6);
+    let groundPlaced = 0;
+    for (const type of shuffle(GROUND_TYPES, random)) {
+      if (groundPlaced >= groundWanted) break;
+      const spec = GROUND_FEATURES[type];
+      for (let attempt = 0; attempt < 500; attempt++) {
+        const x = intBetween(20, 300, random);
+        const baseY = Math.min(107, Math.round(terrainAt(x) + 6 + random() * 18));
+        const box = { x0: x - spec.left, x1: x + spec.right, y0: baseY - spec.height, y1: baseY };
+        if (obstacles.some(other => overlaps(box, other, 2))) continue;
+        landmarks.push({ type, variant: Math.floor(random() * 3), x, baseY, box });
+        obstacles.push({ ...box, kind: type });
+        groundPlaced++;
+        break;
       }
     }
     const trees = [];
@@ -368,8 +473,8 @@
   }
 
   const api = {
-    createVillage, createMountains, terrainAt, bodyClearAt, BUILDING_VARIANTS,
-    LANDMARK_VARIANTS, planGroundPaths
+    createVillage, createMountains, createParade, terrainAt, bodyClearAt, BUILDING_VARIANTS,
+    LANDMARK_VARIANTS, GROUND_FEATURES, ATTACHED_LANDMARKS, ATTACHED_SLOTS, planGroundPaths
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.VillageLayout = api;
