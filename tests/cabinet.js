@@ -80,4 +80,18 @@ assert.equal(variations.voices.length, 18);
 assert.equal(variations.intro.sections.reduce((sum, section) => sum + section.bars, 0), 47);
 assert.equal(variations.intro.dur, 94);
 assert.equal(variations.loop.dur, 0, 'The supplied finale ends rather than looping');
+const silentNight = tracks.find(t => t.file === 'silent-night.scrim');
+assert.equal(createHash('sha256').update(silentNight.text).digest('hex'),
+  '486d890738ba2058801ee4ee54f60a24058160871eaad9a2463b358ca24faac2',
+  'Silent Night matches the supplied score exactly, including CC BY-SA attribution');
+const stilleNacht = score.compile(silentNight.text);
+assert.equal(stilleNacht.title, 'Stille Nacht (Silent Night)');
+assert.equal(stilleNacht.voices.length, 18);
+assert.deepEqual(Array.from(stilleNacht.intro.sections, s => [s.name, s.bars]),
+  [['verse1', 24], ['verse2', 24], ['verse3', 24]]);
+assert.ok(Math.abs(stilleNacht.intro.dur - 72 * 3 * 60 / 84) < 1e-9);
+assert.equal(stilleNacht.loop.dur, 0, 'All three supplied verses play once');
+assert.match(html, /Michael Stenov/);
+assert.match(html, /href="https:\/\/creativecommons\.org\/licenses\/by-sa\/4\.0\/"/,
+  'The separately licensed arrangement has a visible license link');
 console.log(`PASS: cabinet of ${cabinet.shelves.length} shelves and ${sectionIds.length} sections (${Object.entries(counts).map(([k, v]) => `${k} ${v}`).join(', ')}), Alpine scores unchanged`);

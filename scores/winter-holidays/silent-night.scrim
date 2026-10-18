@@ -1,46 +1,155 @@
-title    Silent Night
-composer Franz Xaver Gruber (1818), arranged for steel disc
-about    A candle glows above the moonlit village. The music box keeps the hush.
-tempo    54
-beats    3
-steps    2
-swing    0
-reverb   0.34
+title Stille Nacht (Silent Night)
+composer Franz Xaver Gruber; arranged by Michael Stenov
+about Michael Stenov's three-verse setting for choir, organ and orchestra.
+tempo 84
+beats 3
+steps 4
+swing 0
+reverb 0.38
 
-voice lead musicbox vol=0.88 pan=-0.08 rev=0.4 bright=0.82 gate=0.9
-voice bells celesta vol=0.34 pan=0.18 rev=0.4 gate=0.82
-voice bass harp vol=0.3 pan=0 rev=0.28 gate=0.9
+# Source: GL 249 Stille Nacht, Michael Stenov, IMSLP598736.
+# https://imslp.org/wiki/Special:ReverseLookup/598736
+# Arrangement and this adaptation: CC BY-SA 4.0.
+# https://creativecommons.org/licenses/by-sa/4.0/
+# Adaptation: Scrimshaw synthesis, wordless choir, all notes at concert pitch.
+# The source has no metronome marking; quarter note = 84 is a playback choice.
+# Every bar is 3/4: 12 sixteenth-note steps. All three verses play once.
+# Published Violin 1/2, cello and contrabass parts double the choir throughout.
 
-pattern intro
-lead  | G5--- .- | D5--- .- |
-bells | [G]----- | [D]----- |
-bass  | G2----- | D2----- |
+voice soprano choir vol=0.72 pan=-0.18 rev=0.4 gate=1
+voice alto choir vol=0.48 pan=-0.06 rev=0.4 gate=1
+voice tenor choir vol=0.5 pan=0.1 rev=0.4 gate=1
+voice bass choir vol=0.5 pan=0.22 rev=0.4 gate=1
+voice organ_soprano pipe vol=0.16 pan=-0.12 rev=0.42 gate=1
+voice organ_alto pipe vol=0.14 pan=-0.04 rev=0.42 gate=1
+voice organ_tenor pipe vol=0.14 pan=0.04 rev=0.42 gate=1
+voice organ_bass pipe vol=0.18 pan=0.12 rev=0.42 gate=1
+voice violin1 violin vol=0.24 pan=-0.5 rev=0.35 gate=1
+voice violin2 violin vol=0.2 pan=-0.3 rev=0.35 gate=1
+voice cello cello vol=0.23 pan=0.3 rev=0.35 gate=1
+voice contrabass strings vol=0.22 pan=0.42 rev=0.3 gate=1
+voice oboe1 oboe vol=0.56 pan=-0.15 rev=0.35 gate=1
+voice oboe2 oboe vol=0.42 pan=0.15 rev=0.35 gate=1
+voice violin3 violin vol=0.36 pan=-0.4 rev=0.35 gate=1
+voice horn1 horn vol=0.46 pan=-0.25 rev=0.4 gate=1
+voice horn2 horn vol=0.38 pan=0.25 rev=0.4 gate=1
+voice timpani timpani vol=0.34 pan=0.08 rev=0.3 gate=1
 
-pattern A
-lead  | G5- A5 G5- E5 | G5- A5 G5- E5 |
-lead  | D6--- .- | D6--- .- |
-lead  | B5--- .- | B5--- .- |
-lead  | G5--- .- | G5--- .- |
-bells | [G]----- | [G]----- | [D]----- | [D]----- |
-bells | [G]----- | [G]----- | [C]----- | [G]----- |
-bass  | G2----- | G2----- | D2----- | D2----- |
-bass  | G2----- | G2----- | C3----- | G2----- |
+# Verse 1: choir, organ and the published string doublings.
+pattern verse1
+soprano       | F4----- G4- F4--- | D4----------- | F4----- G4- F4--- | D4----------- |
+soprano       | C5------- C5--- | A4----------- | Bb4------- Bb4--- | F4----------- |
+soprano       | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+soprano       | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+soprano       | C5------- C5--- | Eb5----- C5- A4--- | Bb4----------- | D5------- .--- |
+soprano       | Bb4----- F4- D4--- | F4----- Eb4- C4--- | Bb3----------- | = |
+alto          | D4----- Eb4- D4--- | Bb3----------- | D4----- Eb4- D4--- | Bb3----------- |
+alto          | Eb4------- Eb4--- | Eb4----- F4- Eb4--- | D4------- Eb4--- | D4----------- |
+alto          | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+alto          | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+alto          | A4------- A4--- | A4--- F4--- F4--- | F4----- G4- F4--- | D4------- .--- |
+alto          | D4------- Bb3--- | D4----- C4- A3--- | Bb3----------- | = |
+tenor         | Bb3------- Bb3--- | F3----- G3- F3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+tenor         | A3------- A3--- | C4----- D4- C4--- | Bb3--- F3--- G3--- | Bb3----------- |
+tenor         | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----- G3- F3--- |
+tenor         | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+tenor         | Eb4------- Eb4--- | Eb4--- A3--- C4--- | Bb3----------- | F3------- .--- |
+tenor         | Bb3------- Bb3--- | A3--- F3--- Eb3--- | D3----------- | = |
+bass          | Bb2------- Bb2--- | Bb2----------- | Bb2----- Bb2- Bb2--- | Bb2--- D3--- Bb2--- |
+bass          | F2------- F2--- | F3----------- | Bb2------- Bb2--- | Bb2--- D3--- Bb2--- |
+bass          | Eb3------- Bb2--- | Eb2----- F2- G2--- | Bb2----- Bb2- Bb2--- | Bb2----------- |
+bass          | Eb2--- G2--- Bb2--- | Eb2----- F2- G2--- | Bb2----- Bb2- Bb2--- | Bb2----- D3- Bb2--- |
+bass          | F2------- C3--- | F3--- F3--- Eb3--- | D3----------- | Bb2------- .--- |
+bass          | F3------- F3--- | F2--- F2--- F2--- | Bb2----------- | = |
+organ_soprano | F4----- G4- F4--- | D4----------- | F4----- G4- F4--- | D4----------- |
+organ_soprano | C5------- C5--- | A4----------- | Bb4------- Bb4--- | F4----------- |
+organ_soprano | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+organ_soprano | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+organ_soprano | C5------- C5--- | Eb5----- C5- A4--- | Bb4----------- | D5------- .--- |
+organ_soprano | Bb4----- F4- D4--- | F4----- Eb4- C4--- | Bb3----------- | = |
+organ_alto    | D4----- Eb4- D4--- | Bb3----------- | D4----- Eb4- D4--- | Bb3----------- |
+organ_alto    | Eb4------- Eb4--- | Eb4----- F4- Eb4--- | D4------- Eb4--- | D4----------- |
+organ_alto    | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+organ_alto    | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+organ_alto    | A4------- A4--- | A4--- F4--- F4--- | F4----- G4- F4--- | D4------- .--- |
+organ_alto    | D4------- Bb3--- | D4----- C4- A3--- | Bb3----------- | = |
+organ_tenor   | Bb3------- Bb3--- | F3----- G3- F3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+organ_tenor   | A3------- A3--- | C4----- D4- C4--- | Bb3--- F3--- G3--- | Bb3----------- |
+organ_tenor   | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----- G3- F3--- |
+organ_tenor   | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+organ_tenor   | Eb4------- Eb4--- | Eb4--- A3--- C4--- | Bb3----------- | F3------- .--- |
+organ_tenor   | Bb3------- Bb3--- | A3--- F3--- Eb3--- | D3----------- | = |
+organ_bass    | Bb2------- Bb2--- | Bb2----------- | Bb2----- Bb2- Bb2--- | Bb2--- D3--- Bb2--- |
+organ_bass    | F2------- F2--- | F3----------- | Bb2------- Bb2--- | Bb2--- D3--- Bb2--- |
+organ_bass    | Eb3------- Bb2--- | Eb2----- F2- G2--- | Bb2----- Bb2- Bb2--- | Bb2----------- |
+organ_bass    | Eb2--- G2--- Bb2--- | Eb2----- F2- G2--- | Bb2----- Bb2- Bb2--- | Bb2----- D3- Bb2--- |
+organ_bass    | F2------- C3--- | F3--- F3--- Eb3--- | D3----------- | Bb2------- .--- |
+organ_bass    | F3------- F3--- | F2--- F2--- F2--- | Bb2----------- | = |
+violin1       | F4----- G4- F4--- | D4----------- | F4----- G4- F4--- | D4----------- |
+violin1       | C5------- C5--- | A4----------- | Bb4------- Bb4--- | F4----------- |
+violin1       | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+violin1       | G4------- G4--- | Bb4----- A4- G4--- | F4----- G4- F4--- | D4----------- |
+violin1       | C5------- C5--- | Eb5----- C5- A4--- | Bb4----------- | D5------- .--- |
+violin1       | Bb4----- F4- D4--- | F4----- Eb4- C4--- | Bb3----------- | = |
+violin2       | D4----- Eb4- D4--- | Bb3----------- | D4----- Eb4- D4--- | Bb3----------- |
+violin2       | Eb4------- Eb4--- | Eb4----- F4- Eb4--- | D4------- Eb4--- | D4----------- |
+violin2       | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+violin2       | Eb4------- Eb4--- | G4----- F4- Eb4--- | D4----- Eb4- D4--- | Bb3----------- |
+violin2       | A4------- A4--- | A4--- F4--- F4--- | F4----- G4- F4--- | D4------- .--- |
+violin2       | D4------- Bb3--- | D4----- C4- A3--- | Bb3----------- | = |
+cello         | Bb3------- Bb3--- | F3----- G3- F3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+cello         | A3------- A3--- | C4----- D4- C4--- | Bb3--- F3--- G3--- | Bb3----------- |
+cello         | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----- G3- F3--- |
+cello         | Bb3------- Bb3--- | Bb3----- Bb3- Bb3--- | Bb3----- Bb3- Bb3--- | F3----------- |
+cello         | Eb4------- Eb4--- | Eb4--- A3--- C4--- | Bb3----------- | F3------- .--- |
+cello         | Bb3------- Bb3--- | A3--- F3--- Eb3--- | D3----------- | = |
+contrabass    | Bb1------- Bb1--- | Bb1----------- | Bb1----- Bb1- Bb1--- | Bb1--- D2--- Bb1--- |
+contrabass    | F1------- F1--- | F2----------- | Bb1------- Bb1--- | Bb1--- D2--- Bb1--- |
+contrabass    | Eb2------- Bb1--- | Eb1----- F1- G1--- | Bb1----- Bb1- Bb1--- | Bb1----------- |
+contrabass    | Eb1--- G1--- Bb1--- | Eb1----- F1- G1--- | Bb1----- Bb1- Bb1--- | Bb1----- D2- Bb1--- |
+contrabass    | F1------- C2--- | F2--- F2--- Eb2--- | D2----------- | Bb1------- .--- |
+contrabass    | F2------- F2--- | F1--- F1--- F1--- | Bb1----------- | = |
 
-pattern B
-lead  | A5--- .- | C6--- .- |
-lead  | B5- A5 G5-- | A5--- .- |
-lead  | G5- A5 G5- E5 | G5- A5 G5- E5 |
-lead  | D6--- .- | D6--- .- |
-bells | [C]----- | [D]----- | [G]----- | [D]----- |
-bells | [G]----- | [G]----- | [D]----- | [G]----- |
-bass  | C3----- | D3----- | G2----- | D2----- |
-bass  | G2----- | G2----- | D2----- | G2----- |
+# Verse 2 adds both oboes and Violin 3.
+pattern verse2 from verse1
+oboe1   | _ | .- F4- Bb4- A4- Bb4- C5- | D5------- .--- | .- F4- Bb4- A4- Bb4- D5- |
+oboe1   | C5--- D5--- Eb5--- | F5--- Eb5--- C5--- | D5- Eb5- F5- G5- F5- Eb5- | D5------- .--- |
+oboe1   | .- Eb5- G5- F5- G5- A5- | Bb5------- .--- | .- Bb4- D5- C5- D5- Eb5- | F5------- .--- |
+oboe1   | .- Eb5- G5- F5- G5- A5- | Bb5- A5- G5- F5- G5- Eb5- | D5- Bb4- D5- C5- D5- Eb5- | F5- Eb5- D5- C5- D5- Bb4- |
+oboe1   | A4--- C5- D5- Eb5- F5- | G5- F5- Eb5- D5- Eb5- C5- | D5--- Bb4- C5- D5- Eb5- | F5- D5- Eb5- F5- G5- A5- |
+oboe1   | Bb5------- .- Bb5- | A5- F5- G5- F5- G5- A5- | Bb5- F5- G5- F5- G5- A5- | Bb5----------- |
+oboe2   | _ | .- F4- F4- Eb4- F4- A4- | Bb4------- .--- | .- F4- F4----- Bb4- |
+oboe2   | A4--- Bb4--- C5--- | D5--- C5--- A4--- | Bb4--- D5- Eb5- D5- Bb4- | Bb4------- .--- |
+oboe2   | .- Bb4- Eb5- D5- Eb5- F5- | G5------- .--- | .- F4- Bb4- A4- Bb4--- | D5------- .--- |
+oboe2   | .- Bb4- Eb5- D5- Eb5- F5- | G5- F5- Eb5- D5- Eb5- Bb4- | Bb4- F4- Bb4- A4- Bb4- C5- | D5- Bb4--- A4- Bb4- F4- |
+oboe2   | F4--- A4- Bb4- C5- D5- | Eb5- D5- C5- Bb4- C5- A4- | Bb4--- F4- G4- Bb4--- | D5- Bb4--- D5- Eb5--- |
+oboe2   | F5------- .- F5- | F5- C5- Eb5- C5- Eb5- F5- | F5- D5- Eb5- D5- Eb5- F5- | F5----------- |
+violin3 | _ | .- F4- D4- C4- D4- Eb4- | F4------- .--- | .- F4- D4- C4- D4- F4- |
+violin3 | F4------- F4--- | A4------- F4--- | F4- G4- Bb4----- G4- | F4------- .--- |
+violin3 | .- G4- Bb4----- Bb4- | Eb5------- .--- | .- D4- F4----- G4- | Bb4------- .--- |
+violin3 | .- G4- Bb4----- Bb4- | Eb5--- Bb4----- G4- | F4- D4- F4----- F4- | Bb4- G4- F4----- D4- |
+violin3 | C4--- F4----- A4- | A4----- Bb4- A4- F4- | F4--- D4- Eb4- F4- G4- | Bb4- F4- G4- Bb4--- C5- |
+violin3 | D5------- .- D5- | C5- A4- Bb4- A4- Bb4- C5- | D5- Bb4- Bb4----- C5- | D5----------- |
 
-pattern A2 from A
-lead  | G5- A5 G5- D5 | G5- A5 G5- E5 |
-lead  | D6--- F5- | D6--- .- |
-lead  | B5--- G5- | B5--- .- |
-lead  | G5- A5 G5- E5 | G5--- .- |
+# Verse 3 adds the two horns in concert pitch and pitched timpani.
+pattern verse3 from verse2
+horn1   | .- F3- Bb3- A3- Bb3- C4- | D4------- .--- | .- F3- Bb3- A3- Bb3- C4- | D4------- .--- |
+horn1   | .- C4- Eb4- D4- F4- Eb4- | G4- F4- Eb4- D4- Eb4- C4- | D4------- .--- | .- D4- Eb4- D4- Eb4- F4- |
+horn1   | G4------- .--- | .- F4- G4- F4- G4- A4- | Bb4------- .--- | .- D4- Eb4- D4- Eb4- F4- |
+horn1   | G4------- .--- | G4--- A4--- Bb4--- | ---- A4--- Bb4--- | D5--- C5--- Bb4--- |
+horn1   | C5- D5- C5- Bb4- A4- G4- | F4--- G4--- A4--- | Bb4- F4- G4- F4- G4- A4- | Bb4------- .--- |
+horn1   | .- C5- Bb4- A4- Bb4- G4- | A4--- Bb4--- C5--- | Bb4--- D5--- C5--- | Bb4----------- |
+horn2   | .- F3- D3- C3- D3- F3- | Bb3------- .--- | .- F3- D3- C3- D3- F3- | Bb3------- .--- |
+horn2   | .- A3- C4- Bb3- D4- C4- | Eb4- D4- C4- Bb3- C4- A3- | Bb3------- .--- | .- Bb3- C4- Bb3- C4- D4- |
+horn2   | Eb4------- .--- | .- D4- Eb4- D4- Eb4- C4- | D4------- .--- | .- Bb3- C4- Bb3- C4- D4- |
+horn2   | Eb4------- .--- | Eb4--- F4--- G4--- | D4--- C4--- D4--- | F4--- Eb4--- D4--- |
+horn2   | Eb4- F4- Eb4- D4- C4- Bb3- | A3--- Bb3--- C4--- | D4--- Eb4- D4- Eb4- C4- | D4------- .--- |
+horn2   | .- Eb4- D4- C4- D4- Bb3- | C4--- D4--- Eb4--- | D4--- F4--- Eb4--- | D4----------- |
+timpani | Bb2--- Bb2--- Bb2--- | Bb2--- .------- | Bb2--- Bb2--- Bb2--- | Bb2--- .------- |
+timpani | F2------- F2--- | F2------- F2--- | Bb2--- .------- | Bb2--- Bb2--- Bb2--- |
+timpani | Bb2--- .------- | Bb2--- Bb2--- Bb2--- | Bb2--- .------- | Bb2--- Bb2--- Bb2--- |
+timpani | Bb2--- .------- | Bb2--- Bb2--- Bb2- Bb2- | Bb2--- Bb2--- Bb2- Bb2- | Bb2--- Bb2- Bb2- Bb2- Bb2- |
+timpani | F2--- F2--- F2--- | F2--- F2--- F2--- | Bb2----- Bb2- Bb2--- | Bb2--- .------- |
+timpani | F2----- F2- F2--- | F2--- F2- F2- F2- F2- | Bb2--- Bb2--- Bb2--- | Bb2----------- |
 
-play intro
-loop A B A2
+play verse1 verse2 verse3
