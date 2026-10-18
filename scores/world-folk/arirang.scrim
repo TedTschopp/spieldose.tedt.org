@@ -1,0 +1,35 @@
+title    Arirang
+composer Traditional (Korea), arranged for organ barrel
+about    A mountain pass glimmers under the Swiss moon. A beloved Korean folk song.
+tempo    90
+beats    3
+steps    2
+swing    0
+reverb   0.28
+
+voice lead pipe vol=0.88 pan=-0.1 rev=0.24 gate=0.9 bright=0.88
+voice hack hackbrett vol=0.34 pan=0.2 rev=0.25 gate=0.72
+voice bass pizz vol=0.28 pan=0 rev=0.14 gate=0.76
+
+pattern intro
+lead  | G4 G4 A4 B4 A4 G4 | E4 G4 A4 G4 E4 D4 |
+hack    | [G]-- [G]-- | [G]-- [G]-- |
+bass   | G2-- D3-- | G2-- D3-- |
+
+pattern A
+lead  | G4 G4 A4 B4 A4 G4 | E4 G4 A4 G4 E4 D4 | G4 G4 A4 B4 A4 G4 | E4 G4 A4 G4 E4 D4 | A4 B4 D5 B4 A4 G4 | E4 G4 A4 G4 E4 D4 | G4 A4 B4 D5 B4 A4 | D4 E4 G4 D4 G4- |
+hack    | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- | [D]-- [D]-- | [C]-- [C]-- | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- |
+bass   | G2-- D3-- | G2-- D3-- | G2-- D3-- | C2-- G3-- | D2-- A3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- |
+
+pattern B
+lead  | G4 G4 A4 B4 A4 G4 | E4 G4 A4 G4 E4 D4 | A4 B4 D5 B4 A4 G4 | E4 G4 A4 B4 A4 G4 | G4 A4 B4 D5 B4 A4 | E4 G4 A4 G4 E4 D4 | A4 B4 D5 B4 A4 G4 | D4 E4 G4 D4 G4- |
+hack    | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- | [D]-- [D]-- | [C]-- [C]-- | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- |
+bass   | G2-- D3-- | G2-- D3-- | G2-- D3-- | D2-- A3-- | D2-- A3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- |
+
+pattern A2 from A
+lead  | G4 G4 A4 B4 D5 B4 | E4 G4 A4 G4 E4 D4 | G4 A4 B4 D5 E5 D5 | B4 A4 G4 E4 D4 E4 | G4 G4 A4 B4 A4 G4 | E4 G4 A4 B4 A4 G4 | A4 B4 D5 B4 A4 G4 | D4 E4 G4 D4 G4- |
+hack    | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- | [D]-- [D]-- | [C]-- [C]-- | [G]-- [G]-- | [G]-- [G]-- | [G]-- [G]-- |
+bass   | G2-- D3-- | G2-- D3-- | G2-- D3-- | D2-- A3-- | D2-- A3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- |
+
+play intro
+loop A B A2

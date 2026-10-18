@@ -1,0 +1,46 @@
+title    Red River Valley
+composer Traditional (American West), arranged for piano roll
+about    A farewell drifts across the prairie at dusk. The saloon roll keeps the old waltz turning.
+tempo    108
+beats    3
+steps    2
+swing    0
+reverb   0.2
+
+voice melody fiddle vol=0.84 pan=-0.16 rev=0.2 gate=0.9
+voice roll piano vol=0.67 pan=0.1 rev=0.16 gate=0.7 center=G4
+voice bass upright vol=0.44 pan=-0.1 rev=0.1 gate=0.82
+voice color guitar vol=0.32 pan=0.24 rev=0.18 gate=0.72
+
+pattern intro
+melody | B4--- B4- | B4--- A4- | A4- G4- G4- | G4--- D4- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+bass   | G2- D3- G3- | G2- D3- G3- | D2- A2- D3- | G2- D3- G3- |
+color  | G3- D4- G4- | G3- D4- G4- | D3- A3- D4- | G3- D4- G4- |
+
+pattern A
+melody | B4--- B4- | B4--- A4- | A4- G4- G4- | G4--- D4- |
+melody | B4- B4- G4- | D5- D5- C5- | A4--- A4- | A4- .- D4- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+roll   | [G]- [G]- [G]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- | [D7]- [D7]- [D7]- |
+bass   | G2- D3- G3- | G2- D3- G3- | D2- A2- D3- | G2- D3- G3- |
+bass   | G2- D3- G3- | C2- G2- C3- | D2- A2- D3- | D2- A2- D3- |
+color  | G3- D4- G4- | G3- D4- G4- | D3- A3- D4- | G3- D4- G4- |
+color  | G3- D4- G4- | C3- G3- C4- | D3- A3- D4- | D3- A3- D4- |
+
+pattern B
+melody | B4--- B4- | B4--- A4- | A4- G4- G4- | G4--- A4- |
+melody | B4--- B4- | D5- C5--- | D4--- F4- | G4--- .- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+roll   | [G]- [G]- [G]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+bass   | G2- D3- G3- | G2- D3- G3- | D2- A2- D3- | G2- D3- G3- |
+bass   | G2- D3- G3- | C2- G2- C3- | D2- A2- D3- | G2- D3- G3- |
+color  | G3- D4- G4- | G3- D4- G4- | D3- A3- D4- | G3- D4- G4- |
+color  | G3- D4- G4- | C3- G3- C4- | D3- A3- D4- | G3- D4- G4- |
+
+pattern A2 from A
+melody | B4--- B4- | B4--- A4- | A4- G4- G4- | G4--- D4- |
+melody | B4- G4- G4- | D5- D5- C5- | D4--- F4- | G4--- .- |
+
+play intro
+loop A*2 B*2 A2*2

@@ -1,0 +1,3351 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- social-metadata:start -->
+<base href="../../">
+<title>Jingle Bells | Swiss Music Box</title>
+<meta name="description" content="Sleigh bells cross the moonlit village square. From the Winter Holidays steel disc in the Swiss Music Box. Listen, edit, and share it.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#171f22">
+<link rel="canonical" href="https://spieldose.tedt.org/songs/jingle-bells/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Swiss Music Box">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Jingle Bells | Swiss Music Box">
+<meta property="og:description" content="Sleigh bells cross the moonlit village square. From the Winter Holidays steel disc in the Swiss Music Box. Listen, edit, and share it.">
+<meta property="og:url" content="https://spieldose.tedt.org/songs/jingle-bells/">
+<meta property="og:image" content="https://spieldose.tedt.org/assets/social/jingle-bells.png?v=7b25e5ad21b3">
+<meta property="og:image:secure_url" content="https://spieldose.tedt.org/assets/social/jingle-bells.png?v=7b25e5ad21b3">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jingle Bells, from the Winter Holidays steel disc, in the Swiss Music Box moonlit Alpine village">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jingle Bells | Swiss Music Box">
+<meta name="twitter:description" content="Sleigh bells cross the moonlit village square. From the Winter Holidays steel disc in the Swiss Music Box. Listen, edit, and share it.">
+<meta name="twitter:image" content="https://spieldose.tedt.org/assets/social/jingle-bells.png?v=7b25e5ad21b3">
+<meta name="twitter:image:alt" content="Jingle Bells, from the Winter Holidays steel disc, in the Swiss Music Box moonlit Alpine village">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://spieldose.tedt.org/#website","url":"https://spieldose.tedt.org/","name":"Swiss Music Box","description":"A cabinet of 29 music box airs on pinned cylinders, steel discs, organ barrels and piano rolls, played live by a synthesizer in a moonlit Alpine village. Listen, edit the scores, and share your music.","inLanguage":"en"},{"@type":"WebApplication","@id":"https://spieldose.tedt.org/#app","name":"Swiss Music Box","url":"https://spieldose.tedt.org/","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","browserRequirements":"Requires JavaScript and Web Audio API","isAccessibleForFree":true,"license":"https://spieldose.tedt.org/LICENSE"},{"@type":"WebPage","@id":"https://spieldose.tedt.org/songs/jingle-bells/#page","url":"https://spieldose.tedt.org/songs/jingle-bells/","name":"Jingle Bells | Swiss Music Box","description":"Sleigh bells cross the moonlit village square. From the Winter Holidays steel disc in the Swiss Music Box. Listen, edit, and share it.","inLanguage":"en","isPartOf":{"@id":"https://spieldose.tedt.org/#website"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://spieldose.tedt.org/assets/social/jingle-bells.png?v=7b25e5ad21b3","width":1200,"height":630},"mainEntity":{"@id":"https://spieldose.tedt.org/songs/jingle-bells/#composition"}},{"@type":"MusicComposition","@id":"https://spieldose.tedt.org/songs/jingle-bells/#composition","name":"Jingle Bells","description":"Sleigh bells cross the moonlit village square.","url":"https://spieldose.tedt.org/songs/jingle-bells/","isAccessibleForFree":true}]}</script>
+<!-- social-metadata:end -->
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column "game screen" — scene, sentence line and verb/inventory console stacked like a SCUMM-era adventure, then the score roll, the editor and the format guide. */
+:root {
+  --night: #0e1318;      /* page ground: dark alpine slate */
+  --panel: #161d24;      /* raised surfaces */
+  --panel-2: #212b35;
+  --rule: #3a4856;       /* borders */
+  --ink: #f4efe6;        /* paper white */
+  --ink-dim: #a3afba;
+  --verb: #ff5a52;       /* interactive (Swiss signal red) */
+  --lamp: #e8c170;       /* hover / active (polished brass) */
+  --coral: #ff9a85;      /* errors */
+  --screen: #070b0f;
+  --font-title: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-ui: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--night); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 72px; }
+
+.masthead { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 24px; margin-bottom: 18px; }
+.masthead { border-top: 6px solid var(--verb); padding-top: 18px; }
+.masthead h1 { font-family: var(--font-title); font-weight: 700; font-size: clamp(40px, 8vw, 72px); line-height: .95; margin: 0; letter-spacing: -.04em; color: var(--ink); text-wrap: balance; }
+.masthead h1::before { content: ""; display: block; width: 36px; height: 36px; margin-bottom: 14px; background: linear-gradient(var(--ink), var(--ink)) center / 100% 30% no-repeat, linear-gradient(var(--ink), var(--ink)) center / 30% 100% no-repeat, var(--verb); }
+.masthead h1 span { color: var(--lamp); }
+.masthead p { margin: 0; max-width: 46ch; color: var(--ink-dim); font-size: 15px; }
+
+/* ---------------- game screen */
+.screen { position: relative; background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; }
+#alpine-scene { display: block; width: 100%; height: auto; aspect-ratio: 320 / 120; image-rendering: pixelated; image-rendering: crisp-edges; }
+.creature-label { margin: 0 0 12px; padding: 6px 12px; font-size: 12px; color: var(--ink-dim); background: var(--screen); border: 2px solid var(--rule); border-top: 0; }
+.caption { position: absolute; left: 1.5%; top: 4%; max-width: max(38%, 230px); text-align: left; pointer-events: none; font-family: var(--font-ui); font-weight: 600; font-size: clamp(11px, 1.7vw, 17px); line-height: 1.2; letter-spacing: -.01em; color: var(--lamp); text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 2px 2px 0 #000; }
+.caption.idle { color: var(--ink); }
+#caption-title, .caption small { display: block; pointer-events: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.caption small { font-size: .72em; font-weight: 400; color: var(--verb); margin-top: 2px; }
+.transport { pointer-events: auto; display: flex; align-items: center; gap: 3px; width: fit-content; margin-top: 5px; padding: 3px; background: #14100c; border: 2px solid #000; box-shadow: inset 0 0 0 1px #4a3b2c; text-shadow: none; }
+.transport button { display: grid; place-items: center; width: 1.9em; height: 1.55em; padding: 0; color: #2a2118; background: linear-gradient(#e9dcc0, #b9a77f); border: 1px solid #000; border-bottom-width: 3px; cursor: pointer; }
+.transport button svg { width: .9em; height: .9em; fill: currentColor; }
+.transport button:hover { background: linear-gradient(#fff3d6, #d2bf93); }
+.transport button[aria-pressed="true"], .transport button.tap { color: var(--lamp); background: linear-gradient(#3d3122, #5a4830); border-bottom-width: 1px; margin-top: 2px; box-shadow: inset 0 1px 2px #000, 0 0 6px rgba(242, 200, 110, .55); }
+.transport button:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+.transport .sep { width: 1px; align-self: stretch; margin: 0 2px; background: #4a3b2c; }
+.transport-count { min-width: 3.2em; white-space: nowrap; padding: 0 4px; font-size: .62em; font-variant-numeric: tabular-nums; color: var(--lamp); text-align: center; }
+.sentence { font-family: var(--font-ui); font-weight: 500; font-size: 15px; color: var(--verb); text-align: center; padding: 6px 12px; background: var(--screen); border: 2px solid var(--rule); border-bottom: 0; min-height: 2.2em; }
+.console { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); background: var(--screen); border: 2px solid var(--rule); }
+.verbs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; padding: 12px 14px; align-content: start; }
+.verb { white-space: nowrap; font-family: var(--font-ui); font-weight: 600; font-size: 16px; line-height: 1.6; color: var(--verb); background: none; border: 0; padding: 2px 4px; text-align: left; cursor: pointer; }
+.verb:hover, .verb:focus-visible { color: var(--lamp); }
+.verb:focus-visible, .inv:focus-visible, .chip:focus-visible, .btn:focus-visible, .err:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+.verb[aria-pressed="true"] { color: var(--lamp); }
+.volume { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; margin-top: 8px; font-family: var(--font-ui); color: var(--ink-dim); font-size: 15px; }
+.volume input { flex: 1; min-width: 0; accent-color: var(--verb); }
+.inventory { list-style: none; margin: 0; padding: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; border-left: 2px solid var(--rule); }
+.inv { width: 100%; height: 100%; text-align: left; cursor: pointer; background: var(--panel); color: var(--ink); border: 2px solid var(--rule); padding: 8px 10px 9px; display: grid; gap: 1px; font-family: var(--font-body); }
+.inv:hover { border-color: var(--verb); }
+.inv[aria-current="true"] { border-color: var(--lamp); background: var(--panel-2); }
+.inv .t { font-family: var(--font-ui); font-weight: 600; font-size: 15px; line-height: 1.3; color: var(--verb); display: flex; justify-content: space-between; gap: 8px; }
+.inv[aria-current="true"] .t { color: var(--lamp); }
+.inv .t em { font-style: normal; font-size: 12px; color: var(--coral); align-self: center; }
+.inv .m { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+.inventory { max-height: 430px; overflow-y: auto; align-content: start; }
+.tune-card { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 2px 2px 6px; border-bottom: 1px dashed var(--rule); font-family: var(--font-ui); color: var(--ink); }
+.tune-card > span { flex: 1 1 200px; }
+.tune-card b { color: var(--lamp); }
+.tune-card .kind { color: var(--ink-dim); font-size: 13px; }
+.tune-card small { display: block; color: var(--ink-dim); font-family: var(--font-body); font-size: 12.5px; }
+.mech { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.tune-card .mech { width: 26px; height: 26px; color: var(--lamp); }
+.inv.add { border-style: dashed; }
+.inv.add .t { color: var(--ink-dim); }
+.cabinet { border: 2px solid var(--rule); border-bottom: 0; padding: 10px 12px 12px; background: var(--panel); }
+.cabinet-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cabinet-head h2 { margin: 0; font-family: var(--font-ui); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-dim); }
+.rack { display: flex; flex-wrap: wrap; gap: 10px 18px; }
+.shelf { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding-bottom: 6px; border-bottom: 3px solid var(--rule); }
+.shelf-name { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-dim); margin-right: 2px; }
+.plate { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-family: var(--font-ui); font-size: 13.5px; color: #2a1d08; padding: 5px 9px; border: 2px solid var(--rule); border-radius: 3px; background: linear-gradient(#f3e2b0, #d6b56a); box-shadow: inset 0 1px 0 #fff8, 0 1px 0 #0003; }
+.plate small { font-family: var(--font-mono); font-size: 11px; opacity: .75; }
+.plate:hover { border-color: var(--verb); }
+.plate[aria-pressed="true"] { border-color: var(--lamp); background: linear-gradient(#ffe9a6, #e2b64c); box-shadow: inset 0 2px 3px #0004; }
+.plate:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+.new-section { display: flex; flex-wrap: wrap; align-items: end; gap: 8px 12px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--rule); font-family: var(--font-ui); font-size: 13px; }
+.new-section label { display: grid; gap: 3px; }
+.new-section input, .new-section select { font: inherit; padding: 5px 7px; border: 2px solid var(--rule); background: var(--panel-2); color: var(--ink); }
+
+/* ---------------- roll */
+section { margin-top: 36px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 10px; }
+h2 { font-family: var(--font-ui); font-weight: 700; font-size: 22px; margin: 0; color: var(--ink); letter-spacing: -.02em; }
+.pos { font-family: var(--font-mono); font-size: 13px; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+.pos b { color: var(--lamp); font-weight: 500; }
+.roll-box { border: 2px solid var(--rule); background: var(--screen); }
+#roll { display: block; width: 100%; height: 250px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 12px; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); padding: 4px 9px 4px 7px; cursor: pointer; }
+.chip i { width: 10px; height: 10px; display: inline-block; flex: none; }
+.chip span { color: var(--ink-dim); }
+.chip[aria-pressed="false"] { opacity: .45; text-decoration: line-through; }
+.hint { font-size: 13px; color: var(--ink-dim); margin: 8px 0 0; }
+
+/* ---------------- editor */
+.editor-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
+.btn { font-family: var(--font-ui); font-weight: 600; font-size: 14px; color: var(--screen); background: var(--verb); border: 2px solid var(--verb); padding: 5px 14px 6px; cursor: pointer; }
+.btn:hover { background: var(--lamp); border-color: var(--lamp); }
+.btn.ghost { background: transparent; color: var(--verb); }
+.btn.ghost:hover { color: var(--screen); background: var(--lamp); }
+.status { font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-dim); margin-left: auto; }
+textarea#score { display: block; width: 100%; height: 440px; resize: vertical; background: #0a0819; color: var(--ink); border: 2px solid var(--rule); padding: 12px 14px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; tab-size: 4; white-space: pre; overflow: auto; }
+textarea#score:focus { outline: none; border-color: var(--verb); }
+.errors { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 4px; }
+.err { all: unset; cursor: pointer; display: block; font-family: var(--font-mono); font-size: 12.5px; color: var(--coral); }
+.err b { color: var(--lamp); font-weight: 500; }
+.ok { font-family: var(--font-mono); font-size: 12.5px; color: var(--verb); }
+
+/* ---------------- guide */
+.guide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+.guide h3 { font-family: var(--font-ui); font-weight: 600; font-size: 16px; color: var(--lamp); margin: 22px 0 6px; }
+.guide h3:first-child { margin-top: 0; }
+.guide p { margin: 0 0 10px; max-width: 64ch; }
+.guide code, .ref code { font-family: var(--font-mono); font-size: 12.5px; color: var(--lamp); background: var(--panel); padding: 1px 5px; }
+pre.sample { margin: 8px 0 0; background: #0a0819; border: 2px solid var(--rule); padding: 12px 14px; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+pre.sample .c { color: var(--ink-dim); }
+.ref { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ref th { text-align: left; font-family: var(--font-ui); font-weight: 400; font-size: 13px; color: var(--ink-dim); padding: 0 0 4px; border-bottom: 1px solid var(--rule); }
+.ref td { padding: 6px 10px 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.ref td:first-child { white-space: nowrap; }
+.tbl { overflow-x: auto; }
+.inst { display: grid; grid-template-columns: minmax(0, 9em) minmax(0, 1fr); gap: 4px 12px; font-size: 13.5px; margin: 0; }
+.inst dt { color: var(--ink-dim); }
+.inst dd { margin: 0; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); }
+/* ---------------- LLM prompt */
+.prompt-intro { margin: 0 0 12px; max-width: 72ch; }
+.prompt-bar { margin: 0 0 10px; }
+pre.prompt { margin: 0; white-space: pre-wrap; overflow-wrap: break-word; max-height: 520px; overflow-y: auto; }
+pre.prompt:focus-visible { outline: 2px dashed var(--lamp); outline-offset: 2px; }
+footer { margin-top: 44px; padding-top: 14px; border-top: 1px solid var(--rule); color: var(--ink-dim); font-size: 13px; }
+footer a, nav[aria-label="Song permalinks"] a { color: var(--lamp); }
+
+@media (max-width: 760px) {
+  .console { grid-template-columns: minmax(0, 1fr); }
+  .inventory { border-left: 0; border-top: 2px solid var(--rule); grid-template-columns: minmax(0, 1fr); }
+  .verbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .verb { font-size: 18px; }
+  .guide { grid-template-columns: minmax(0, 1fr); }
+  #roll { height: 180px; }
+  .status { margin-left: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head><body>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>Swiss <span>Music Box</span></h1>
+    <p>A cabinet of music box airs: pinned cylinders, steel discs, organ barrels and piano rolls, each written as plain text and played by a synthesizer in your browser. Choose a mechanism from the shelf, press Play, then open the score and change it.</p>
+  </header>
+
+  <div class="screen">
+    <canvas id="alpine-scene" width="320" height="120" aria-label="Pixel-art Swiss alpine village with snowy peaks, chalets and a clock tower; window lights respond to the music; Swiss folklore creatures pass through" role="img"></canvas>
+    <div class="caption idle" id="caption"><span id="caption-title" title="The Sennentuntschi's Lullaby">The Sennentuntschi's Lullaby</span><small id="caption-about" title="The little wooden doll has learned the lullaby">The little wooden doll has learned the lullaby</small><div class="transport" id="transport" role="group" aria-label="Music box controls"><button type="button" data-action="prev" aria-label="Previous song" title="Previous song"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h2v12H2zM14 2v12L5 8z"/></svg></button><button type="button" data-action="stop" aria-label="Stop" title="Stop" aria-pressed="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h10v10H3z"/></svg></button><button type="button" data-action="play" aria-label="Play" title="Play" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2v12l10-6z"/></svg></button><button type="button" data-action="next" aria-label="Next song" title="Next song"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12 2h2v12h-2zM2 2v12l9-6z"/></svg></button><span class="sep" aria-hidden="true"></span><button type="button" data-action="loop" aria-label="Repeat song" title="Repeat song" aria-pressed="false"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 7V5.5A2.5 2.5 0 0 1 5.5 3H11V1l3.5 3L11 7V5H5.5a.5.5 0 0 0-.5.5V7zM13 9v1.5a2.5 2.5 0 0 1-2.5 2.5H5v2l-3.5-3L5 9v2h5.5a.5.5 0 0 0 .5-.5V9z"/></svg></button><span class="transport-count" id="transport-count" aria-live="polite"></span></div></div>
+  </div>
+  <p class="creature-label" id="alpine-creature" aria-live="polite">The next creature arrives soon</p>
+  <div class="sentence" id="sentence" aria-live="polite">Play The Sennentuntschi's Lullaby</div>
+  <div class="cabinet" id="cabinet" aria-labelledby="cabinet-h">
+    <div class="cabinet-head"><h2 id="cabinet-h">The cabinet</h2><button type="button" class="btn ghost" id="b-new-section" aria-expanded="false" aria-controls="new-section">+ New section</button></div>
+    <div class="rack" id="rack"></div>
+    <form id="new-section" class="new-section" hidden>
+      <label>Name <input id="ns-name" required maxlength="40" placeholder="Harvest Dances" autocomplete="off"></label>
+      <label>Shelf <input id="ns-shelf" required maxlength="40" list="shelf-names" placeholder="Holidays, or a new shelf" autocomplete="off"></label>
+      <datalist id="shelf-names"></datalist>
+      <label>Mechanism <select id="ns-mechanism"><option value="cylinder">Pinned cylinder (Swiss music box)</option><option value="disc">Steel disc (disc music box)</option><option value="barrel">Organ barrel (barrel organ)</option><option value="roll">Piano roll (player piano)</option></select></label>
+      <button type="submit" class="btn">Fit to the cabinet</button>
+      <button type="button" class="btn ghost" id="ns-cancel">Cancel</button>
+    </form>
+  </div>
+  <div class="console">
+    <div class="verbs" role="group" aria-label="Playback">
+      <button class="verb" id="v-play" data-say="Play">Play</button>
+      <button class="verb" id="v-stop" data-say="Stop">Stop</button>
+      <button class="verb" id="v-restart" data-say="Restart">Restart</button>
+      <button class="verb" id="v-loop" aria-pressed="true" data-say="Toggle looping">Loop: on</button>
+      <button class="verb" id="v-edit" data-say="Open the score of">Edit score</button>
+      <button class="verb" id="v-guide" data-say="Read about the format">Read guide</button>
+      <label class="volume" for="vol">Volume <input id="vol" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+    </div>
+    <ul class="inventory" id="tracks" aria-label="Tracks"></ul>
+  </div>
+  <div class="editor-bar" role="group" aria-label="Share music">
+    <button class="btn" id="b-share">Copy song link</button>
+    <button class="btn ghost" id="b-native-share" hidden>Share song…</button>
+    <button class="btn ghost" id="b-share-site">Copy website link</button>
+  </div>
+  <p id="share-status" role="status" aria-live="polite"></p>
+  <input id="share-link" aria-label="Share link: select and copy" readonly hidden style="width:100%;box-sizing:border-box">
+
+  <section aria-labelledby="roll-h">
+    <div class="sec-head">
+      <h2 id="roll-h">Music roll</h2>
+      <div class="pos" id="pos">—</div>
+    </div>
+    <div class="roll-box"><canvas id="roll" aria-label="Scrolling piano roll of the current track"></canvas></div>
+    <div class="legend" id="legend" aria-label="Voices — click to mute or unmute"></div>
+    <p class="hint">Click a voice to mute it. Space bar plays and stops.</p>
+  </section>
+
+  <section id="editor" aria-labelledby="ed-h">
+    <div class="sec-head">
+      <h2 id="ed-h">Score</h2>
+      <div class="pos" id="ed-file">01-sennentuntschis-lullaby.scrim</div>
+    </div>
+    <textarea id="score" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" aria-label="Score text"></textarea>
+    <div class="editor-bar">
+      <button class="btn" id="b-play">Play this score</button>
+      <button class="btn ghost" id="b-revert">Revert to original</button>
+      <button class="btn ghost" id="b-remove-air" hidden>Remove this air</button>
+      <button class="btn ghost" id="b-copy">Copy score</button>
+      <span class="status" id="ed-status"></span>
+    </div>
+    <ul class="errors" id="errors"></ul>
+  </section>
+
+  <section id="guide" aria-labelledby="g-h">
+    <div class="sec-head"><h2 id="g-h">The Scrimshaw score format</h2></div>
+    <div class="guide">
+      <div>
+        <h3>How a score is laid out</h3>
+        <p>A score is a plain text file read from top to bottom: settings, then <em>voices</em> (who plays what), then <em>patterns</em> (blocks of bars), then the arrangement. Every bar is cut into the same number of <em>steps</em>. Each note takes one step plus one per dash, so rhythm is just counting. If a bar doesn't add up, the editor tells you which line and how many steps it found.</p>
+        <p>Comments start with <code>#</code> at the start of a word, so <code>F#4</code> is still a note.</p>
+<pre class="sample"><span class="c"># a tiny calypso</span>
+title  Harbour Lights
+tempo  100      <span class="c"># beats per minute</span>
+beats  4        <span class="c"># beats in a bar</span>
+steps  4        <span class="c"># steps per beat: 16 per bar</span>
+swing  0.12     <span class="c"># nudge every other step late</span>
+
+voice lead  steeldrum vol=0.9 pan=-0.2
+voice chord organ     gate=0.45 center=A4
+voice bass  fretless
+voice kick  kick
+
+pattern A
+lead  | A4-- D5-- F5- E5 F5 E5 D5 A4--- |
+chord | . . [Dm]- . . [Dm]- . . [Dm]- . . [Dm]- |
+bass  | D2-- A2-- D3- C3-- A2-- F2 E2 |
+kick  | x... ..x. x... ..x. |
+
+play  A         <span class="c"># once</span>
+loop  A A+2     <span class="c"># then forever (A+2 = up a tone)</span></pre>
+        <h3>Patterns and arrangement</h3>
+        <p>Write as many lines per voice as you like inside a pattern; they join end to end. <code>pattern A2 from A</code> starts as a copy of A, and any voice you write in A2 replaces A's part. <code>mute bass</code> inside a pattern silences a voice. A <code>tempo</code>, <code>beats</code>, <code>steps</code> or <code>swing</code> line inside a pattern (or <code>steps=4</code> on its pattern line) changes only that pattern.</p>
+        <p><code>play</code> lists patterns to hear once, <code>loop</code> lists the part that repeats, as game music does. <code>B*2</code> repeats a pattern, <code>A+5</code> or <code>A-2</code> transposes it. Drums don't transpose.</p>
+        <h3>Meters</h3>
+        <p><code>beats 4</code> + <code>steps 4</code> is 4/4 in sixteenths. <code>beats 2</code> + <code>steps 3</code> is a 6/8 jig. <code>beats 3</code> + <code>steps 2</code> is a waltz in eighths. Swing only applies when steps is even; <code>0.33</code> gives a triplet shuffle.</p>
+      </div>
+      <div>
+        <h3>Inside a bar</h3>
+        <div class="tbl"><table class="ref">
+          <thead><tr><th>Write</th><th>Means</th></tr></thead>
+          <tbody>
+            <tr><td><code>D5</code> <code>F#4</code> <code>Bb3</code></td><td>A note, one step long. Octave 4 starts at middle C.</td></tr>
+            <tr><td><code>D5---</code></td><td>Each dash adds a step, so this lasts four.</td></tr>
+            <tr><td><code>.</code> <code>....</code> <code>.---</code></td><td>Silence: each dot or dash is a step.</td></tr>
+            <tr><td><code>-</code></td><td>On its own: keep the last note sounding, even across a bar line.</td></tr>
+            <tr><td><code>C4+E4+G4</code></td><td>Notes struck together.</td></tr>
+            <tr><td><code>[Dm7]</code> <code>[C/E]</code></td><td>A chord by name, voiced near the voice's <code>center</code>. A slash adds a bass note.</td></tr>
+            <tr><td><code>D5!</code> <code>D5??</code></td><td>Louder or softer. Stack them for more.</td></tr>
+            <tr><td><code>~A2</code></td><td>Slide into the note from the previous one.</td></tr>
+            <tr><td><code>%</code> <code>_</code> <code>=</code></td><td>Whole bar: repeat the previous bar, rest, or hold the last note through it.</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Drum lanes</h3>
+        <p>A voice played by a drum reads one character per step: <code>x</code> hit, <code>X</code> accent, <code>o</code> ghost note, <code>.</code> nothing. Spaces are ignored, so group by beat: <code>x... ..x. x... ..x.</code></p>
+        <h3>Voice options</h3>
+        <div class="tbl"><table class="ref">
+          <tbody>
+            <tr><td><code>vol=0.8</code></td><td>Level, 0–2</td></tr>
+            <tr><td><code>pan=-0.3</code></td><td>Left −1 to right 1</td></tr>
+            <tr><td><code>rev=0.4</code></td><td>Reverb send, 0–1</td></tr>
+            <tr><td><code>oct=-1</code> <code>trans=3</code></td><td>Shift by octaves or semitones</td></tr>
+            <tr><td><code>gate=0.5</code></td><td>Play each note for this fraction of its length</td></tr>
+            <tr><td><code>center=A4</code></td><td>Where chord names are voiced</td></tr>
+            <tr><td><code>glide=0.1</code></td><td>Slide time in seconds for <code>~</code> notes</td></tr>
+            <tr><td><code>bright=1.5</code> <code>att=</code> <code>rel=</code></td><td>Tone colour, attack and release (seconds)</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Instruments</h3>
+        <dl class="inst">
+          <dt>Mallets &amp; bells</dt><dd>steeldrum marimba vibes celesta glock xylophone musicbox bell</dd>
+          <dt>Keyboards</dt><dd>organ pipe harpsichord piano epiano</dd>
+          <dt>Strings</dt><dd>strings pizz fiddle violin viola cello harp guitar elecguitar banjo upright</dd>
+          <dt>Winds &amp; brass</dt><dd>flute clarinet oboe bassoon saxalto saxtenor accordion trumpet brass horn tuba trombone</dd>
+          <dt>Swiss instruments</dt><dd>schwyzeroergeli hackbrett alphorn buechel yodel</dd>
+          <dt>Voices &amp; pads</dt><dd>choir voices pad</dd>
+          <dt>Bass &amp; timpani</dt><dd>fretless synbass elecbass timpani</dd>
+          <dt>Plain synths</dt><dd>chip sine square saw triangle</dd>
+          <dt>Drums</dt><dd>kick snare rim hat ohat ride crash clap</dd>
+          <dt>Hand percussion</dt><dd>conga tumba bongo bongolo timbale bodhran shaker tamb clave block cowbell guiro tri</dd>
+          <dt>Toms &amp; effects</dt><dd>tomlo tommid tomhi gong thunder surf</dd>
+          <dt>Chord names</dt><dd>[C] [Cm] [C7] [Cm7] [Cmaj7] [C6] [Cm6] [C9] [Cm9] [Cadd9] [Csus2] [Csus4] [C7sus4] [Cdim] [Cdim7] [Cm7b5] [Caug] [C5] [C7b9]</dd>
+        </dl>
+        <h3>Instrument notes</h3>
+        <div class="tbl"><table class="ref">
+          <tbody>
+            <tr><td><code>epiano</code></td><td>Tine-style electric piano.</td></tr>
+            <tr><td><code>elecguitar</code> <code>elecbass</code></td><td>Clean, picked electric strings.</td></tr>
+            <tr><td><code>schwyzeroergeli</code></td><td>Schwyzerörgeli: a main reed plus two beating octave reeds. Write bass notes and detached chords explicitly.</td></tr>
+            <tr><td><code>hackbrett</code></td><td>Ringing hammered dulcimer.</td></tr>
+            <tr><td><code>alphorn</code> <code>buechel</code></td><td>Alphorn is warm and breathy; Büchel is brighter and quicker. Both keep written pitches rather than forcing a natural-harmonic scale.</td></tr>
+            <tr><td><code>yodel</code></td><td>Switches from chest to head timbre at C5. Write quick low/high alternations for register leaps.</td></tr>
+          </tbody>
+        </table></div>
+        <p>These are procedural approximations, not recordings.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="prompt" aria-labelledby="p-h">
+    <div class="sec-head"><h2 id="p-h">Compose with an LLM</h2></div>
+    <p class="prompt-intro">This prompt teaches any LLM the Scrimshaw format. Copy it into a chat, add a line describing the music you want, then paste the score it writes into the editor above and press <em>Play this score</em>. If the editor reports errors, paste them back to the model and ask for a fix.</p>
+    <div class="editor-bar prompt-bar">
+      <button class="btn" id="b-prompt">Copy prompt</button>
+    </div>
+    <pre class="sample prompt" id="llm-prompt" tabindex="0" aria-label="Prompt for composing Scrimshaw scores with an LLM">You are composing music in the Scrimshaw score format: plain text that a web page plays through a Web Audio synthesizer, in the style of early-1990s adventure game soundtracks. Your score will be pasted into an editor and played straight away, so follow these rules exactly. The most common mistake is a bar with the wrong number of steps, so count every bar.
+
+## What to reply with
+
+One complete score in a single fenced code block, followed by no more than a couple of sentences about it. Only use the keywords, instruments, chord names and symbols described here. If I paste back error messages from the editor, fix the lines they point to and reply with the whole corrected score.
+
+## Layout
+
+A score is read from top to bottom, one statement per line, in this order:
+
+1. Settings for the whole song
+2. `voice` lines, declaring each part and its instrument
+3. `pattern` blocks: a pattern line followed by its music lines
+4. `play` and `loop` lines: the arrangement (always last)
+
+A `#` at the start of a word begins a comment that runs to the end of the line. `F#4` is still a note because its `#` is inside a word. Blank lines are ignored.
+
+## Settings
+
+```
+title    The Name of the Piece
+composer Your Name   # optional
+about    One or two sentences. The first sentence is shown as a caption while it plays.
+tempo    100         # beats per minute, 20 to 400 (default 120)
+beats    4           # beats per bar, 1 to 16 (default 4)
+steps    4           # steps per beat, 1 to 12 (default 4)
+swing    0.12        # delays every other step, 0 to 0.75 (default 0)
+reverb   0.3         # overall reverb, 0 to 1 (default 0.3)
+```
+
+A step is the smallest unit of rhythm. Every bar holds exactly beats × steps steps:
+
+- `beats 4` `steps 4`: 4/4 in sixteenth notes, 16 steps per bar
+- `beats 4` `steps 2`: 4/4 in eighth notes, 8 steps per bar
+- `beats 3` `steps 2`: a 3/4 waltz in eighths, 6 steps per bar
+- `beats 2` `steps 3`: a 6/8 jig, 6 steps per bar (tempo counts dotted quarters)
+- `beats 4` `steps 3`: a 12/8 shuffle, 12 steps per bar
+
+Swing only works when steps is even. 0.1 to 0.15 is a light lilt; 0.33 gives a triplet shuffle.
+
+## Voices
+
+```
+voice NAME INSTRUMENT key=value key=value ...
+```
+
+Names use letters, digits and underscores, and each is declared once. Every voice used in a pattern must be declared. There is no drum kit instrument: give each drum sound its own voice (one for kick, one for snare, one for hat and so on).
+
+Voice options:
+
+- `vol=0.8` level, 0 to 2 (default 0.8)
+- `pan=-0.3` stereo position, -1 left to 1 right (default 0)
+- `rev=0.4` reverb send, 0 to 1
+- `oct=-1` shift by whole octaves
+- `trans=3` shift by semitones
+- `gate=0.5` sound each note for this fraction of its written length, 0.05 to 1 (default 1). 0.4 to 0.6 gives short, detached chords
+- `center=A4` the pitch that chord names are voiced around (default D4)
+- `glide=0.1` slide time in seconds for `~` notes (default 0.07)
+- `bright=1.5` tone brightness, 0.1 to 4 (default 1)
+- `att=0.05` attack time in seconds
+- `rel=0.5` release time in seconds
+
+Melodic instruments:
+
+- Mallets and bells: steeldrum marimba vibes celesta glock xylophone musicbox bell
+- Keyboards: organ pipe harpsichord piano epiano
+- Strings: strings pizz fiddle violin viola cello harp guitar elecguitar banjo upright
+- Winds and brass: flute clarinet oboe bassoon saxalto saxtenor accordion trumpet brass horn tuba trombone
+- Swiss instruments: schwyzeroergeli hackbrett alphorn buechel yodel
+- Voices and pads: choir voices pad
+- Bass and timpani: fretless synbass elecbass timpani
+- Plain synths: chip sine square saw triangle
+
+Drum instruments, one sound per voice:
+
+- Kit: kick snare rim hat ohat ride crash clap
+- Hand percussion: conga tumba bongo bongolo timbale bodhran shaker tamb clave block cowbell guiro tri
+- Toms and effects: tomlo tommid tomhi gong thunder surf
+
+Some of these names are short: pipe is a pipe organ, pizz is pizzicato strings, upright is an upright bass, chip is a square-wave game console lead, ohat is an open hi-hat, tamb is a tambourine, tri is a triangle, thunder is a long thunder roll and surf is a wave breaking on a beach (both last several seconds).
+
+New voices: piano is acoustic; epiano is a tine-style electric piano. saxalto and saxtenor are alto and tenor saxophones; violin, viola and cello are solo bowed strings. elecguitar and elecbass are clean, picked electric strings.
+
+Swiss voices are distinct procedural approximations, not aliases or samples. schwyzeroergeli (Schwyzerörgeli) has beating octave reeds; use separate low bass notes and short chord parts with gate=0.4 to 0.6 for a Ländler pulse. hackbrett is a ringing hammered dulcimer suited to fast ornaments. alphorn is warm and breathy; buechel (Büchel) is brighter and more agile. Neither retunes written notes. For natural-horn-style passages, use an overtone-shaped melody: for example C3, C4, G4, C5, E5, G5 are equal-tempered approximations to partials 2, 4, 6, 8, 10, 12 above C2. yodel switches chest/head timbre at C5; write quick alternations such as G4 G5 to make register leaps, rather than expecting added notes inside a sustain.
+
+## Patterns
+
+```
+pattern NAME
+VOICE | bar | bar | bar | bar |
+VOICE | bar | bar | bar | bar |
+```
+
+Pattern names use letters, digits and underscores, like `A`, `B2` or `intro`. A music line is a voice name followed by bars separated by `|`. There must be a `|` straight after the voice name; the closing `|` is optional. A bar can't be empty: write `_` for a silent bar.
+
+- A voice can have several lines in one pattern; they join end to end. Keep lines to about four bars.
+- Voices left out of a pattern are silent during it.
+- A pattern lasts as long as its longest voice, so give every voice in it the same number of bars.
+- `pattern A2 from A` starts as a copy of pattern A. A voice written in A2 replaces that voice's whole part from A; the other voices carry over unchanged.
+- `mute NAME` inside a pattern silences that voice (handy after `from`).
+- A `tempo`, `beats`, `steps` or `swing` line inside a pattern changes only that pattern. These can also go on the pattern line: `pattern slow tempo=80 swing=0`
+
+## Melodic bars
+
+A melodic bar is a row of tokens separated by spaces. Each token takes up a number of steps, and together they must add up to exactly beats × steps.
+
+- Note: a letter A to G, an optional accidental (`#` `##` `b` `bb`), then an octave 0 to 8. `C4` is middle C, `B3` is just below it, `A4` is 440 Hz. Examples: `D5` `F#4` `Bb3`. A note lasts one step.
+- Each dash after a note adds a step: `D5---` lasts four steps.
+- Rest: each `.` is one step of silence, and dashes after a dot add more rest: `.` is 1 step, `....` is 4, `.---` is 4, `.-------` is 8.
+- A token of dashes on its own (`-` or `---`) keeps the previous note sounding for that many more steps. Use it to tie a note across a bar line.
+- Notes struck together are joined with `+` and no spaces: `C4+E4+G4`. Dashes go at the end: `C4+E4+G4---`
+- A chord name in square brackets, voiced close to the voice's `center`: `[Dm]` `[G7]` `[Bbmaj7]`. A slash adds a bass note below: `[C/E]` `[D/F#]`. Dashes extend it: `[Dm]---`
+- Dynamics: `!` after a note makes it louder, `?` makes it softer. Stack them for more: `D5!!` `A2??`. They go right after the note or after its dashes: `[Dm]?---` or `D5---!`
+- Slide: `~` before a note glides into it from that voice's previous note: `~A2--`
+
+Symbols that fill a whole bar, alone between the bar lines:
+
+- `%` repeats the previous bar
+- `_` is a silent bar
+- `=` holds the note that was sounding at the end of the previous bar through this whole bar
+
+Chord names are a root (A to G, optionally followed by `#` or `b`) then one of these suffixes, or no suffix for a major triad:
+
+m 7 m7 maj7 mmaj7 6 m6 9 m9 maj9 add9 madd9 sus2 sus4 7sus4 dim dim7 m7b5 aug 5 7b9
+
+Examples: `[C]` `[Am]` `[F#m7]` `[Ebmaj7]` `[Dsus4]` `[G7b9]` `[Bdim]` `[Em/G]`
+
+## Drum bars
+
+A voice played by a drum instrument reads one character per step:
+
+- `x` a hit
+- `X` an accented hit
+- `o` a quiet ghost note
+- `.` nothing
+
+Spaces are ignored, so group the characters by beat. With 16 steps per bar: `x... ..x. x... ..x.` With 6 steps per bar: `X.x x.x`. The whole-bar symbols `%` and `_` work in drum lines too. A drum bar still needs exactly beats × steps characters, not counting spaces.
+
+## Arrangement
+
+```
+play intro            # patterns played once, in order
+loop A A2 B*2 A2+2    # patterns that then repeat forever
+```
+
+- `B*2` plays a pattern twice.
+- `A+5` or `A-2` transposes a pattern up or down by that many semitones. Drums are not affected. Both can be combined: `A+2*2`
+- With no `play` or `loop` line, every pattern loops in the order it was written.
+- Like game music, the loop repeats forever, so make the end of the loop lead smoothly back to its beginning.
+
+## Count every bar before you reply
+
+A note or chord counts 1 plus its dashes. A rest counts its dots plus its dashes. A lone dash token counts its dashes. A drum bar counts its characters, ignoring spaces. Worked examples at 16 steps per bar:
+
+```
+E5-- G5-- B5- A5 G5 F#5 E5 D5---       3+3+2+1+1+1+1+4 = 16
+.- [Em]- .- [Em]- .- [Em]- .- [Em]-    2+2+2+2+2+2+2+2 = 16
+A5------- .... D5 E5 F#5! G5!          8+4+1+1+1+1 = 16
+x... .... x... x.x.                    16 characters
+```
+
+## Example score
+
+```
+title    The Lighthouse Keeper
+composer Claude
+about    A quiet theme for a lonely lighthouse. Clarinet over a soft calypso groove.
+tempo    92
+beats    4        # 4 beats per bar
+steps    4        # 4 steps per beat, so every bar holds 16 steps
+swing    0.1
+reverb   0.35
+
+voice lead    clarinet vol=0.95 pan=-0.15
+voice counter vibes    vol=0.7  pan=0.35
+voice chords  guitar   vol=0.7  pan=0.25 gate=0.5 center=G4
+voice pad     strings  vol=0.4  pan=-0.3 center=E4
+voice bass    upright  vol=0.95
+voice kick    kick     vol=0.75
+voice snare   snare    vol=0.45 pan=0.1
+voice hat     hat      vol=0.4  pan=0.3
+voice ride    ride     vol=0.35 pan=0.3
+voice crash   crash    vol=0.3
+
+pattern intro
+pad     | [Em]--------------- | = | [D/F#]--------------- | [D]--------------- |
+counter | B4------- E5------- | G5--------------- | F#5------- A5------- | F#5------- D5------- |
+hat     | _ | _ | _ | x.x. x.x. xxxx XXXX |
+
+pattern A
+lead   | E5-- G5-- B5- A5 G5 F#5 E5 D5--- | C5-- E5-- G5- F#5 E5 D5 C5 B4--- |
+lead   | B4-- D5-- G5- A5--- B5- A5 G5 | A5------- F#5- E5- D5- F#5- |
+chords | .- [Em]- .- [Em]- .- [Em]- .- [Em]- | .- [C]- .- [C]- .- [C]- .- [C]- |
+chords | .- [G]- .- [G]- .- [G]- .- [G]- | .- [D]- .- [D]- .- [D]- .- [D]- |
+pad    | [Em]?--------------- | [C]?--------------- | [G]?--------------- | [D]?--------------- |
+bass   | E2--- B1--- E2--- ~G2--- | C2--- G1--- C2--- E2--- |
+bass   | G1--- D2--- G2--- B1--- | D2--- A1--- D2--- F#2--- |
+kick   | x... .... x... .... | % | % | x... .... x... x.x. |
+snare  | .... x... .... x... | % | % | .... x... .... X.oo |
+hat    | x.x. x.x. x.x. x.x. | % | % | % |
+crash  | X... .... .... .... | _ | _ | _ |
+
+# A2 copies A; the parts written here replace or add to A's
+pattern A2 from A
+mute    hat
+ride    | x.x. x.xo x.x. x.xo | % | % | % |
+counter | B5------- G5------- | G5------- E5------- | D6------- B5------- | A5--------------- |
+
+pattern B
+lead   | C6--- B5- A5- E5------- | B5--- A5- G5- E5------- |
+lead   | E5- G5- C6- E6- D6--- C6- B5- | A5------- .... D5 E5 F#5! G5! |
+chords | .- [Am]- .- [Am]- .- [Am]- .- [Am]- | .- [Em/G]- .- [Em/G]- .- [Em/G]- .- [Em/G]- |
+chords | .- [C]- .- [C]- .- [C]- .- [C]- | .- [D]- .- [D]- .- [D7]- .- [D7]- |
+pad    | [Am]--------------- | [Em/G]--------------- | [C]--------------- | [D]------- [D7]------- |
+bass   | A1--- E2--- A2--- E2--- | G1--- B1--- E2--- G2--- |
+bass   | C2--- G2--- C3--- G2--- | D2------- ~A2--- D2--- |
+kick   | x... ..x. x... ..x. | % | % | x... x... x.x. XXXX |
+snare  | .... x... .... x... | % | % | .... x... ..x. xoXX |
+hat    | x.x. x.x. x.x. x.x. | % | % | % |
+crash  | X... .... .... .... | _ | _ | _ |
+
+play intro
+loop A A2 B*2 A2+2
+```
+
+## Composing tips
+
+- Write a short intro that plays once, then a loop of 16 to 48 bars built from two to four patterns, so the music develops before it repeats.
+- Typical ranges: bass in octaves 1 and 2, chords and pads centered in octave 4 (`center=E4` or `center=G4`), melodies in octaves 4 to 6.
+- Use `pattern X2 from X` to vary a section with a counter-melody or a different drum part without rewriting it.
+- Use `%` for repeated bars, especially in drum parts, to keep the score short.
+- Balance levels with `vol`: pads and percussion around 0.3 to 0.7, the lead around 0.9 to 1.1.
+- Choose a key and a chord progression first, then write the melody over it. The bass usually plays chord roots on the strong beats.
+
+Compose the piece I describe below. If I haven't described one, compose an original piece in a style of your choice.</pre>
+  </section>
+
+<!-- song-about:start --><section id="song-about" aria-label="About this tune"><h2>Jingle Bells</h2><p>Sleigh bells cross the moonlit village square.</p></section><!-- song-about:end -->
+<!-- song-links:start --><nav aria-label="Song permalinks"><p><b>Alpine Night</b> (pinned cylinder): <a href="songs/sennentuntschis-lullaby/">The Sennentuntschi&#39;s Lullaby</a> · <a href="songs/stollenwurm-behind-the-stove/">The Stollenwurm Behind the Stove</a> · <a href="songs/wildmannlis-midnight-dance/">The Wildmannli&#39;s Midnight Dance</a> · <a href="songs/do-not-wake-the-rollibock/">Do Not Wake the Rollibock</a> · <a href="songs/three-steps-aside-for-the-tuerst/">Three Steps Aside for the Tuerst</a> · <a href="songs/devils-bridge-mazurka/">The Devil&#39;s Bridge Mazurka</a></p><p><b>Winter Holidays</b> (steel disc): <a href="songs/silent-night/">Silent Night</a> · <a href="songs/o-tannenbaum/">O Tannenbaum</a> · <a href="songs/jingle-bells/">Jingle Bells</a> · <a href="songs/deck-the-halls/">Deck the Halls</a> · <a href="songs/we-wish-you-a-merry-christmas/">We Wish You a Merry Christmas</a> · <a href="songs/joy-to-the-world/">Joy to the World</a> · <a href="songs/good-king-wenceslas/">Good King Wenceslas</a> · <a href="songs/auld-lang-syne/">Auld Lang Syne</a></p><p><b>Folk Songs of the World</b> (organ barrel): <a href="songs/greensleeves/">Greensleeves</a> · <a href="songs/sakura-sakura/">Sakura Sakura</a> · <a href="songs/arirang/">Arirang</a> · <a href="songs/kalinka/">Kalinka</a> · <a href="songs/la-cucaracha/">La Cucaracha</a> · <a href="songs/the-irish-washerwoman/">The Irish Washerwoman</a> · <a href="songs/loch-lomond/">Loch Lomond</a></p><p><b>Western Picture Show</b> (piano roll): <a href="songs/home-on-the-range/">Home on the Range</a> · <a href="songs/red-river-valley/">Red River Valley</a> · <a href="songs/oh-my-darling-clementine/">Oh My Darling, Clementine</a> · <a href="songs/streets-of-laredo/">The Streets of Laredo</a> · <a href="songs/the-long-ride-out/">The Long Ride Out</a> · <a href="songs/showdown-at-dry-creek/">Showdown at Dry Creek</a> · <a href="songs/campfire-under-the-mesa/">Campfire Under the Mesa</a> · <a href="songs/last-chance-saloon-rag/">Last Chance Saloon Rag</a></p><p><a href="./">Swiss Music Box home</a></p></nav><!-- song-links:end -->
+  <footer>Swiss Music Box by Ted Tschopp, with original Swiss folk-inspired scores credited to ChatGPT. Based on the player and synthesizer from <a href="https://github.com/simonw/tools/blob/main/scrimshaw-jukebox.html">Simon Willison’s Scrimshaw Jukebox</a>, used under the <a href="LICENSE">Apache License 2.0</a>. All sounds are generated live with the Web Audio API; there are no samples.</footer>
+</div>
+
+<script>
+/* Scrimshaw score format: parser + compiler (no audio; runs in browser or node) */
+(function (root) {
+  'use strict';
+
+  const MELODIC = ['steeldrum', 'marimba', 'vibes', 'celesta', 'glock', 'xylophone', 'musicbox', 'bell',
+    'organ', 'pipe', 'strings', 'pad', 'choir', 'voices', 'brass', 'trumpet', 'horn', 'tuba',
+    'flute', 'clarinet', 'oboe', 'bassoon', 'accordion', 'fiddle',
+    'harp', 'guitar', 'banjo', 'harpsichord', 'pizz', 'upright', 'fretless', 'synbass', 'timpani',
+    'chip', 'sine', 'square', 'saw', 'triangle',
+    'piano', 'epiano', 'saxalto', 'saxtenor', 'elecguitar', 'elecbass',
+    'violin', 'viola', 'cello', 'trombone', 'schwyzeroergeli', 'hackbrett', 'alphorn', 'buechel', 'yodel'];
+  const DRUMS = ['kick', 'snare', 'rim', 'hat', 'ohat', 'ride', 'crash', 'shaker', 'tamb',
+    'conga', 'tumba', 'bongo', 'bongolo', 'clave', 'block', 'cowbell', 'guiro',
+    'tomlo', 'tommid', 'tomhi', 'bodhran', 'timbale', 'tri', 'clap', 'gong', 'thunder', 'surf'];
+
+  const PC = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
+  const NOTE_RE = /^([A-Ga-g])(##|bb|#|b)?([0-8])$/;
+  const ACC = { '': 0, '#': 1, '##': 2, b: -1, bb: -2 };
+
+  function noteToMidi(s) {
+    const m = NOTE_RE.exec(s);
+    if (!m) return null;
+    return 12 * (+m[3] + 1) + PC[m[1].toLowerCase()] + ACC[m[2] || ''];
+  }
+
+  const CHORDS = {
+    '': [0, 4, 7], maj: [0, 4, 7], m: [0, 3, 7], min: [0, 3, 7],
+    '7': [0, 4, 7, 10], m7: [0, 3, 7, 10], maj7: [0, 4, 7, 11], mmaj7: [0, 3, 7, 11],
+    '6': [0, 4, 7, 9], m6: [0, 3, 7, 9], '9': [0, 4, 7, 10, 14], m9: [0, 3, 7, 10, 14],
+    maj9: [0, 4, 7, 11, 14], add9: [0, 4, 7, 14], madd9: [0, 3, 7, 14],
+    sus2: [0, 2, 7], sus4: [0, 5, 7], sus: [0, 5, 7], '7sus4': [0, 5, 7, 10],
+    dim: [0, 3, 6], dim7: [0, 3, 6, 9], m7b5: [0, 3, 6, 10], aug: [0, 4, 8], '+': [0, 4, 8],
+    '5': [0, 7], '7b9': [0, 4, 7, 10, 13]
+  };
+
+  function pcOf(letter, acc) { return (PC[letter.toLowerCase()] + ACC[acc || ''] + 12) % 12; }
+  function placeNear(pc, lo) { return lo + (((pc - lo) % 12) + 12) % 12; }
+
+  // [Dm7] or [C/E] -> midi notes voiced in a window around `center`
+  function chordToMidis(sym, center) {
+    const m = /^([A-G])(#|b)?([^/]*)(?:\/([A-G])(#|b)?)?$/.exec(sym);
+    if (!m || !(m[3] in CHORDS)) return null;
+    const root = pcOf(m[1], m[2]);
+    const lo = center - 6;
+    const set = new Set(CHORDS[m[3]].map(iv => placeNear((root + iv) % 12, lo)));
+    if (m[4]) set.add(placeNear(pcOf(m[4], m[5]), lo - 12));
+    return [...set].sort((a, b) => a - b);
+  }
+
+  const T_HOLD = /^-+$/;
+  const T_REST = /^(\.+)(-*)$/;
+  const NOTE_SRC = '[A-Ga-g](?:##|bb|#|b)?[0-8]';
+  const T_NOTE = new RegExp('^(~?)(\\[[^\\]]+\\]|' + NOTE_SRC + '(?:\\+' + NOTE_SRC + ')*)([!?]*)(-*)([!?]*)$');
+
+  function velFrom(marks) {
+    let v = 0.8;
+    for (const ch of marks) v *= ch === '!' ? 1.25 : 0.6;
+    return Math.min(1.35, v);
+  }
+
+  function num(s, lo, hi, def) {
+    const n = parseFloat(s);
+    if (!isFinite(n)) return def;
+    return Math.max(lo, Math.min(hi, n));
+  }
+
+  /* ------------------------------------------------------------------ parse */
+  function parse(text) {
+    const errors = [];
+    const err = (ln, msg) => errors.push({ line: ln, msg });
+    const song = {
+      title: 'Untitled', composer: '', about: '', tempo: 120, beats: 4, steps: 4, swing: 0,
+      reverb: 0.3, voices: [], voiceMap: {}, patterns: {}, patternOrder: [], play: [], loop: []
+    };
+    let cur = null;
+    const lines = String(text).split(/\r?\n/);
+
+    lines.forEach((raw, i) => {
+      const ln = i + 1;
+      const line = raw.replace(/(^|\s)#.*$/, '').trim();
+      if (!line) return;
+
+      const pm = /^([A-Za-z_]\w*)\s*\|(.*)$/.exec(line);
+      if (pm) {
+        if (!cur) { err(ln, 'Music lines go inside a pattern. Add a "pattern NAME" line above this one.'); return; }
+        const parts = pm[2].split('|').map(s => s.trim());
+        while (parts.length && parts[parts.length - 1] === '') parts.pop();
+        const bars = [];
+        parts.forEach((b, k) => {
+          if (b === '') err(ln, `Empty bar ${k + 1} in "${pm[1]}". Use _ for a silent bar.`);
+          else bars.push(b);
+        });
+        (cur.raw[pm[1]] = cur.raw[pm[1]] || []).push({ bars, ln });
+        if (!cur.voiceOrder.includes(pm[1])) cur.voiceOrder.push(pm[1]);
+        return;
+      }
+
+      const words = line.split(/\s+/);
+      const kw = words[0].toLowerCase();
+      const restStr = line.slice(words[0].length).trim();
+      const target = cur ? cur.opts : song;
+
+      switch (kw) {
+        case 'title': song.title = restStr || song.title; break;
+        case 'composer': case 'by': song.composer = restStr; break;
+        case 'about': song.about = restStr; break;
+        case 'tempo': target.tempo = num(restStr, 20, 400, 120); break;
+        case 'beats': target.beats = Math.round(num(restStr, 1, 16, 4)); break;
+        case 'steps': target.steps = Math.round(num(restStr, 1, 12, 4)); break;
+        case 'swing': target.swing = num(restStr, 0, 0.75, 0); break;
+        case 'reverb': song.reverb = num(restStr, 0, 1, 0.3); break;
+        case 'voice': parseVoice(words.slice(1), ln); break;
+        case 'pattern': {
+          const name = words[1];
+          if (!name || !/^[A-Za-z_]\w*$/.test(name)) { err(ln, 'Pattern names use letters, digits and _ (for example: pattern A2).'); cur = null; return; }
+          if (song.patterns[name]) err(ln, `Pattern "${name}" is defined twice; the later one wins.`);
+          cur = { name, ln, from: null, opts: {}, raw: {}, voiceOrder: [], mute: new Set() };
+          for (let k = 2; k < words.length; k++) {
+            const w = words[k];
+            if (w.toLowerCase() === 'from') { cur.from = words[++k]; continue; }
+            const kv = /^(\w+)=(.+)$/.exec(w);
+            if (!kv) { err(ln, `Can't read "${w}" in the pattern line.`); continue; }
+            const key = kv[1].toLowerCase();
+            if (key === 'tempo') cur.opts.tempo = num(kv[2], 20, 400, 120);
+            else if (key === 'beats') cur.opts.beats = Math.round(num(kv[2], 1, 16, 4));
+            else if (key === 'steps') cur.opts.steps = Math.round(num(kv[2], 1, 12, 4));
+            else if (key === 'swing') cur.opts.swing = num(kv[2], 0, 0.75, 0);
+            else err(ln, `Unknown pattern option "${kv[1]}".`);
+          }
+          song.patterns[name] = cur;
+          if (!song.patternOrder.includes(name)) song.patternOrder.push(name);
+          break;
+        }
+        case 'mute':
+          if (!cur) err(ln, '"mute" only works inside a pattern.');
+          else words.slice(1).forEach(w => cur.mute.add(w));
+          break;
+        case 'play': case 'loop': {
+          cur = null;
+          const list = kw === 'play' ? song.play : song.loop;
+          for (const w of words.slice(1)) {
+            const m = /^([A-Za-z_]\w*?)([+-]\d+)?(?:\*(\d+))?$/.exec(w);
+            if (!m) { err(ln, `Can't read "${w}". Write a pattern name, optionally with +N/-N to transpose and *N to repeat.`); continue; }
+            list.push({ name: m[1], trans: m[2] ? parseInt(m[2], 10) : 0, times: m[3] ? Math.min(64, parseInt(m[3], 10)) : 1, ln });
+          }
+          break;
+        }
+        default:
+          err(ln, `Unknown line "${words[0]}". Lines start with a setting (title, tempo, voice, pattern, play, loop…) or a voice name followed by |.`);
+      }
+    });
+
+    function parseVoice(w, ln) {
+      const [name, inst] = w;
+      if (!name || !inst) { err(ln, 'Write voices as: voice NAME INSTRUMENT [options]'); return; }
+      if (!/^[A-Za-z_]\w*$/.test(name)) { err(ln, `Voice name "${name}" should use letters, digits and _.`); return; }
+      const instL = inst.toLowerCase();
+      const isDrum = DRUMS.includes(instL);
+      if (!isDrum && !MELODIC.includes(instL)) { err(ln, `Unknown instrument "${inst}".`); return; }
+      const v = {
+        name, inst: instL, drum: isDrum, vol: 0.8, pan: 0, rev: null, trans: 0, glide: 0.07,
+        gate: 1, center: 62, bright: 1, att: null, rel: null, ln
+      };
+      for (const opt of w.slice(2)) {
+        const kv = /^(\w+)=(.+)$/.exec(opt);
+        if (!kv) { err(ln, `Voice options look like key=value; got "${opt}".`); continue; }
+        const k = kv[1].toLowerCase(), val = kv[2];
+        switch (k) {
+          case 'vol': v.vol = num(val, 0, 2, 0.8); break;
+          case 'pan': v.pan = num(val, -1, 1, 0); break;
+          case 'rev': v.rev = num(val, 0, 1, 0.2); break;
+          case 'trans': v.trans = Math.round(num(val, -48, 48, 0)); break;
+          case 'oct': v.trans += 12 * Math.round(num(val, -4, 4, 0)); break;
+          case 'glide': v.glide = num(val, 0.005, 2, 0.07); break;
+          case 'gate': v.gate = num(val, 0.05, 1, 1); break;
+          case 'bright': v.bright = num(val, 0.1, 4, 1); break;
+          case 'att': v.att = num(val, 0.001, 4, 0.01); break;
+          case 'rel': v.rel = num(val, 0.005, 6, 0.1); break;
+          case 'center': {
+            const m = noteToMidi(val);
+            if (m == null) err(ln, `center= needs a note like E4; got "${val}".`); else v.center = m;
+            break;
+          }
+          default: err(ln, `Unknown voice option "${kv[1]}".`);
+        }
+      }
+      if (song.voiceMap[name]) err(ln, `Voice "${name}" is declared twice.`);
+      else { song.voiceMap[name] = v; song.voices.push(v); }
+    }
+
+    return { song, errors };
+  }
+
+  /* ------------------------------------------------------- pattern bodies */
+  function parseMelodicBars(bars, barSteps, voice, ctx) {
+    const events = [];
+    let last = null;
+    const out = [];
+    bars.forEach((barSrc, bi) => {
+      const start = bi * barSteps;
+      const where = `bar ${bi + 1} of "${voice.name}" in pattern ${ctx.pattern}`;
+      const trimmed = barSrc.trim();
+      if (trimmed === '%') {
+        const prev = events.filter(e => e.step >= start - barSteps && e.step < start);
+        if (bi === 0) ctx.err(`% in ${where} has no previous bar to repeat.`);
+        prev.forEach(e => events.push(Object.assign({}, e, { step: e.step + barSteps })));
+        last = events.length ? events[events.length - 1] : null;
+        return;
+      }
+      if (trimmed === '_') { last = null; return; }
+      if (trimmed === '=') {
+        if (last && last.step + last.len === start) last.len += barSteps;
+        else ctx.err(`= in ${where} needs a note sounding right up to the bar line.`);
+        return;
+      }
+      let pos = start;
+      for (const tok of trimmed.split(/\s+/)) {
+        let m;
+        if (T_HOLD.test(tok)) {
+          if (last && last.step + last.len === pos) last.len += tok.length;
+          pos += tok.length;
+        } else if ((m = T_REST.exec(tok))) {
+          pos += m[1].length + m[2].length;
+          last = null;
+        } else if ((m = T_NOTE.exec(tok))) {
+          const head = m[2];
+          let notes;
+          if (head[0] === '[') {
+            notes = chordToMidis(head.slice(1, -1), voice.center);
+            if (!notes) { ctx.err(`Unknown chord "${head}" in ${where}.`); notes = []; }
+          } else {
+            notes = head.split('+').map(noteToMidi);
+          }
+          const len = 1 + m[4].length;
+          last = { step: pos, len, notes, vel: velFrom(m[3] + m[5]), glide: m[1] === '~' };
+          if (notes.length) events.push(last);
+          pos += len;
+        } else if (tok === '%' || tok === '_' || tok === '=') {
+          ctx.err(`"${tok}" must be alone in its bar (${where}).`);
+        } else {
+          ctx.err(`Can't read "${tok}" in ${where}. Notes look like D5, F#4, Bb3, chords like [Dm] or C4+E4+G4.`);
+        }
+      }
+      const used = pos - start;
+      if (used !== barSteps) {
+        ctx.err(`${where[0].toUpperCase() + where.slice(1)} has ${used} steps; a bar here holds ${barSteps}.`);
+        // clip anything spilling into the next bar so later bars stay aligned
+        for (const e of events) if (e.step >= start + barSteps) e.len = 0;
+        if (last && last.step + last.len > start + barSteps && used > barSteps) last.len = Math.max(1, start + barSteps - last.step);
+      }
+    });
+    for (const e of events) if (e.len > 0) out.push(e);
+    return out;
+  }
+
+  function parseDrumBars(bars, barSteps, voice, ctx) {
+    const events = [];
+    bars.forEach((barSrc, bi) => {
+      const start = bi * barSteps;
+      const where = `bar ${bi + 1} of "${voice.name}" in pattern ${ctx.pattern}`;
+      const s = barSrc.replace(/\s+/g, '');
+      if (s === '%') {
+        if (bi === 0) ctx.err(`% in ${where} has no previous bar to repeat.`);
+        events.filter(e => e.step >= start - barSteps && e.step < start)
+          .forEach(e => events.push({ step: e.step + barSteps, len: 1, vel: e.vel }));
+        return;
+      }
+      if (s === '_') return;
+      let k = 0;
+      for (const ch of s) {
+        if (k < barSteps) {
+          if (ch === 'x') events.push({ step: start + k, len: 1, vel: 0.8 });
+          else if (ch === 'X') events.push({ step: start + k, len: 1, vel: 1.05 });
+          else if (ch === 'o') events.push({ step: start + k, len: 1, vel: 0.42 });
+          else if (ch !== '.' && ch !== '-') ctx.err(`Drum lanes use x X o and . — found "${ch}" in ${where}.`);
+        }
+        k++;
+      }
+      if (k !== barSteps) ctx.err(`${where[0].toUpperCase() + where.slice(1)} has ${k} steps; a bar here holds ${barSteps}.`);
+    });
+    return events;
+  }
+
+  /* ---------------------------------------------------------------- compile */
+  function compile(text) {
+    const { song, errors } = parse(text);
+    const err = (ln, msg) => errors.push({ line: ln, msg });
+
+    const resolved = {};
+    function resolve(name, stack) {
+      if (resolved[name]) return resolved[name];
+      const p = song.patterns[name];
+      if (!p) return null;
+      let raw = {}, opts = {}, order = [], mute = new Set();
+      if (p.from) {
+        if (stack.includes(p.from)) { err(p.ln, `Pattern "${name}" builds on itself through "from".`); }
+        else {
+          const base = resolve(p.from, stack.concat(name));
+          if (!base) err(p.ln, `Pattern "${name}" builds on "${p.from}", which doesn't exist.`);
+          else { raw = Object.assign({}, base.raw); opts = Object.assign({}, base.opts); order = base.order.slice(); mute = new Set(base.mute); }
+        }
+      }
+      for (const v of p.voiceOrder) { raw[v] = p.raw[v]; mute.delete(v); if (!order.includes(v)) order.push(v); }
+      p.mute.forEach(v => mute.add(v));
+      Object.assign(opts, p.opts);
+      return (resolved[name] = { name, ln: p.ln, raw, opts, order, mute });
+    }
+
+    const compiled = {};
+    function compilePattern(name) {
+      if (compiled[name]) return compiled[name];
+      const r = resolve(name, []);
+      if (!r) return null;
+      const tempo = r.opts.tempo || song.tempo;
+      const beats = r.opts.beats || song.beats;
+      const steps = r.opts.steps || song.steps;
+      const swing = r.opts.swing != null ? r.opts.swing : song.swing;
+      const barSteps = beats * steps;
+      const perVoice = {};
+      let nBars = 0;
+      for (const vName of r.order) {
+        if (r.mute.has(vName)) continue;
+        const voice = song.voiceMap[vName];
+        const lines = r.raw[vName];
+        if (!voice) { err(lines[0].ln, `"${vName}" isn't a voice. Declare it first: voice ${vName} INSTRUMENT`); continue; }
+        const bars = [].concat(...lines.map(l => l.bars));
+        const ctx = { pattern: name, err: m => err(lines[0].ln, m) };
+        // report errors on the specific line that holds the bar
+        let barLine = [];
+        lines.forEach(l => l.bars.forEach(() => barLine.push(l.ln)));
+        ctx.err = m => {
+          const bm = /bar (\d+)/.exec(m);
+          err(bm ? barLine[+bm[1] - 1] || lines[0].ln : lines[0].ln, m);
+        };
+        perVoice[vName] = voice.drum ? parseDrumBars(bars, barSteps, voice, ctx) : parseMelodicBars(bars, barSteps, voice, ctx);
+        nBars = Math.max(nBars, bars.length);
+      }
+      if (!nBars) err(r.ln, `Pattern "${name}" has no music lines.`);
+      return (compiled[name] = { name, tempo, beats, steps, swing, barSteps, bars: Math.max(1, nBars), perVoice });
+    }
+
+    const voices = song.voices;
+    const vIndex = {};
+    voices.forEach((v, i) => { vIndex[v.name] = i; });
+    const lastMidi = {};
+
+    function timeline(refs) {
+      const events = [], sections = [];
+      let t = 0;
+      for (const ref of refs) {
+        const p = compilePattern(ref.name);
+        if (!p) { err(ref.ln, `There's no pattern called "${ref.name}".`); continue; }
+        const stepDur = 60 / p.tempo / p.steps;
+        const sw = (p.steps % 2 === 0) ? p.swing : 0;
+        const timeOf = s => (s + (s % 2 === 1 ? sw : 0)) * stepDur;
+        const total = p.bars * p.barSteps;
+        for (let rep = 0; rep < ref.times; rep++) {
+          const sIdx = sections.length;
+          sections.push({
+            name: ref.name, trans: ref.trans, start: t, dur: total * stepDur, bars: p.bars,
+            barDur: p.barSteps * stepDur, tempo: p.tempo, beats: p.beats, steps: p.steps
+          });
+          const evs = [];
+          for (const vName in p.perVoice) {
+            const voice = song.voiceMap[vName];
+            const vi = vIndex[vName];
+            for (const e of p.perVoice[vName]) {
+              if (e.step >= total) continue;
+              const t0 = timeOf(e.step);
+              let d = timeOf(Math.min(total, e.step + e.len)) - t0;
+              const ev = { t: t + t0, d, v: vi, vel: e.vel, s: sIdx };
+              if (!voice.drum) {
+                ev.m = e.notes.map(n => n + voice.trans + ref.trans);
+                ev.d = Math.max(0.02, d * voice.gate);
+                if (e.glide && lastMidi[vi] != null) ev.g = lastMidi[vi] + 0;
+              }
+              evs.push(ev);
+            }
+          }
+          evs.sort((a, b) => a.t - b.t || a.v - b.v);
+          for (const ev of evs) { if (ev.m) lastMidi[ev.v] = ev.m[ev.m.length - 1]; events.push(ev); }
+          t += total * stepDur;
+        }
+      }
+      return { events, sections, dur: t };
+    }
+
+    let playRefs = song.play, loopRefs = song.loop;
+    if (!playRefs.length && !loopRefs.length) {
+      loopRefs = song.patternOrder.map(n => ({ name: n, trans: 0, times: 1, ln: song.patterns[n].ln }));
+    }
+    const intro = timeline(playRefs);
+    const loop = timeline(loopRefs);
+    if (!intro.dur && !loop.dur && !errors.length) errors.push({ line: 1, msg: 'Nothing to play yet. Add a pattern and a loop line.' });
+
+    errors.sort((a, b) => a.line - b.line);
+    return {
+      title: song.title, composer: song.composer, about: song.about, tempo: song.tempo,
+      beats: song.beats, steps: song.steps, reverb: song.reverb,
+      voices, intro, loop, errors, patternCount: song.patternOrder.length
+    };
+  }
+
+  const api = { parse, compile, noteToMidi, chordToMidis, MELODIC, DRUMS, CHORDS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.ScrimScore = api;
+})(typeof self !== 'undefined' ? self : this);
+
+</script>
+<script>
+/* Scrimshaw synth: Web Audio instruments in the spirit of early-90s sound modules */
+(function (root) {
+  'use strict';
+
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+
+  /* --------------------------------------------------------------- helpers */
+  function G(S, v = 0) { const g = S.ctx.createGain(); g.gain.value = v; return g; }
+  function F(S, type, f, q = 0.7, gainDb) {
+    const b = S.ctx.createBiquadFilter(); b.type = type;
+    b.frequency.value = clamp(f, 10, S.nyq * 0.95); b.Q.value = q;
+    if (gainDb != null) b.gain.value = gainDb;
+    return b;
+  }
+  function O(S, type, f, t, stop, p, ratio = 1, detune = 0) {
+    const o = S.ctx.createOscillator();
+    if (typeof type === 'string') o.type = type; else o.setPeriodicWave(type);
+    const ff = clamp(f * ratio, 1, S.nyq * 0.98);
+    if (p && p.from) {
+      o.frequency.setValueAtTime(clamp(p.from * ratio, 1, S.nyq * 0.98), t);
+      o.frequency.exponentialRampToValueAtTime(ff, t + p.glide);
+    } else o.frequency.setValueAtTime(ff, t);
+    if (detune) o.detune.value = detune;
+    o.start(t); o.stop(stop);
+    return o;
+  }
+  // sustained envelope; returns time when the voice is silent
+  function adsr(param, t, d, { a = 0.01, dc = 0.1, s = 1, r = 0.1, peak = 1 }) {
+    const tOn = t + a, tOff = Math.max(t + d, tOn + 0.003);
+    param.setValueAtTime(0, t);
+    param.linearRampToValueAtTime(peak, tOn);
+    if (s < 1) param.setTargetAtTime(peak * s, tOn, Math.max(0.002, dc / 3));
+    param.setTargetAtTime(0, tOff, Math.max(0.002, r / 4));
+    return tOff + r * 1.8 + 0.03;
+  }
+  // struck envelope; optional damping time
+  function perc(param, t, { a = 0.002, tau = 0.3, peak = 1, damp = null, dampTau = 0.06 }) {
+    param.setValueAtTime(0, t);
+    param.linearRampToValueAtTime(peak, t + a);
+    param.setTargetAtTime(0, t + a, Math.max(0.002, tau));
+    let end = t + a + tau * 7;
+    if (damp != null && damp + dampTau * 7 < end) {
+      const td = Math.max(damp, t + a + 0.002);
+      param.setTargetAtTime(0, td, dampTau);
+      end = td + dampTau * 7;
+    }
+    return end;
+  }
+  function partial(S, out, t, f, opt) {
+    if (f >= S.nyq * 0.9) return;
+    const g = G(S); g.connect(out);
+    const end = perc(g.gain, t, opt);
+    const o = O(S, opt.type || 'sine', f, t, end);
+    if (opt.bend) { o.frequency.setValueAtTime(f * opt.bend, t); o.frequency.setTargetAtTime(f, t, opt.bendTau || 0.02); }
+    o.connect(g);
+    return end;
+  }
+  function noise(S, out, t, { type = 'bandpass', f = 2000, q = 1, a = 0.001, tau = 0.01, peak = 0.1 }) {
+    const src = S.ctx.createBufferSource(); src.buffer = S.noise; src.loop = true;
+    const fl = F(S, type, f, q);
+    const g = G(S);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(peak, t + a);
+    g.gain.setTargetAtTime(0, t + a, Math.max(0.001, tau));
+    src.connect(fl).connect(g).connect(out);
+    src.start(t, Math.random() * (S.noise.duration - 0.5));
+    src.stop(t + a + tau * 7 + 0.01);
+    return { src, fl, g };
+  }
+  function noiseSrc(S, t, stop) {
+    const src = S.ctx.createBufferSource(); src.buffer = S.noise; src.loop = true;
+    src.start(t, Math.random() * (S.noise.duration - 0.5)); src.stop(stop);
+    return src;
+  }
+  function vibrato(S, t, stop, targets, { rate = 5, depth = 10, delay = 0.2, rise = 0.3 }) {
+    const lfo = S.ctx.createOscillator();
+    lfo.frequency.value = rate * (0.94 + Math.random() * 0.12);
+    const g = G(S);
+    g.gain.setValueAtTime(0, t);
+    g.gain.setValueAtTime(0, t + delay);
+    g.gain.linearRampToValueAtTime(depth, t + delay + rise);
+    lfo.connect(g);
+    targets.forEach(o => g.connect(o.detune));
+    lfo.start(t); lfo.stop(stop);
+  }
+  function metal(S, out, t, stop, mult = 1) {
+    const sum = G(S, 0.16); sum.connect(out);
+    for (const f of [205.3, 304.4, 369.6, 522.7, 540, 800]) O(S, 'square', f * mult, t, stop).connect(sum);
+    return sum;
+  }
+
+  /* -------------------------------------------------------------- waveforms */
+  const WAVES = {
+    organ: [1, .8, .5, .42, 0, .25, 0, .2],
+    pipe: [1, .55, .32, .4, .08, .18, 0, .2, 0, .07, 0, .06],
+    clarinet: [1, .05, .72, .04, .45, .02, .26, 0, .12, 0, .06],
+    oboe: [.5, 1, .85, .5, .36, .22, .15, .1, .06],
+    bassoon: [.45, 1, .78, .56, .42, .3, .22, .14, .1, .06],
+    reed: [1, .55, .45, .32, .3, .22, .18, .13, .11, .08, .06, .05],
+    horn: [1, .5, .3, .18, .1, .05],
+    saxalto: [.72, 1, .83, .65, .47, .35, .27, .18, .12, .08, .05, .03],
+    saxtenor: [1, .88, .67, .52, .38, .29, .2, .14, .09, .05, .03],
+    violin: [1, .65, .46, .36, .29, .24, .2, .17, .14, .12, .09, .07],
+    viola: [1, .6, .43, .32, .24, .18, .14, .1, .07, .05],
+    cello: [1, .7, .47, .3, .2, .14, .09, .06, .04],
+    trombone: [1, .72, .52, .37, .26, .18, .12, .08, .05, .03],
+    schwyzeroergeli: [1, .7, .52, .4, .31, .24, .18, .13, .1, .07],
+    alphorn: [1, .38, .17, .075, .035, .015],
+    buechel: [1, .63, .4, .26, .16, .09, .045, .02],
+    yodelchest: [1, .58, .34, .22, .15, .1, .07, .05, .035, .02],
+    yodelhead: [1, .16, .06, .025, .012]
+  };
+  function wave(S, name) {
+    if (!S.waves[name]) {
+      const h = WAVES[name], n = h.length + 1;
+      const re = new Float32Array(n), im = new Float32Array(n);
+      h.forEach((a, i) => { im[i + 1] = a; });
+      S.waves[name] = S.ctx.createPeriodicWave(re, im);
+    }
+    return S.waves[name];
+  }
+
+  /* -------------------------------------------- plucked strings (Karplus-Strong) */
+  function ks(S, f, cfg) {
+    const sr = S.ctx.sampleRate;
+    const N = Math.max(2, Math.floor(sr / f - cfg.b));
+    const key = cfg.id + ':' + N;
+    let e = S.ks[key];
+    if (!e) {
+      const len = Math.floor(sr * cfg.dur);
+      const buf = S.ctx.createBuffer(1, len, sr);
+      const y = buf.getChannelData(0);
+      let lp = 0, mean = 0;
+      for (let i = 0; i < N; i++) { lp += (1 - cfg.color) * ((Math.random() * 2 - 1) - lp); y[i] = lp; mean += lp; }
+      mean /= N;
+      let pk = 1e-6;
+      for (let i = 0; i < N; i++) { y[i] -= mean; pk = Math.max(pk, Math.abs(y[i])); }
+      for (let i = 0; i < N; i++) y[i] /= pk;
+      const b = cfg.b, dk = cfg.decay;
+      for (let i = N; i < len; i++) y[i] = dk * ((1 - b) * y[i - N] + b * (i - N - 1 >= 0 ? y[i - N - 1] : 0));
+      const fade = Math.floor(len * 0.25);
+      for (let i = 0; i < fade; i++) { const k = i / fade; y[len - fade + i] *= (1 - k) * (1 - k); }
+      e = S.ks[key] = { buf, f0: sr / (N + b) };
+    }
+    return e;
+  }
+  function pluck(S, out, t, d, f, v, cfg, chain) {
+    const e = ks(S, f, cfg);
+    const src = S.ctx.createBufferSource(); src.buffer = e.buf;
+    const rate = f / e.f0; src.playbackRate.value = rate;
+    const g = G(S);
+    const end = perc(g.gain, t, { a: 0.001, tau: 50, peak: v, damp: t + d + cfg.hang, dampTau: cfg.dampTau });
+    let node = src;
+    for (const n of chain) { node.connect(n); node = n; }
+    node.connect(g).connect(out);
+    src.start(t); src.stop(Math.min(end, t + e.buf.duration / rate));
+  }
+
+  const PLUCK = {
+    harp: { id: 'harp', b: .45, decay: .9985, color: .55, dur: 2.8, hang: 1.4, dampTau: .25 },
+    guitar: { id: 'gtr', b: .38, decay: .997, color: .4, dur: 1.9, hang: .2, dampTau: .06 },
+    banjo: { id: 'banjo', b: .18, decay: .988, color: .05, dur: 1.1, hang: .1, dampTau: .05 },
+    harpsichord: { id: 'hpsi', b: .14, decay: .994, color: 0, dur: 1.6, hang: .12, dampTau: .05 },
+    pizz: { id: 'pizz', b: .5, decay: .982, color: .6, dur: .8, hang: .15, dampTau: .05 },
+    upright: { id: 'upr', b: .5, decay: .996, color: .7, dur: 1.7, hang: .04, dampTau: .07 },
+    elecguitar: { id: 'egtr', b: .22, decay: .9982, color: .2, dur: 3.2, hang: .08, dampTau: .045 },
+    elecbass: { id: 'ebass', b: .42, decay: .999, color: .55, dur: 3.5, hang: .03, dampTau: .07 }
+  };
+
+  /* ------------------------------------------------------------ instruments */
+  // Compact spectral models, not full nonlinear physical simulations. See README sources.
+  function soloVoice(S, out, t, d, f, v, p, cfg) {
+    const g = G(S);
+    const lp = F(S, 'lowpass', (cfg.cutoff + f * 2) * p.bright, .65);
+    let body = lp;
+    for (const [hz, db] of cfg.body) {
+      const filter = F(S, 'peaking', hz, 1.1, db);
+      body.connect(filter); body = filter;
+    }
+    body.connect(g).connect(out);
+    const attack = p.att ?? cfg.attack;
+    const end = adsr(g.gain, t, d, { a: attack, dc: .15, s: .88,
+      r: p.rel ?? cfg.release, peak: v * .42 });
+    const cutoff = clamp((cfg.cutoff + f * 2) * p.bright * (.55 + .45 * Math.min(v, 1)), 10, S.nyq * .9);
+    lp.frequency.setValueAtTime(Math.min(cutoff, f * 2), t);
+    lp.frequency.linearRampToValueAtTime(cutoff, t + attack);
+    const o = O(S, wave(S, cfg.wave), f, t, end, p);
+    o.connect(lp);
+    vibrato(S, t, end, [o], { rate: cfg.rate, depth: cfg.depth, delay: .18, rise: .2 });
+    const breath = noiseSrc(S, t, end);
+    const ng = G(S, cfg.noise);
+    breath.connect(F(S, 'bandpass', cfg.noiseHz, .7)).connect(ng).connect(g);
+  }
+
+  function hammeredStrings(S, out, t, d, f, v, p, cfg) {
+    const lp = F(S, 'lowpass', cfg.cutoff * p.bright * (.55 + .45 * Math.min(v, 1)), .6);
+    lp.connect(F(S, 'peaking', cfg.body, .8, 2)).connect(out);
+    const tau = clamp(cfg.decay * Math.pow(220 / f, .35), .15, 1.3);
+    cfg.harmonics.forEach((amp, i) => {
+      const n = i + 1;
+      // Stiff strings stretch upper partials while leaving the requested fundamental intact.
+      const ratio = n * Math.sqrt((1 + cfg.stiffness * n * n) / (1 + cfg.stiffness));
+      if (f * ratio >= S.nyq * .9) return;
+      for (const cents of cfg.courses) {
+        const g = G(S); g.connect(lp);
+        const end = perc(g.gain, t, { a: p.att ?? .002, tau: tau / Math.pow(n, .7),
+          peak: v * amp * .42 / cfg.courses.length, damp: t + d + cfg.hang,
+          dampTau: Math.max(.002, (p.rel ?? cfg.release) / 4) });
+        O(S, 'sine', f, t, end, p, ratio, cents).connect(g);
+      }
+    });
+    noise(S, lp, t, { f: cfg.cutoff, q: .5, tau: .005, peak: v * .025 });
+  }
+
+  // play(S, out, t, dur, freq, vel, p) ; p = {from, glide, bright, att, rel}
+  const INST = {
+    piano: { rev: .26, level: 1.5, play(S, out, t, d, f, v, p) {
+      hammeredStrings(S, out, t, d, f, v, p, { cutoff: 6500, body: 280,
+        decay: .85, stiffness: .00012, courses: [0, 1.5], hang: .02, release: .12,
+        harmonics: [1, .55, .32, .2, .13, .09, .06, .035] });
+    } },
+    epiano: { rev: .28, level: 1.35, play(S, out, t, d, f, v, p) {
+      const lp = F(S, 'lowpass', 5500 * p.bright, .6); lp.connect(out);
+      const g = G(S); g.connect(lp);
+      const end = perc(g.gain, t, { a: p.att ?? .003, tau: .85, peak: v * .42,
+        damp: t + d + .03, dampTau: Math.max(.002, (p.rel ?? .18) / 4) });
+      const carrier = O(S, 'sine', f, t, end, p); carrier.connect(g);
+      const mod = O(S, 'sine', f, t, end, p);
+      const mg = G(S);
+      const index = Math.min(Math.min(v, 1) * 2 * p.bright, Math.max(0, S.nyq * .85 / f - 2));
+      mg.gain.setValueAtTime(f * index, t);
+      mg.gain.setTargetAtTime(0, t, .12);
+      mod.connect(mg).connect(carrier.frequency);
+      partial(S, lp, t, f * 7, { tau: .045, peak: v * .025, damp: t + d });
+    } },
+    saxalto: { rev: .24, level: 1.2, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'saxalto', cutoff: 3800,
+        body: [[900, 3], [1800, 4]], attack: .035, release: .1,
+        rate: 5.4, depth: 14, noise: .025, noiseHz: 2400 });
+    } },
+    saxtenor: { rev: .24, level: 1.2, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'saxtenor', cutoff: 2700,
+        body: [[450, 3], [1200, 4]], attack: .045, release: .13,
+        rate: 5, depth: 17, noise: .035, noiseHz: 1600 });
+    } },
+    elecguitar: { rev: .18, level: 1.25, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .48, PLUCK.elecguitar,
+        [F(S, 'highpass', 75, .5), F(S, 'peaking', 2200, 1.2, 4), F(S, 'lowpass', 4800 * p.bright, .7)]);
+      noise(S, out, t, { f: 1800, tau: .004, peak: v * .018 });
+    } },
+    elecbass: { rev: .1, level: 1.3, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .55, PLUCK.elecbass,
+        [F(S, 'peaking', 110, .8, 3), F(S, 'peaking', 850, 1, 2), F(S, 'lowpass', 2400 * p.bright, .6)]);
+    } },
+    violin: { rev: .32, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'violin', cutoff: 5800,
+        body: [[460, 3], [2700, 5]], attack: .07, release: .16,
+        rate: 5.7, depth: 13, noise: .012, noiseHz: 3500 });
+    } },
+    viola: { rev: .32, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'viola', cutoff: 4200,
+        body: [[300, 4], [1800, 4]], attack: .09, release: .19,
+        rate: 5.2, depth: 11, noise: .014, noiseHz: 2800 });
+    } },
+    cello: { rev: .34, level: 1.1, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'cello', cutoff: 3000,
+        body: [[180, 4], [900, 3]], attack: .12, release: .24,
+        rate: 4.8, depth: 10, noise: .016, noiseHz: 2100 });
+    } },
+    trombone: { rev: .25, level: 1.05, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'trombone', cutoff: 3300,
+        body: [[650, 3], [1400, 2]], attack: .055, release: .12,
+        rate: 4.8, depth: 7, noise: .012, noiseHz: 1300 });
+    } },
+    schwyzeroergeli: { rev: .2, level: 1.4, play(S, out, t, d, f, v, p) {
+      const g = G(S), lp = F(S, 'lowpass', (3600 + f) * p.bright, .6);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att ?? .012, dc: .08, s: .93,
+        r: p.rel ?? .045, peak: v * .42 });
+      // Schwyzerton: one main reed plus two slightly mistuned octave reeds (MHH).
+      [[1, 0, .5], [2, -7, .25], [2, 7, .25]].forEach(([ratio, cents, amp]) => {
+        if (f * ratio >= S.nyq * .9) return;
+        O(S, wave(S, 'schwyzeroergeli'), f, t, end, p, ratio, cents).connect(G(S, amp)).connect(lp);
+      });
+    } },
+    hackbrett: { rev: .32, level: 1.35, play(S, out, t, d, f, v, p) {
+      hammeredStrings(S, out, t, d, f, v, p, { cutoff: 9000, body: 650,
+        decay: 1.05, stiffness: .000025, courses: [-3, 0, 4], hang: 1.2, release: .4,
+        harmonics: [1, .65, .45, .3, .21, .14, .09, .06] });
+    } },
+    alphorn: { rev: .42, level: 1.25, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'alphorn', cutoff: 1300,
+        body: [[420, 2]], attack: .14, release: .3,
+        rate: 4.2, depth: 2, noise: .035, noiseHz: 800 });
+    } },
+    buechel: { rev: .3, level: 1.15, play(S, out, t, d, f, v, p) {
+      soloVoice(S, out, t, d, f, v, p, { wave: 'buechel', cutoff: 2800,
+        body: [[1100, 3]], attack: .035, release: .09,
+        rate: 4.8, depth: 4, noise: .022, noiseHz: 1400 });
+    } },
+    yodel: { rev: .36, level: 2.4, play(S, out, t, d, f, v, p) {
+      const head = f >= mtof(72);
+      const g = G(S); g.connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att ?? .012, dc: .06, s: .92,
+        r: p.rel ?? .065, peak: v * .5 });
+      const o = O(S, wave(S, head ? 'yodelhead' : 'yodelchest'), f, t, end, p);
+      const formants = head ? [[350, 5, .75], [2000, 7, .2], [2800, 9, .05]]
+        : [[750, 5, .65], [1150, 6, .25], [2600, 8, .1]];
+      for (const [hz, q, amp] of formants) {
+        o.connect(F(S, 'bandpass', hz * Math.sqrt(p.bright), q)).connect(G(S, amp)).connect(g);
+      }
+      const direct = G(S, head ? .22 : .12); o.connect(direct).connect(g);
+      const breath = noiseSrc(S, t, end);
+      breath.connect(F(S, 'highpass', 1800, .6)).connect(G(S, head ? .04 : .015)).connect(g);
+      vibrato(S, t, end, [o], { rate: 5.5, depth: head ? 8 : 12, delay: .12, rise: .15 });
+    } },
+    steeldrum: { rev: 0.22, level: 0.66, play(S, out, t, d, f, v, p) {
+      const tau = clamp(0.5 * Math.pow(440 / f, 0.45), 0.15, 1.1);
+      const lp = F(S, 'lowpass', 5200 * p.bright, 0.5); lp.connect(out);
+      const damp = t + d + 0.9;
+      [[1, 1, 1, .002], [1.0035, .32, 1.1, .002], [2, .52, .55, .016], [3, .17, .32, .004], [4.07, .06, .18, .002]]
+        .forEach(([r, a, tm, at]) => partial(S, lp, t, f * r, { a: at, tau: tau * tm, peak: v * a * 0.5, damp }));
+      noise(S, lp, t, { f: 2600, q: .8, tau: .006, peak: v * .05 });
+    } },
+    marimba: { rev: 0.18, level: 0.5, play(S, out, t, d, f, v, p) {
+      const tau = clamp(0.26 * Math.sqrt(330 / f), 0.08, 0.6);
+      partial(S, out, t, f, { a: .002, tau, peak: v * .8 });
+      partial(S, out, t, f * 3.98, { a: .001, tau: tau * .18, peak: v * .22 * p.bright });
+      partial(S, out, t, f * 9.9, { a: .001, tau: tau * .05, peak: v * .05 * p.bright });
+      noise(S, out, t, { f: f * 2.5, q: 1.2, tau: .004, peak: v * .06 });
+    } },
+    vibes: { rev: 0.35, level: 0.4, play(S, out, t, d, f, v, p) {
+      const trem = G(S, 0.82); trem.connect(out);
+      const tau = clamp(1.1 * Math.pow(440 / f, 0.3), 0.4, 1.8);
+      const end = t + Math.min(tau * 7, d + 2.2);
+      const lfo = S.ctx.createOscillator(); lfo.frequency.value = 5.2;
+      const lg = G(S, 0.18); lfo.connect(lg).connect(trem.gain); lfo.start(t); lfo.stop(end);
+      partial(S, trem, t, f, { a: .002, tau, peak: v * .7, damp: t + d + 1.2, dampTau: .2 });
+      partial(S, trem, t, f * 4, { a: .001, tau: .18, peak: v * .14 * p.bright });
+      noise(S, trem, t, { f: f * 3, q: 1, tau: .004, peak: v * .03 });
+    } },
+    celesta: { rev: 0.35, level: 0.63, play(S, out, t, d, f, v, p) {
+      const tau = clamp(0.55 * Math.pow(440 / f, 0.3), 0.2, 0.9);
+      partial(S, out, t, f, { a: .002, tau, peak: v * .7 });
+      partial(S, out, t, f * 2, { a: .001, tau: tau * .4, peak: v * .14 });
+      partial(S, out, t, f * 4.02, { a: .001, tau: tau * .12, peak: v * .1 * p.bright });
+      noise(S, out, t, { f: 5000, q: 1, tau: .003, peak: v * .04 });
+    } },
+    glock: { rev: 0.35, level: 0.53, play(S, out, t, d, f, v, p) {
+      partial(S, out, t, f, { a: .001, tau: .7, peak: v * .6 });
+      partial(S, out, t, f * 2.76, { a: .001, tau: .22, peak: v * .25 * p.bright });
+      partial(S, out, t, f * 5.4, { a: .001, tau: .07, peak: v * .14 * p.bright });
+      partial(S, out, t, f * 8.93, { a: .001, tau: .03, peak: v * .06 * p.bright });
+    } },
+    xylophone: { rev: 0.2, level: 0.72, play(S, out, t, d, f, v, p) {
+      const tau = clamp(0.13 * Math.sqrt(440 / f), 0.05, 0.25);
+      partial(S, out, t, f, { a: .001, tau, peak: v * .75 });
+      partial(S, out, t, f * 3, { a: .001, tau: tau * .4, peak: v * .35 * p.bright });
+      partial(S, out, t, f * 6, { a: .001, tau: tau * .15, peak: v * .1 * p.bright });
+      noise(S, out, t, { f: 4000, q: 1, tau: .004, peak: v * .1 });
+    } },
+    musicbox: { rev: 0.4, level: 0.64, play(S, out, t, d, f, v, p) {
+      partial(S, out, t, f, { a: .001, tau: .5, peak: v * .7 });
+      partial(S, out, t, f * 3, { a: .001, tau: .12, peak: v * .12 });
+      partial(S, out, t, f * 5.2, { a: .001, tau: .05, peak: v * .06 * p.bright });
+      noise(S, out, t, { f: 7000, q: 2, tau: .002, peak: v * .05 });
+    } },
+    bell: { rev: 0.45, level: 0.71, play(S, out, t, d, f, v, p) {
+      const damp = t + d + 3;
+      [[.5, .35, 3.5], [1, 1, 2.4], [1.19, .55, 1.7], [1.5, .38, 1.4], [2, .45, 1.1], [2.52, .22, .8], [3.01, .16, .55], [4.1, .08, .35]]
+        .forEach(([r, a, tau]) => partial(S, out, t, f * r, { a: .002, tau, peak: v * a * .35, damp, dampTau: .4 }));
+      noise(S, out, t, { f: f * 4, q: 1, tau: .01, peak: v * .05 });
+    } },
+    organ: { rev: 0.15, level: 0.98, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 5500 * p.bright, 0.5);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .005, r: p.rel || .06, peak: v * .5 });
+      const o = O(S, wave(S, 'organ'), f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 6.3, depth: 5, delay: 0, rise: .05 });
+      noise(S, out, t, { type: 'lowpass', f: 2500, q: .5, tau: .002, peak: v * .1 });
+    } },
+    pipe: { rev: 0.55, level: 1.01, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 4200 * p.bright, 0.5);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .06, r: p.rel || .28, peak: v * .38 });
+      O(S, wave(S, 'pipe'), f, t, end, p).connect(lp);
+      const sub = G(S, .45); sub.connect(lp); O(S, 'sine', f, t, end, p, .5).connect(sub);
+      noise(S, out, t, { f: f * 3, q: 2, a: .01, tau: .02, peak: v * .04 });
+    } },
+    strings: { rev: 0.4, level: 3.18, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', Math.min(9000, (1300 + f * 2.6) * p.bright), 0.6);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .16, dc: .3, s: .9, r: p.rel || .38, peak: v * .5 });
+      const os = [-8, 0, 8].map(c => { const o = O(S, 'sawtooth', f, t, end, p, 1, c); const og = G(S, .22); o.connect(og).connect(lp); return o; });
+      vibrato(S, t, end, os, { rate: 5.3, depth: 7, delay: .15, rise: .4 });
+    } },
+    pad: { rev: 0.5, level: 2.18, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', (600 + f * 1.4) * p.bright, 0.9);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .5, r: p.rel || 1.0, peak: v * .45 });
+      [-12, 0, 11].forEach(c => { const og = G(S, .24); O(S, 'sawtooth', f, t, end, p, 1, c).connect(og).connect(lp); });
+    } },
+    choir: { rev: 0.5, level: 2.02, play(S, out, t, d, f, v, p) { choirVoice(S, out, t, d, f, v, p, [[730, 7, 1], [1090, 8, .55], [2440, 10, .25]]); } },
+    voices: { rev: 0.5, level: 2.01, play(S, out, t, d, f, v, p) { choirVoice(S, out, t, d, f, v, p, [[380, 6, 1], [820, 8, .35], [2500, 10, .1]]); } },
+    brass: { rev: 0.25, level: 0.83, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', f, 1.3);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .03, dc: .2, s: .85, r: p.rel || .12, peak: v * .42 });
+      const pk = Math.min(11000, (f * 5 + 700) * p.bright * (0.55 + 0.45 * v));
+      lp.frequency.setValueAtTime(f * 1.1, t);
+      lp.frequency.linearRampToValueAtTime(pk, t + .06);
+      lp.frequency.setTargetAtTime(f * 1.2 + (pk - f) * .5, t + .06, .2);
+      const os = [-5, 5].map(c => { const o = O(S, 'sawtooth', f, t, end, p, 1, c); o.connect(lp); return o; });
+      vibrato(S, t, end, os, { rate: 5.2, depth: 6, delay: .35, rise: .3 });
+    } },
+    trumpet: { rev: 0.25, level: 1.17, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', f, 1.6);
+      const pk2 = F(S, 'peaking', 1400, 1, 5);
+      lp.connect(pk2).connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .02, dc: .15, s: .8, r: p.rel || .09, peak: v * .4 });
+      const pk = Math.min(12000, (f * 7 + 900) * p.bright * (0.5 + 0.5 * v));
+      lp.frequency.setValueAtTime(f * 1.5, t);
+      lp.frequency.linearRampToValueAtTime(pk, t + .04);
+      lp.frequency.setTargetAtTime(f * 2 + (pk - f) * .45, t + .04, .15);
+      const o = O(S, 'sawtooth', f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 5.6, depth: 11, delay: .25, rise: .25 });
+    } },
+    horn: { rev: 0.4, level: 0.7, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', f * 2, 0.8);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .06, dc: .3, s: .9, r: p.rel || .2, peak: v * .5 });
+      lp.frequency.setValueAtTime(f * 1.2, t);
+      lp.frequency.linearRampToValueAtTime(Math.min(6000, (f * 3 + 300) * p.bright), t + .08);
+      const o1 = O(S, 'sawtooth', f, t, end, p); const g1 = G(S, .5); o1.connect(g1).connect(lp);
+      const o2 = O(S, wave(S, 'horn'), f, t, end, p, 1, 4); o2.connect(lp);
+      vibrato(S, t, end, [o1, o2], { rate: 4.8, depth: 5, delay: .4, rise: .4 });
+    } },
+    tuba: { rev: 0.2, level: 0.7, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', (f * 3 + 150) * p.bright, 1.0);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .035, dc: .2, s: .8, r: p.rel || .1, peak: v * .55 });
+      O(S, 'sawtooth', f, t, end, p).connect(lp);
+      const sg = G(S, .5); O(S, 'sine', f, t, end, p).connect(sg).connect(lp);
+    } },
+    flute: { rev: 0.38, level: 1.0, play(S, out, t, d, f, v, p) {
+      const g = G(S); g.connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .055, dc: .15, s: .85, r: p.rel || .09, peak: v * .48 });
+      const o1 = O(S, 'sine', f, t, end, p); const g1 = G(S, .75); o1.connect(g1).connect(g);
+      const o2 = O(S, 'triangle', f, t, end, p); const g2 = G(S, .22 * p.bright); o2.connect(g2).connect(g);
+      const o3 = O(S, 'sine', f, t, end, p, 2); const g3 = G(S, .07); o3.connect(g3).connect(g);
+      vibrato(S, t, end, [o1, o2, o3], { rate: 5, depth: 13, delay: .22, rise: .35 });
+      // breath
+      const n = noiseSrc(S, t, end); const hp = F(S, 'bandpass', Math.min(f * 2.2, 9000), 0.7); const ng = G(S);
+      ng.gain.setValueAtTime(0, t); ng.gain.linearRampToValueAtTime(v * .05, t + .03);
+      ng.gain.setTargetAtTime(v * .012, t + .03, .06); ng.gain.setTargetAtTime(0, Math.max(t + d, t + .04), .03);
+      n.connect(hp).connect(ng).connect(out);
+    } },
+    clarinet: { rev: 0.3, level: 1.16, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', Math.min(9000, 3000 * p.bright), 0.6);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .035, dc: .2, s: .9, r: p.rel || .08, peak: v * .42 });
+      const o = O(S, wave(S, 'clarinet'), f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 4.6, depth: 5, delay: .4, rise: .4 });
+      noise(S, out, t, { f: f * 3, q: 1, a: .01, tau: .02, peak: v * .02 });
+    } },
+    oboe: { rev: 0.3, level: 1.98, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', Math.min(9000, 3800 * p.bright), 0.6);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .03, dc: .2, s: .9, r: p.rel || .08, peak: v * .36 });
+      const o = O(S, wave(S, 'oboe'), f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 5.5, depth: 8, delay: .25, rise: .3 });
+    } },
+    bassoon: { rev: 0.25, level: 1.72, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', Math.min(6000, 1700 * p.bright), 0.7);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .04, dc: .2, s: .85, r: p.rel || .08, peak: v * .45 });
+      const o = O(S, wave(S, 'bassoon'), f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 5, depth: 5, delay: .35, rise: .3 });
+    } },
+    accordion: { rev: 0.22, level: 2.06, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', Math.min(9000, (2600 + f) * p.bright), 0.7);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .025, dc: .2, s: .92, r: p.rel || .07, peak: v * .4 });
+      [0, 15, -13].forEach((c, i) => { const og = G(S, i ? .28 : .36); O(S, wave(S, 'reed'), f, t, end, p, 1, c).connect(og).connect(lp); });
+    } },
+    fiddle: { rev: 0.3, level: 0.93, play(S, out, t, d, f, v, p) {
+      const g = G(S); const body = F(S, 'peaking', 2800, 1.2, 6); const body2 = F(S, 'peaking', 480, 1.5, 4);
+      const lp = F(S, 'lowpass', 6500 * p.bright, 0.6);
+      body.connect(body2).connect(lp).connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .06, dc: .2, s: .9, r: p.rel || .14, peak: v * .3 });
+      const os = [-4, 4].map(c => { const o = O(S, 'sawtooth', f, t, end, p, 1, c); o.connect(body); return o; });
+      vibrato(S, t, end, os, { rate: 5.8, depth: 14, delay: .18, rise: .25 });
+      noise(S, out, t, { type: 'highpass', f: 3000, q: .5, a: .01, tau: .03, peak: v * .03 });
+    } },
+    harp: { rev: 0.45, level: 1.07, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .55, PLUCK.harp, [F(S, 'lowpass', 3500 * p.bright, .5)]);
+      partial(S, out, t, f, { a: .003, tau: .9, peak: v * .12 });
+    } },
+    guitar: { rev: 0.25, level: 1.53, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .55, PLUCK.guitar, [F(S, 'lowpass', 4200 * p.bright, .5), F(S, 'peaking', 220, 1, 3)]);
+    } },
+    banjo: { rev: 0.18, level: 1.18, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .5, PLUCK.banjo, [F(S, 'highpass', 250, .5), F(S, 'peaking', 2500, 1.5, 5)]);
+    } },
+    harpsichord: { rev: 0.3, level: 1.74, play(S, out, t, d, f, v, p) {
+      const hp = F(S, 'highpass', 180, .5);
+      pluck(S, out, t, d, f, v * .42, PLUCK.harpsichord, [hp]);
+      pluck(S, out, t, d, f * 2, v * .16 * p.bright, PLUCK.harpsichord, [F(S, 'highpass', 400, .5)]);
+    } },
+    pizz: { rev: 0.35, level: 1.21, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .6, PLUCK.pizz, [F(S, 'lowpass', 2400 * p.bright, .6)]);
+      partial(S, out, t, f, { a: .002, tau: .12, peak: v * .18 });
+    } },
+    upright: { rev: 0.15, level: 0.72, play(S, out, t, d, f, v, p) {
+      pluck(S, out, t, d, f, v * .5, PLUCK.upright, [F(S, 'lowpass', 1400 * p.bright, .6)]);
+      partial(S, out, t, f, { a: .004, tau: .5, peak: v * .45, damp: t + d + .04, dampTau: .07 });
+      noise(S, out, t, { type: 'lowpass', f: 900, q: .5, tau: .01, peak: v * .12 });
+    } },
+    fretless: { rev: 0.12, level: 0.69, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 300, 3.2);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .012, dc: .6, s: .72, r: p.rel || .08, peak: v * .6 });
+      const top = Math.min(4000, (f * 4.5 + 250) * p.bright);
+      lp.frequency.setValueAtTime(f * 1.2 + 80, t);
+      lp.frequency.linearRampToValueAtTime(top, t + .07);
+      lp.frequency.setTargetAtTime(f * 2.2 + 150, t + .07, .25);
+      const o1 = O(S, 'sawtooth', f, t, end, p); const g1 = G(S, .38); o1.connect(g1).connect(lp);
+      const o2 = O(S, 'sine', f, t, end, p); const g2 = G(S, .75); o2.connect(g2).connect(lp);
+      vibrato(S, t, end, [o1, o2], { rate: 4.5, depth: 6, delay: .3, rise: .4 });
+    } },
+    synbass: { rev: 0.08, level: 0.76, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 300, 5);
+      lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .003, dc: .35, s: .55, r: p.rel || .06, peak: v * .5 });
+      lp.frequency.setValueAtTime(Math.min(5000, 2600 * p.bright * v), t);
+      lp.frequency.setTargetAtTime(f * 2 + 80, t, .07);
+      O(S, 'sawtooth', f, t, end, p).connect(lp);
+      const sq = G(S, .5); O(S, 'square', f, t, end, p, 1, -6).connect(sq).connect(lp);
+    } },
+    timpani: { rev: 0.45, level: 0.53, play(S, out, t, d, f, v, p) {
+      const damp = t + Math.max(d, .15) + .5;
+      partial(S, out, t, f, { a: .004, tau: .55, peak: v * .85, bend: 1.035, bendTau: .05, damp, dampTau: .15 });
+      partial(S, out, t, f * 1.505, { a: .003, tau: .35, peak: v * .32, damp, dampTau: .15 });
+      partial(S, out, t, f * 1.99, { a: .003, tau: .25, peak: v * .2, damp, dampTau: .15 });
+      partial(S, out, t, f * 2.44, { a: .002, tau: .15, peak: v * .1 });
+      noise(S, out, t, { type: 'lowpass', f: 500, q: .7, tau: .03, peak: v * .5 });
+    } },
+    chip: { rev: 0.15, level: 1.17, play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 6000 * p.bright, .5); lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .003, dc: .1, s: .8, r: p.rel || .04, peak: v * .3 });
+      const o = O(S, 'square', f, t, end, p); o.connect(lp);
+      vibrato(S, t, end, [o], { rate: 6, depth: 12, delay: .25, rise: .1 });
+    } }
+  };
+  ['sine', 'square', 'saw', 'triangle'].forEach(w => {
+    INST[w] = { rev: 0.2, level: ({ sine: 0.94, triangle: 1.15, square: 0.78, saw: 1.35 })[w], play(S, out, t, d, f, v, p) {
+      const g = G(S); const lp = F(S, 'lowpass', 8000 * p.bright, .5); lp.connect(g).connect(out);
+      const end = adsr(g.gain, t, d, { a: p.att || .008, dc: .2, s: .85, r: p.rel || .08, peak: v * .4 });
+      O(S, w === 'saw' ? 'sawtooth' : w, f, t, end, p).connect(lp);
+    } };
+  });
+
+  function choirVoice(S, out, t, d, f, v, p, formants) {
+    const g = G(S); g.connect(out);
+    const end = adsr(g.gain, t, d, { a: p.att || .28, dc: .3, s: .95, r: p.rel || .6, peak: v * 1.6 });
+    const src = G(S, 1);
+    const os = [-7, 6].map(c => { const o = O(S, 'sawtooth', f, t, end, p, 1, c); const og = G(S, .5); o.connect(og).connect(src); return o; });
+    vibrato(S, t, end, os, { rate: 5.1, depth: 12, delay: .2, rise: .5 });
+    for (const [ff, q, a] of formants) { const bp = F(S, 'bandpass', ff * (p.bright > 1 ? 1.1 : 1), q); const fg = G(S, a); src.connect(bp).connect(fg).connect(g); }
+    const n = noiseSrc(S, t, end); const nb = F(S, 'bandpass', formants[1][0], 2); const ng = G(S, v * .04); n.connect(nb).connect(ng).connect(g);
+  }
+
+  /* ----------------------------------------------------------------- drums */
+  const DRUM = {
+    kick: { rev: 0.05, level: 0.95, hit(S, out, t, v) {
+      const g = G(S); g.connect(out);
+      const end = perc(g.gain, t, { a: .003, tau: .13, peak: v * 1.0 });
+      const o = O(S, 'sine', 150, t, end); o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(46, t + .11);
+      o.connect(g);
+      noise(S, out, t, { type: 'lowpass', f: 3000, q: .5, tau: .003, peak: v * .28 });
+    } },
+    snare: { rev: 0.25, level: 1.12, hit(S, out, t, v) {
+      noise(S, out, t, { type: 'highpass', f: 1100, q: .5, tau: .055, peak: v * .6 });
+      noise(S, out, t, { type: 'bandpass', f: 4500, q: .8, tau: .03, peak: v * .25 });
+      partial(S, out, t, 185, { type: 'triangle', a: .001, tau: .035, peak: v * .5, bend: 1.25, bendTau: .02 });
+    } },
+    rim: { rev: 0.2, level: 1.66, hit(S, out, t, v) {
+      partial(S, out, t, 1650, { a: .001, tau: .007, peak: v * .5 });
+      partial(S, out, t, 520, { a: .001, tau: .016, peak: v * .4 });
+      noise(S, out, t, { f: 3200, q: 2, tau: .008, peak: v * .55 });
+    } },
+    hat: { rev: 0.1, level: 0.79, hit(S, out, t, v) { cymbal(S, out, t, v, .02, 7500, .5); } },
+    ohat: { rev: 0.15, level: 0.56, hit(S, out, t, v) { cymbal(S, out, t, v, .13, 7000, .45); } },
+    ride: { rev: 0.25, level: 1.65, hit(S, out, t, v) {
+      const g = G(S); const bp = F(S, 'bandpass', 5500, .8); bp.connect(g).connect(out);
+      const end = perc(g.gain, t, { a: .001, tau: .38, peak: v * .5 });
+      metal(S, bp, t, end, 1.5);
+      noise(S, out, t, { type: 'highpass', f: 8000, q: .5, tau: .2, peak: v * .07 });
+    } },
+    crash: { rev: 0.3, level: 0.75, hit(S, out, t, v) {
+      noise(S, out, t, { type: 'highpass', f: 3500, q: .5, a: .002, tau: .55, peak: v * .4 });
+      const g = G(S); const bp = F(S, 'bandpass', 4500, .7); bp.connect(g).connect(out);
+      const end = perc(g.gain, t, { a: .002, tau: .45, peak: v * .35 });
+      metal(S, bp, t, end, 1.1);
+    } },
+    shaker: { rev: 0.1, level: 1.21, hit(S, out, t, v) { noise(S, out, t, { f: 6500, q: 1.4, a: .012, tau: .025, peak: v * .55 }); } },
+    tamb: { rev: 0.15, level: 0.76, hit(S, out, t, v) {
+      noise(S, out, t, { type: 'highpass', f: 6500, q: .7, a: .002, tau: .05, peak: v * .45 });
+      noise(S, out, t + .013, { f: 9000, q: 2, a: .001, tau: .06, peak: v * .25 });
+    } },
+    conga: { rev: 0.18, level: 0.84, hit(S, out, t, v) { hand(S, out, t, v, 340, .11); } },
+    tumba: { rev: 0.18, level: 0.76, hit(S, out, t, v) { hand(S, out, t, v, 235, .15); } },
+    bongo: { rev: 0.15, level: 0.91, hit(S, out, t, v) { hand(S, out, t, v, 520, .055); } },
+    bongolo: { rev: 0.15, level: 0.82, hit(S, out, t, v) { hand(S, out, t, v, 395, .07); } },
+    clave: { rev: 0.25, level: 0.83, hit(S, out, t, v) {
+      partial(S, out, t, 2450, { a: .001, tau: .022, peak: v * .6 });
+      noise(S, out, t, { f: 2450, q: 8, tau: .01, peak: v * .2 });
+    } },
+    block: { rev: 0.25, level: 0.98, hit(S, out, t, v) {
+      partial(S, out, t, 880, { a: .001, tau: .028, peak: v * .6 });
+      partial(S, out, t, 1460, { a: .001, tau: .014, peak: v * .25 });
+      noise(S, out, t, { f: 900, q: 6, tau: .015, peak: v * .25 });
+    } },
+    cowbell: { rev: 0.2, level: 0.54, hit(S, out, t, v) {
+      const g = G(S); const bp = F(S, 'bandpass', 820, 1.6); bp.connect(g).connect(out);
+      const end = perc(g.gain, t, { a: .001, tau: .085, peak: v * .7 });
+      O(S, 'square', 545, t, end).connect(bp); O(S, 'square', 815, t, end).connect(bp);
+    } },
+    guiro: { rev: 0.15, level: 3.85, hit(S, out, t, v) {
+      for (let i = 0; i < 10; i++) noise(S, out, t + i * .016, { f: 2900, q: 2, tau: .004, peak: v * .32 * (.55 + .45 * i / 9) });
+    } },
+    tomlo: { rev: 0.25, level: 0.74, hit(S, out, t, v) { tom(S, out, t, v, 92); } },
+    tommid: { rev: 0.25, level: 0.79, hit(S, out, t, v) { tom(S, out, t, v, 132); } },
+    tomhi: { rev: 0.25, level: 0.83, hit(S, out, t, v) { tom(S, out, t, v, 182); } },
+    bodhran: { rev: 0.2, level: 0.76, hit(S, out, t, v) {
+      partial(S, out, t, 78, { a: .003, tau: .13, peak: v * .9, bend: 1.5, bendTau: .02 });
+      partial(S, out, t, 128, { a: .002, tau: .05, peak: v * .25 });
+      noise(S, out, t, { f: 420, q: 1, tau: .025, peak: v * .4 });
+    } },
+    timbale: { rev: 0.25, level: 0.74, hit(S, out, t, v) {
+      partial(S, out, t, 430, { a: .001, tau: .2, peak: v * .5, bend: 1.08 });
+      partial(S, out, t, 655, { a: .001, tau: .12, peak: v * .25 });
+      noise(S, out, t, { type: 'highpass', f: 2000, q: .5, tau: .03, peak: v * .35 });
+    } },
+    tri: { rev: 0.4, level: 0.44, hit(S, out, t, v) {
+      partial(S, out, t, 2650, { a: .001, tau: .7, peak: v * .22 });
+      partial(S, out, t, 4140, { a: .001, tau: .4, peak: v * .1 });
+      partial(S, out, t, 6320, { a: .001, tau: .22, peak: v * .07 });
+    } },
+    clap: { rev: 0.3, level: 3.57, hit(S, out, t, v) {
+      [0, .011, .022].forEach(o => noise(S, out, t + o, { f: 1300, q: 1, tau: .006, peak: v * .5 }));
+      noise(S, out, t + .03, { f: 1200, q: .8, tau: .07, peak: v * .4 });
+    } },
+    gong: { rev: 0.6, level: 0.46, hit(S, out, t, v) {
+      [[1, 1, 4], [1.48, .7, 3.2], [1.97, .6, 2.6], [2.34, .5, 2.2], [2.9, .35, 1.6], [3.6, .3, 1.3], [4.4, .2, 1]]
+        .forEach(([r, a, tau], i) => partial(S, out, t, 72 * r, { a: i ? .25 : .02, tau, peak: v * a * .4 }));
+      noise(S, out, t, { type: 'lowpass', f: 2000, q: .5, tau: .4, peak: v * .12 });
+    } },
+    thunder: { rev: 0.5, level: 2.38, hit(S, out, t, v) {
+      const n = noiseSrc(S, t, t + 9); const lp = F(S, 'lowpass', 220, .5); const g = G(S);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v * 1.2, t + .35);
+      g.gain.setTargetAtTime(v * .5, t + .35, .4); g.gain.setTargetAtTime(0, t + 1.6, 1.2);
+      lp.frequency.setValueAtTime(600, t); lp.frequency.setTargetAtTime(160, t + .2, .8);
+      n.connect(lp).connect(g).connect(out);
+      noise(S, out, t + .05, { type: 'lowpass', f: 1400, q: .5, a: .01, tau: .2, peak: v * .35 });
+    } },
+    surf: { rev: 0.5, level: 1.42, hit(S, out, t, v) {
+      const n = noiseSrc(S, t, t + 7); const lp = F(S, 'lowpass', 300, .4); const g = G(S);
+      lp.frequency.setValueAtTime(300, t); lp.frequency.linearRampToValueAtTime(1500, t + 1.5); lp.frequency.linearRampToValueAtTime(450, t + 4.5);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v * .55, t + 1.5); g.gain.setTargetAtTime(0, t + 1.6, .9);
+      n.connect(lp).connect(g).connect(out);
+    } }
+  };
+  function cymbal(S, out, t, v, tau, hpf, pk) {
+    const g = G(S); const hp = F(S, 'highpass', hpf, .6); const pkf = F(S, 'peaking', 10000, 1, 4);
+    hp.connect(pkf).connect(g).connect(out);
+    const end = perc(g.gain, t, { a: .001, tau, peak: v * pk });
+    const n = noiseSrc(S, t, end); n.connect(hp);
+    metal(S, hp, t, end, 1.0);
+  }
+  function hand(S, out, t, v, f, tau) {
+    const slap = v > 0.95;
+    partial(S, out, t, f, { a: .002, tau: slap ? tau * .6 : tau, peak: v * .8, bend: 1.12, bendTau: .012 });
+    partial(S, out, t, f * 1.52, { a: .001, tau: tau * .3, peak: v * .15 });
+    noise(S, out, t, { f: slap ? 2600 : 1600, q: 1, tau: slap ? .02 : .008, peak: v * (slap ? .5 : .18) });
+  }
+  function tom(S, out, t, v, f) {
+    partial(S, out, t, f, { a: .002, tau: .2, peak: v * .85, bend: 1.55, bendTau: .025 });
+    partial(S, out, t, f * 1.6, { a: .001, tau: .06, peak: v * .15 });
+    noise(S, out, t, { type: 'lowpass', f: 1600, q: .5, tau: .02, peak: v * .2 });
+  }
+
+  /* ----------------------------------------------------------------- engine */
+  function makeIR(ctx, seconds, decayPow) {
+    const sr = ctx.sampleRate, len = Math.floor(sr * seconds);
+    const buf = ctx.createBuffer(2, len, sr);
+    const pre = Math.floor(sr * 0.012);
+    for (let ch = 0; ch < 2; ch++) {
+      const y = buf.getChannelData(ch);
+      let lp = 0;
+      for (let i = pre; i < len; i++) {
+        const x = (i - pre) / (len - pre);
+        const a = 0.9 - 0.75 * x; // darker as it decays
+        lp += a * ((Math.random() * 2 - 1) - lp);
+        y[i] = lp * Math.pow(1 - x, decayPow);
+      }
+      // a few early reflections
+      for (const [ms, amp] of [[11, .6], [19, .4], [27, .32], [37, .22], [53, .15]]) {
+        const k = Math.floor(sr * (ms + ch * 2.3) / 1000); if (k < len) y[k] += amp * (Math.random() < .5 ? -1 : 1);
+      }
+    }
+    return buf;
+  }
+
+  function createSynth(ctx, dest, opts = {}) {
+    const S = { ctx, nyq: ctx.sampleRate / 2, waves: {}, ks: {} };
+    const nlen = ctx.sampleRate * 3;
+    S.noise = ctx.createBuffer(1, nlen, ctx.sampleRate);
+    const nd = S.noise.getChannelData(0); for (let i = 0; i < nlen; i++) nd[i] = Math.random() * 2 - 1;
+
+    const master = G(S, 0.72);
+    const lowShelf = F(S, 'lowshelf', 180, .7, 2);
+    const highShelf = F(S, 'highshelf', 7500, .7, -2.5);
+    const comp = ctx.createDynamicsCompressor();
+    comp.threshold.value = -15; comp.knee.value = 10; comp.ratio.value = 3.2; comp.attack.value = 0.006; comp.release.value = 0.22;
+    const out = G(S, 1);
+    const limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = -3; limiter.knee.value = 0; limiter.ratio.value = 20; limiter.attack.value = 0.001; limiter.release.value = 0.1;
+    if (opts.raw) {
+      // measurement chain: rough K-weighting, no compression
+      master.connect(F(S, 'highpass', 60, .7)).connect(F(S, 'highshelf', 1500, .7, 4)).connect(out).connect(dest);
+    } else master.connect(lowShelf).connect(highShelf).connect(comp).connect(limiter).connect(out).connect(dest);
+    const analyser = ctx.createAnalyser(); analyser.fftSize = 1024; out.connect(analyser);
+
+    const verb = ctx.createConvolver(); verb.buffer = makeIR(ctx, 2.8, 3.4);
+    const verbIn = F(S, 'highpass', 220, .6);
+    const verbRet = G(S, 0.9);
+    verbIn.connect(verb).connect(verbRet).connect(master);
+
+    return {
+      S, master, out, analyser, verbRet,
+      // a session bus lets "stop" silence everything already scheduled
+      // build plucked-string buffers ahead of time, a few at a time
+      warm(song, budgetMs = 12) {
+        const todo = [];
+        song.voices.forEach((v, vi) => {
+          const cfg = PLUCK[v.inst]; if (!cfg) return;
+          const seen = new Set();
+          for (const tl of [song.intro, song.loop]) for (const e of tl.events) if (e.v === vi) for (const m of e.m) {
+            if (seen.has(m)) continue; seen.add(m);
+            todo.push([mtof(m), cfg]);
+            if (v.inst === 'harpsichord') todo.push([mtof(m) * 2, cfg]);
+          }
+        });
+        let i = 0;
+        const step = () => {
+          const t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
+          while (i < todo.length && (typeof performance !== 'undefined' ? performance.now() : Date.now()) - t0 < budgetMs) { ks(S, todo[i][0], todo[i][1]); i++; }
+          if (i < todo.length) setTimeout(step, 15);
+        };
+        step();
+      },
+      session(song) {
+        if (Object.keys(S.ks).length > 160) S.ks = {};
+        const bus = G(S, 1); bus.connect(master);
+        const sendBus = G(S, 1); sendBus.connect(verbIn);
+        verbRet.gain.setValueAtTime(0.25 + 1.6 * (song.reverb != null ? song.reverb : 0.3), ctx.currentTime);
+        const ch = song.voices.map(v => {
+          const def = v.drum ? DRUM[v.inst] : INST[v.inst];
+          const input = G(S, v.vol * def.level);
+          const pan = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+          if (pan) { pan.pan.value = v.pan; input.connect(pan).connect(bus); } else input.connect(bus);
+          const send = G(S, v.rev != null ? v.rev : def.rev); input.connect(send).connect(sendBus);
+          return { v, def, input };
+        });
+        return {
+          bus, sendBus, ch,
+          play(ev, t) {
+            const c = ch[ev.v]; if (!c) return;
+            try {
+              if (c.v.drum) { c.def.hit(S, c.input, t, ev.vel); return; }
+              const n = ev.m.length, vs = ev.vel / Math.sqrt(n);
+              const p = { bright: c.v.bright, att: c.v.att, rel: c.v.rel, glide: c.v.glide, from: null };
+              ev.m.forEach((m, i) => {
+                p.from = (ev.g != null && i === n - 1) ? mtof(ev.g) : null;
+                c.def.play(S, c.input, t, ev.d, mtof(m), vs, p);
+              });
+            } catch (e) { /* keep the music going if one note fails */ }
+          },
+          stop(fade = 0.06) {
+            const now = ctx.currentTime;
+            bus.gain.cancelScheduledValues(now); bus.gain.setTargetAtTime(0, now, fade);
+            sendBus.gain.cancelScheduledValues(now); sendBus.gain.setTargetAtTime(0, now, fade);
+            setTimeout(() => { try { bus.disconnect(); sendBus.disconnect(); } catch (e) { } }, 1500);
+          }
+        };
+      }
+    };
+  }
+
+  // render a compiled song offline, scheduling in small chunks like the live player
+  async function renderOffline(song, seconds, sampleRate = 44100, opts = {}) {
+    const ctx = new OfflineAudioContext(2, Math.ceil(seconds * sampleRate), sampleRate);
+    const syn = createSynth(ctx, ctx.destination, opts);
+    const sess = syn.session(song);
+    const all = song.intro.events.map(e => [e, e.t + 0.05]);
+    let off = song.intro.dur;
+    while (song.loop.dur > 0 && off < seconds) { for (const e of song.loop.events) all.push([e, e.t + off + 0.05]); off += song.loop.dur; }
+    all.sort((a, b) => a[1] - b[1]);
+    const chunk = opts.chunk || 0.25;
+    let idx = 0;
+    const feed = (until) => { while (idx < all.length && all[idx][1] < until) { if (all[idx][1] < seconds) sess.play(all[idx][0], all[idx][1]); idx++; } };
+    feed(chunk * 2);
+    for (let t = chunk; t < seconds - chunk; t += chunk) {
+      const tt = t;
+      ctx.suspend(tt).then(() => { feed(tt + chunk * 2); ctx.resume(); });
+    }
+    return ctx.startRendering();
+  }
+
+  const api = { createSynth, renderOffline, INST, DRUM, mtof };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else root.ScrimSynth = api;
+})(typeof self !== 'undefined' ? self : this);
+
+</script>
+<script src="scores.js"></script>
+<script src="sharing.js"></script>
+<script src="village-clock.js"></script>
+<script src="village-layout.js"></script>
+<script>
+const TRACKS = window.ScrimTracks;
+(function () {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const COLORS = ['#ffd96b', '#5fd1a6', '#ff8a70', '#8fc8ff', '#c9a2ff', '#f2c48d', '#b4e67a', '#ff9fcf', '#7fe0e0', '#e6e08a'];
+  const DRUM_COLOR = '#8a84b8';
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let sharing = null;
+
+  /* ------------------------------------------------------------- state */
+  /* The cabinet: shelves (themes) hold interchangeable sections (a cylinder, disc, barrel or roll), each holding any number of airs.
+     Bundled airs come first in state.tunes, so their indexes match TRACKS; airs you pin are appended and kept in localStorage. */
+  const CABINET = window.ScrimCabinet;
+  const CABINET_KEY = 'spieldose-cabinet';
+  const SHARED_SECTION = { id: 'shared-with-me', shelf: 'shared', mechanism: 'cylinder', name: 'Shared with me', blurb: 'Airs that arrived in a shared link.' };
+  const state = {
+    idx: 0,
+    tunes: TRACKS.map(t => ({ file: t.file, section: t.section, original: t.text })),
+    sections: CABINET.sections.map(s => ({ ...s })),
+    shelves: CABINET.shelves.map(s => ({ ...s })),
+    texts: TRACKS.map(t => t.text),
+    songs: [],
+    loop: true,
+    muted: TRACKS.map(() => new Set()),
+    lastIn: {},
+    playingIdx: -1
+  };
+  try {
+    const saved = JSON.parse(localStorage.getItem('scrimshaw-edits') || '{}');
+    TRACKS.forEach((t, i) => { if (typeof saved[t.file] === 'string') state.texts[i] = saved[t.file]; });
+  } catch (e) { }
+  const savedTexts = state.texts.slice();
+  const shelfStore = { shelves: [], sections: [], airs: [] };
+  try {
+    const saved = JSON.parse(localStorage.getItem(CABINET_KEY) || '{}');
+    for (const key of Object.keys(shelfStore)) if (Array.isArray(saved[key])) shelfStore[key] = saved[key];
+  } catch (e) { }
+  function persistShelf() { try { localStorage.setItem(CABINET_KEY, JSON.stringify(shelfStore)); } catch (e) { } }
+  function saveEdits() {
+    const tune = state.tunes[state.idx];
+    if (tune.user) {
+      const air = shelfStore.airs.find(a => a.id === tune.id);
+      if (air) { air.text = state.texts[state.idx]; persistShelf(); }
+      return;
+    }
+    try {
+      savedTexts[state.idx] = state.texts[state.idx];
+      const out = {};
+      TRACKS.forEach((t, i) => { if (savedTexts[i] !== t.text) out[t.file] = savedTexts[i]; });
+      localStorage.setItem('scrimshaw-edits', JSON.stringify(out));
+    } catch (e) { }
+  }
+  function compileAt(i) { return (state.songs[i] = ScrimScore.compile(state.texts[i])); }
+  TRACKS.forEach((_, i) => compileAt(i));
+
+  const cabinet = (() => {
+    const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    const mechanism = section => CABINET.mechanisms[section.mechanism] || CABINET.mechanisms.cylinder;
+    const sectionOf = i => state.sections.find(s => s.id === state.tunes[i].section) || state.sections[0];
+    const airsIn = id => state.tunes.map((t, i) => (t.section === id && !t.removed ? i : -1)).filter(i => i >= 0);
+    const STARTER = {
+      cylinder: ['musicbox vol=0.9 pan=-0.1 rev=0.4', 'musicbox vol=0.5 pan=0.12 rev=0.3 oct=-1'],
+      disc: ['musicbox vol=0.9 pan=-0.1 rev=0.4 bright=1.1', 'celesta vol=0.4 pan=0.12 rev=0.35 oct=-1'],
+      barrel: ['pipe vol=0.8 pan=-0.1 rev=0.3', 'organ vol=0.4 pan=0.12 rev=0.25 oct=-1'],
+      roll: ['piano vol=0.85 pan=-0.1 rev=0.2', 'piano vol=0.5 pan=0.1 rev=0.15 oct=-1']
+    };
+    function starterText(section, n) {
+      const [tune, bass] = STARTER[section.mechanism] || STARTER.cylinder;
+      const words = mechanism(section);
+      const title = `New ${words.air} ${n}`;
+      return `title    ${title}\ncomposer You\nabout    A fresh ${words.air} for the ${section.name} ${words.name.toLowerCase()}. Rewrite these notes and make it yours.\ntempo    96\nbeats    3\nsteps    2\nswing    0\nreverb   0.3\n\nvoice tune ${tune}\nvoice bass ${bass}\n\npattern A\ntune | C5- E5- G5- | A5- G5- E5- | F5- D5- B4- | C5----- |\nbass | C4- G4- C4- | F4- C4- F4- | G4- D4- G4- | C4----- |\n\nplay A\nloop A\n`;
+    }
+    function addTune(air) {
+      const i = state.tunes.length;
+      state.tunes.push({ file: `${air.id}.scrim`, section: air.section, original: air.text, user: true, id: air.id });
+      state.texts.push(air.text);
+      state.muted.push(new Set());
+      compileAt(i);
+      return i;
+    }
+    function shelfFor(name) {
+      const clean = name.trim().replace(/\s+/g, ' ').slice(0, 40);
+      const found = state.shelves.find(s => s.name.toLowerCase() === clean.toLowerCase() || s.id === clean.toLowerCase());
+      if (found) return found;
+      const shelf = { id: 'shelf-' + uid(), name: clean, user: true };
+      state.shelves.push(shelf); shelfStore.shelves.push(shelf);
+      return shelf;
+    }
+    function addSection({ name, shelf, mechanism: kind, id, blurb }) {
+      const section = { id: id || 'section-' + uid(), shelf, mechanism: CABINET.mechanisms[kind] ? kind : 'cylinder', name: name.trim().slice(0, 40), blurb: blurb || '', user: true };
+      state.sections.push(section); shelfStore.sections.push(section);
+      persistShelf();
+      return section;
+    }
+    function pinAir(sectionId, text) {
+      const section = state.sections.find(s => s.id === sectionId);
+      const air = { id: 'air-' + uid(), section: sectionId, text: text ?? starterText(section, airsIn(sectionId).length + 1) };
+      shelfStore.airs.push(air); persistShelf();
+      return addTune(air);
+    }
+    function removeAir(i) {
+      const tune = state.tunes[i];
+      if (!tune.user) return;
+      tune.removed = true;
+      shelfStore.airs = shelfStore.airs.filter(a => a.id !== tune.id);
+      persistShelf();
+    }
+    function removeSection(id) {
+      const section = state.sections.find(s => s.id === id);
+      if (!section || !section.user) return;
+      airsIn(id).forEach(removeAir);
+      state.sections = state.sections.filter(s => s.id !== id);
+      shelfStore.sections = shelfStore.sections.filter(s => s.id !== id);
+      for (const shelf of state.shelves.filter(s => s.user && !state.sections.some(x => x.shelf === s.id))) {
+        state.shelves = state.shelves.filter(s => s !== shelf);
+        shelfStore.shelves = shelfStore.shelves.filter(s => s.id !== shelf.id);
+      }
+      persistShelf();
+    }
+    function receive(text) {
+      if (!state.sections.some(s => s.id === SHARED_SECTION.id)) {
+        if (!state.shelves.some(s => s.id === SHARED_SECTION.shelf)) {
+          const shelf = { id: SHARED_SECTION.shelf, name: 'Shared', user: true };
+          state.shelves.push(shelf); shelfStore.shelves.push(shelf);
+        }
+        addSection({ ...SHARED_SECTION, mechanism: SHARED_SECTION.mechanism });
+      }
+      const existing = airsIn(SHARED_SECTION.id).find(i => state.texts[i] === text);
+      return existing ?? pinAir(SHARED_SECTION.id, text);
+    }
+    // Restore your own shelves, sections and airs; drop anything that no longer has a home.
+    for (const shelf of shelfStore.shelves) if (!state.shelves.some(s => s.id === shelf.id)) state.shelves.push({ ...shelf, user: true });
+    shelfStore.sections = shelfStore.sections.filter(s => state.shelves.some(x => x.id === s.shelf) && !state.sections.some(x => x.id === s.id));
+    for (const section of shelfStore.sections) state.sections.push({ ...section, user: true });
+    shelfStore.airs = shelfStore.airs.filter(a => typeof a.text === 'string' && state.sections.some(s => s.id === a.section));
+    shelfStore.airs.forEach(addTune);
+    return { mechanism, sectionOf, airsIn, shelfFor, addSection, pinAir, removeAir, removeSection, receive };
+  })();
+
+  function voiceColors(song) {
+    let k = 0;
+    return song.voices.map(v => v.drum ? DRUM_COLOR : COLORS[k++ % COLORS.length]);
+  }
+  const fmtTime = s => { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  const meterOf = song => {
+    const b = song.beats, st = song.steps;
+    if (b === 2 && st === 3) return '6/8';
+    if (b === 4 && st === 3) return '12/8';
+    return b + '/4';
+  };
+
+  /* ------------------------------------------------------------ player */
+  const player = {
+    ctx: null, syn: null, sess: null, song: null, timer: null,
+    startAt: 0, cur: null, endAt: null, vol: 0.8, fx: [], colors: [],
+    ensure() {
+      if (!this.ctx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new AC({ latencyHint: 'playback' });
+        this.syn = ScrimSynth.createSynth(this.ctx, this.ctx.destination);
+        this.syn.out.gain.value = this.vol;
+        this.wave = new Float32Array(this.syn.analyser.fftSize);
+      }
+      return this.ctx;
+    },
+    start(song, idx) {
+      this.ensure();
+      if (this.ctx.state !== 'running') this.ctx.resume();
+      this.halt();
+      this.song = song; this.idx = idx;
+      this.colors = voiceColors(song);
+      this.leads = song.voices.map((v, i) => v.drum ? -1 : i).filter(i => i >= 0).slice(0, 2);
+      this.sess = this.syn.session(song);
+      this.syn.warm(song);
+      state.muted[idx].forEach(name => this.applyMute(name, true));
+      this.startAt = this.ctx.currentTime + 0.15;
+      this.cur = { list: 'intro', i: 0, offset: 0 };
+      this.endAt = null;
+      this.fx = [];
+      this.timer = setInterval(() => this.tick(), 25);
+      this.tick();
+    },
+    halt() {
+      if (this.sess) { this.sess.stop(); this.sess = null; }
+      clearInterval(this.timer); this.timer = null;
+    },
+    stop() { this.halt(); this.song = null; },
+    get playing() { return !!this.sess; },
+    applyMute(name, on) {
+      if (!this.sess || !this.song) return;
+      const vi = this.song.voices.findIndex(v => v.name === name);
+      if (vi < 0) return;
+      const c = this.sess.ch[vi], v = this.song.voices[vi];
+      const lvl = on ? 0 : v.vol * c.def.level;
+      c.input.gain.setTargetAtTime(lvl, this.ctx.currentTime, 0.02);
+    },
+    tick() {
+      const song = this.song, ctx = this.ctx;
+      if (!song || !this.sess) return;
+      const look = document.hidden ? 1.6 : 0.3;
+      const horizon = ctx.currentTime + look;
+      let guard = 0;
+      while (guard++ < 5000) {
+        const tl = this.cur.list === 'intro' ? song.intro : song.loop;
+        if (this.cur.i >= tl.events.length) {
+          if (this.cur.list === 'intro') {
+            this.cur = { list: 'loop', i: 0, offset: song.intro.dur };
+            if (!song.loop.dur) { this.endAt = this.startAt + song.intro.dur; break; }
+            continue;
+          }
+          const next = this.cur.offset + song.loop.dur;
+          if (!state.loop) { this.endAt = this.startAt + next; break; }
+          this.endAt = null;
+          if (this.startAt + next > horizon) break;
+          this.cur = { list: 'loop', i: 0, offset: next };
+          continue;
+        }
+        const ev = tl.events[this.cur.i];
+        const t = this.startAt + this.cur.offset + ev.t;
+        if (t > horizon) break;
+        if (t >= ctx.currentTime - 0.03) {
+          this.sess.play(ev, Math.max(t, ctx.currentTime + 0.005));
+          if (this.fx.length < 400) this.fx.push({ t, ev });
+        }
+        this.cur.i++;
+      }
+      if (this.endAt != null && ctx.currentTime > this.endAt + 0.4) { this.stop(); ui.refresh(); }
+    },
+    songTime() { return this.ctx && this.song ? this.ctx.currentTime - this.startAt : 0; },
+    energy() {
+      if (!this.syn) return 0;
+      this.syn.analyser.getFloatTimeDomainData(this.wave);
+      let s = 0; for (let i = 0; i < this.wave.length; i += 4) s += this.wave[i] * this.wave[i];
+      return Math.sqrt(s / (this.wave.length / 4));
+    }
+  };
+
+  // where are we in the song?
+  function position(song, st) {
+    if (!song || st < 0) return null;
+    let tl, t, part;
+    if (st < song.intro.dur) { tl = song.intro; t = st; part = 'intro'; }
+    else if (song.loop.dur) { tl = song.loop; t = (st - song.intro.dur) % song.loop.dur; part = 'loop'; }
+    else return null;
+    const s = tl.sections.find(x => t >= x.start && t < x.start + x.dur) || tl.sections[tl.sections.length - 1];
+    if (!s) return null;
+    return { part, sec: s, bar: Math.min(s.bars, Math.floor((t - s.start) / s.barDur) + 1) };
+  }
+
+  /* Alpine comparison scene: Swiss alpine village; reads audio energy without consuming playback events. */
+  (() => {
+    const W = 320, H = 120;
+    const cv = $('#alpine-scene'), g = cv.getContext('2d');
+    g.imageSmoothingEnabled = false;
+    const back = document.createElement('canvas');
+    back.width = W; back.height = H;
+    const b = back.getContext('2d');
+    const windows = [];
+    const stainedGlass = [];
+    const houses = [];
+    const chimneys = [];
+    const bayer = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+    const sky = ['#090f20', '#131e33', '#26334c', '#403e57', '#655264'];
+    for (let y = 0; y < H; y++) {
+      const f = Math.min(sky.length - 1.001, y / 90 * (sky.length - 1));
+      const i = Math.floor(f);
+      for (let x = 0; x < W; x++) {
+        b.fillStyle = f - i > (bayer[y & 3][x & 3] + .5) / 16 ? sky[i + 1] : sky[i];
+        b.fillRect(x, y, 1, 1);
+      }
+    }
+    function polygon(points, color) {
+      b.fillStyle = color; b.beginPath();
+      points.forEach(([x, y], i) => i ? b.lineTo(x, y) : b.moveTo(x, y));
+      b.closePath(); b.fill();
+    }
+    function rect(x, y, w, h, color) { b.fillStyle = color; b.fillRect(x, y, w, h); }
+    const stars = Array.from({ length: 36 }, (_, i) => ({
+      x: (i * 73 + 11) % W, y: (i * 17 + 3) % 32, phase: i * 1.7
+    }));
+    const moon = { x: 262, y: 13, r: 10 };
+    function drawMoon() {
+      g.fillStyle = '#efe6c4';
+      for (let y = -moon.r; y <= moon.r; y++) for (let x = -moon.r; x <= moon.r; x++) {
+        if (x * x + y * y <= moon.r * moon.r)
+          g.fillRect(moon.x + x, moon.y + y, 1, 1);
+      }
+      g.fillStyle = '#d6cba3';
+      g.fillRect(moon.x - 4, moon.y - 3, 3, 2);
+      g.fillRect(moon.x + 2, moon.y + 2, 4, 3);
+      g.fillRect(moon.x - 1, moon.y + 5, 2, 1);
+    }
+    function snapshot() {
+      b.globalCompositeOperation = 'source-atop';
+      b.fillStyle = '#07111c'; b.globalAlpha = .3;
+      b.fillRect(0, 0, W, H);
+      b.globalAlpha = 1; b.globalCompositeOperation = 'source-over';
+      const layer = document.createElement('canvas');
+      layer.width = W; layer.height = H;
+      layer.getContext('2d').drawImage(back, 0, 0);
+      b.clearRect(0, 0, W, H);
+      return layer;
+    }
+    const skyLayer = snapshot();
+    // Three random ridges (far → near); each peak gets a shaded right face and a snowcap.
+    const RIDGE_STYLES = {
+      far: { fill: '#64708a', shade: '#5a6680', snow: '#bec8d6', floor: 90, snowLine: 30 },
+      middle: { fill: '#52617c', shade: '#74809a', snow: '#d9dce2', floor: 96, snowLine: 36 },
+      near: { fill: '#354957', shade: '#4e6373', snow: '#cbd5dd', floor: 120, snowLine: 30 }
+    };
+    for (const { depth, points } of window.VillageLayout.createMountains()) {
+      const style = RIDGE_STYLES[depth];
+      polygon([...points, [320, style.floor], [0, style.floor]], style.fill);
+      for (let i = 1; i < points.length - 1; i++) {
+        const [px, py] = points[i], [lx, ly] = points[i - 1], [rx, ry] = points[i + 1];
+        if (py >= ly || py >= ry) continue;
+        polygon([[px, py], [rx, ry], [px + (rx - px) * .45, py + (ry - py) * .85],
+          [px + (rx - px) * .12, py + (ry - py) * .4]], style.shade);
+        if (py > style.snowLine) continue;
+        const f = Math.min(.5, 9 / Math.max(1, Math.min(ly - py, ry - py)) + .12);
+        const at = (x, y, k) => [Math.round(px + (x - px) * k), Math.round(py + (y - py) * k)];
+        polygon([at(lx, ly, f), [px, py], at(rx, ry, f), at(rx, ry, f * .55),
+          at((lx + rx) / 2, Math.max(ly, ry), f * .7), at(lx, ly, f * .6)], style.snow);
+      }
+    }
+    polygon([[0, 51], [29, 58], [56, 72], [88, 81], [127, 89], [161, 92], [203, 87], [239, 76], [272, 57], [299, 49], [320, 43], [320, 120], [0, 120]], '#243d41');
+    polygon([[0, 86], [40, 93], [90, 96], [139, 90], [180, 89], [228, 94], [277, 92], [320, 83], [320, 120], [0, 120]], '#283e35');
+    polygon([[219, 94], [257, 93], [285, 96], [304, 104], [320, 120], [157, 120], [182, 107]], '#526b50');
+    const mountainLayer = snapshot();
+    function pine(x, y, h) {
+      rect(x, y - h, 1, h, '#20312e');
+      for (let k = 0; k < 3; k++) {
+        const top = y - h + k * h * .22, w = 3 + k * 2;
+        polygon([[x, top], [x - w, top + h * .45], [x + w, top + h * .45]], '#182f32');
+      }
+    }
+    const road = window.VillageLayout.ROAD;
+    polygon([[road.topLeft, road.top], [road.topRight, road.top],
+      [road.bottomRight, road.bottom], [road.bottomLeft, road.bottom]], '#a7a390');
+    polygon([[171, 92], [174, 92], [188, 120], [164, 120]], '#c0bba5');
+    const groundLayer = snapshot();
+    // Cast a point standing on baseY along the ray from the moon onto the valley floor.
+    function moonRay(px, py, baseY) {
+      const endY = baseY + (baseY - py) * .55;
+      const scale = (endY - moon.y) / (py - moon.y);
+      return [moon.x + (px - moon.x) * scale, endY];
+    }
+    // 10x9 pixel-art village flags (simplified from municipal flags), one chosen per page load.
+    const VILLAGE_FLAGS = [
+      { name: "Stans", canton: 'NW', colors: ['#f00000', '#231f20', '#e4c604'],
+        rows: ["aaaaaaaaaa", "aaaabbbbaa", "aaabbbabaa", "aaabbbaaaa", "aaaabbbaaa", "aaaacccaaa", "aabaaacaaa", "aaaaacaaaa", "aaaaaaaaaa"] },
+      { name: "Baden", canton: 'AG', colors: ['#ffffff', '#f00000', '#000000'],
+        rows: ["bbbbbbbbbb", "bbbbbbbbbb", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa", "aaaaccaaaa"] },
+      { name: "Versoix", canton: 'GE', colors: ['#0093dd', '#ffffff', '#fafcfe'],
+        rows: ["baaabbaaab", "bcaabbaacb", "baaabbaaab", "baaabbaaab", "bbbbbbbbbb", "baaabbaaab", "baaabbaaaa", "baaabbaaaa", "baaabbaaaa"] },
+      { name: "Ascona", canton: 'TI', colors: ['#0093dd', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaabaaaa", "aababbabaa", "aabbaabbaa", "aaaabbaaaa", "aaaaaaaaaa", "aaabaabaaa", "aaabaabaaa", "aaaaaaaaaa"] },
+      { name: "Herisau", canton: 'AR', colors: ['#ffffff', '#000000', '#fcda49'],
+        rows: ["aaaaaaaaaa", "aaababccaa", "aaaabccaaa", "aabbbbaaaa", "aaaaabaaaa", "aaaabbbaaa", "aaaaabaaaa", "aaabaabaaa", "aaaaaaaaaa"] },
+      { name: "Grindelwald", canton: 'BE', colors: ['#ffffff', '#f00000', '#1b0303'],
+        rows: ["abbbbbbbba", "abbbbbbbaa", "aaaaaaaaaa", "aaaaacccaa", "aaaccccaaa", "aaacccaaaa", "aaaacccaaa", "ababbbbaba", "abbbbbbbba"] },
+      { name: "Andermatt", canton: 'UR', colors: ['#fddd04', '#000000', '#ffffff'],
+        rows: ["caaaaaaaaa", "cabbbaabac", "caabbbaaac", "cbbbbbbaaa", "caabbbbbaa", "cabbabbbaa", "caaabbbbaa", "caaaaabaaa", "caaaaaaaaa"] },
+      { name: "Baar", canton: 'ZG', colors: ['#0093dd', '#ffffff', '#fcdb00', '#0c0f0b'],
+        rows: ["bccccaaaaa", "bdddcaabaa", "bdddcaaaab", "bcdccbabbb", "bcddcaaaab", "bcddcbabbb", "bdddcaaaaa", "bdddcaaaaa", "bccccaaaaa"] },
+      { name: "Riehen", canton: 'BS', colors: ['#067cff', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaabbaaaa", "aaabbbbaaa", "abbbbbbbba", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Küssnacht", canton: 'SZ', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Lungern", canton: 'OW', colors: ['#0093dd', '#ffffff'],
+        rows: ["baaaaaaaaa", "baaaaaaaaa", "baaabbaaaa", "baaaaaaaaa", "babbbbbbaa", "baaaaaaaaa", "baaabbaaaa", "baaaaaaaaa", "baaaaaaaaa"] },
+      { name: "Entlebuch", canton: 'LU', colors: ['#f00000', '#ffffff', '#21a15a'],
+        rows: ["baaaaaaaaa", "bacaccacaa", "baaabaaaaa", "bacabaacaa", "baaabbaaaa", "bacabbacaa", "baaabaaaaa", "baaabaaaaa", "baaaaaaaaa"] },
+      { name: "Zermatt", canton: 'VS', colors: ['#f00000', '#fcdb00', '#ffffff', '#4c751f', '#330000'],
+        rows: ["caaaaaaaaa", "caaaaebaac", "ccababbaac", "caaabbaeaa", "cabaabaeaa", "caaabbbaaa", "caaababaaa", "caabaaabaa", "caadddddaa"] },
+      { name: "Château-d’Oex", canton: 'VD', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Vals", canton: 'GR', colors: ['#fddd04', '#231f20', '#fffef5'],
+        rows: ["caaaaaaaaa", "cbaaabaaaa", "cbbaaabaaa", "caabaabbba", "cbabbaabba", "cbabbbaabc", "cbbaabbaaa", "cbbbbbbbaa", "cbbbbbbbbc"] },
+      { name: "Saignelégier", canton: 'JU', colors: ['#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa"] },
+      { name: "Appenzell", canton: 'AI', colors: ['#ffffff', '#000000', '#88231a'],
+        rows: ["aaaaaaaaaa", "aaaaaabaaa", "aaccbbbaaa", "aacaabbaaa", "aaabbbbaaa", "aaaabbbaaa", "aaaababaaa", "aaaabaabaa", "aaaaaaaaaa"] },
+      { name: "Bischofszell", canton: 'TG', colors: ['#cc2918', '#f1e24c'],
+        rows: ["baaaaaaaab", "baaababaab", "baaabbabab", "baaaaabaab", "baaabaaaab", "bbabbaaaab", "bbbabbaaab", "bbbbbbaaab", "bbbbbbaaab"] },
+      { name: "Wattwil", canton: 'SG', colors: ['#fff000', '#0093dd', '#fffef3'],
+        rows: ["caaaaaaaaa", "caabbbbaaa", "cabbbbbbaa", "cabbbbbbac", "caabbbbaaa", "cabbbbbbaa", "cabbaabbaa", "cabbaabbaa", "caaaaaaaaa"] },
+      { name: "Glarus", canton: 'GL', colors: ['#ffffff', '#f00000', '#fcdb04', '#170000'],
+        rows: ["aaaddddccc", "aaaaddcccc", "abaaaddccc", "abaaaacccc", "abbbaaaccc", "abbbbaaacc", "abbbbbaaaa", "abbbbbbaaa", "abbbbbbbaa"] },
+      { name: "Broc", canton: 'FR', colors: ['#f00000', '#ffffff', '#cdac19'],
+        rows: ["baaaabaaab", "bacaaabbbb", "bacabbbbab", "baaabbbaaa", "baaaabbbba", "baaaaaaaaa", "baabccaaaa", "baccccccaa", "cccaaaaccc"] },
+      { name: "Reigoldswil", canton: 'BL', colors: ['#0000ff', '#ffff58', '#d8d8bb', '#4f2487'],
+        rows: ["bcabdbbcbb", "baccaacccb", "bbaaacabbb", "bbdbcabdbb", "bbbbababbb", "acccaaaaaa", "aaacccaaaa", "aaaaacccaa", "aaaaaaaacc"] },
+      { name: "Neunkirch", canton: 'SH', colors: ['#0000ff', '#ffffff', '#dd0000'],
+        rows: ["aaaaaaaaaa", "aaaccaaaaa", "aaacbaaaaa", "aaabbaaaaa", "aaabbaaaaa", "aacbbcccba", "aabbbbbbba", "aabbbbbbba", "aaaaaaaaaa"] },
+      { name: "Gempen", canton: 'SO', colors: ['#0000ff', '#ffffff', '#e00000'],
+        rows: ["aaaaaaaaaa", "aaaabaaaaa", "aaaabbaaaa", "aaaabbbaaa", "aaaabbaaaa", "aaaabbaaaa", "aaaabcaaaa", "aaacccaaaa", "aaaacccaaa"] },
+      { name: "Arth", canton: 'SZ', colors: ['#f00000', '#ffffff', '#1fa258', '#420000'],
+        rows: ["baaaaaaaaa", "baabbbbaaa", "baaabbaaaa", "baaabbaaaa", "baaabbaaaa", "baaadbaaaa", "baabbbbaaa", "baaccccaaa", "baaccccaaa"] },
+      { name: "Lutry", canton: 'VD', colors: ['#f90b1a', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "bbbbbbbbbb", "bbbbbbbbbb", "bbbbbbbbbb", "bbbbbbbbbb"] },
+      { name: "Leukerbad", canton: 'VS', colors: ['#f00000', '#898b24', '#ffffff'],
+        rows: ["aaaaaaaaaa", "aaaaaaaaaa", "aabbacacaa", "aaaaccccaa", "aaaabcccaa", "aaaaabbaaa", "acaabbbaaa", "acaabbaaaa", "acbbbbbaaa"] },
+      { name: "Zuoz", canton: 'GR', colors: ['#231f20', '#decf72'],
+        rows: ["baaaaaaaab", "baabbbbaab", "baaabbaaab", "bbaaaaaaab", "bbbaaaabab", "baaaaabaab", "baaabbaaab", "baabaaaaab", "baaaaaaaab"] },
+      { name: "Poschiavo", canton: 'GR', colors: ['#ed1c24', '#ffffff'],
+        rows: ["babaaaabaa", "babbaabbaa", "bbabbbbabb", "bababbabaa", "baaabbaaaa", "babbaabbaa", "baabaabaaa", "babbaabbaa", "baaaabaaaa"] },
+      { name: "Morcote", canton: 'TI', colors: ['#009944', '#f00000', '#f7f7f7', '#404f42'],
+        rows: ["cbbbbbbbbb", "cbbbccbbbb", "cbbdccbbbb", "cbbdcccbbb", "cbaaaaaabc", "caaaaccaaa", "caaccccaaa", "caccccaaaa", "caaaaaaaaa"] },
+      { name: "Hospental", canton: 'UR', colors: ['#fddd04', '#000000', '#ffffff', '#328732'],
+        rows: ["caaaaaaaaa", "cacaabbaaa", "caaaabbaaa", "caabbbbaaa", "caabbbbaaa", "caaabbbaaa", "caaababaaa", "caadbdbaaa", "caddddddaa"] },
+      { name: "Lauterbrunnen", canton: 'BE', colors: ['#ffffff', '#009944', '#0e110f'],
+        rows: ["aaaaaacaaa", "aaaaccacaa", "aaacccacaa", "aacaccaaaa", "aaaaabaaaa", "abbbbbbabb", "ababbbbabb", "ababaababb", "ababaababb"] }
+    ];
+    const village = window.VillageLayout.createVillage();
+    const villageFlag = VILLAGE_FLAGS[Math.floor(Math.random() * VILLAGE_FLAGS.length)];
+    const flagStyle = window.VillageLayout.LANDMARK_VARIANTS.flag[
+      village.landmarks.find(item => item.type === 'flag').variant
+    ];
+    const roofHeight = building => building.type === 'bakehouse'
+      ? 12 : Math.min(12, Math.max(9, Math.round(building.w * .42)));
+    const SHADOW_ALPHA = .38;
+    // The single village church: bell/clock tower joined to a nave on its right.
+    const CHURCH = {
+      tower: { x: 158, y: 46, w: 12, h: 44, roof: 19 },
+      nave: { x: 170, y: 77, w: 24, h: 13, roof: 9 }
+    };
+    function shadow(x, y, w, h, roofHeight, alpha) {
+      const base = y + h;
+      const project = (px, py) => moonRay(px, py, base);
+      b.globalAlpha = alpha;
+      polygon([[x, base], project(x - 4, y), project(x + w / 2, y - roofHeight),
+        project(x + w + 4, y), [x + w, base]], '#07111c');
+      b.globalAlpha = 1;
+    }
+    // Project each part of the pine sprite (trunk and three bough tiers) away from the moon.
+    function treeShadow(tree, alpha) {
+      const { x, y, h } = tree;
+      const project = (px, py) => moonRay(px, py, y);
+      b.globalAlpha = alpha;
+      b.fillStyle = '#07111c';
+      b.beginPath();
+      const trunk = [[x, y], project(x, y - h), project(x + 1, y - h), [x + 1, y]];
+      const tiers = [0, 1, 2].map(k => {
+        const top = y - h + k * h * .22, w = 3 + k * 2, foot = top + h * .45;
+        return [project(x, top), project(x - w, foot), project(x + w, foot)];
+      });
+      for (const shape of [trunk, ...tiers]) {
+        shape.forEach(([px, py], i) => i ? b.lineTo(px, py) : b.moveTo(px, py));
+        b.closePath();
+      }
+      b.fill('nonzero');
+      b.globalAlpha = 1;
+    }
+    const groundFeatures = village.landmarks.filter(item => item.baseY !== undefined);
+    const houseShadows = alpha => {
+      for (const part of [CHURCH.nave, CHURCH.tower])
+        shadow(part.x, part.y, part.w, part.h, part.roof, alpha);
+      for (const building of village.buildings)
+        shadow(building.x, building.y, building.w, building.h, roofHeight(building), alpha);
+      for (const tree of village.trees) treeShadow(tree, alpha);
+      for (const item of groundFeatures) {
+        const [width, height] = window.VillageLayout.GROUND_FEATURES[item.type].shadow;
+        shadow(item.x - width / 2, item.baseY - height, width, height, 2, alpha);
+      }
+    };
+    houseShadows(SHADOW_ALPHA);
+    const shadowLayer = snapshot();
+    // Opaque copy of the house shadows, so creature shadows merge with them instead of doubling.
+    houseShadows(1);
+    const shadowMask = document.createElement('canvas');
+    shadowMask.width = W; shadowMask.height = H;
+    shadowMask.getContext('2d').drawImage(back, 0, 0);
+    b.clearRect(0, 0, W, H);
+    const shade = document.createElement('canvas');
+    shade.width = W; shade.height = H;
+    const shadeCtx = shade.getContext('2d');
+    // Each building and tree becomes its own layer so walkers can be depth-sorted by their feet.
+    // foot is the strip of ground it stands on; creature paths keep their whole width out of it.
+    const props = [];
+    function prop(foot, paint) {
+      const firstWindow = windows.length;
+      const firstStained = stainedGlass.length;
+      paint();
+      props.push({ baseY: foot.y1, foot, layer: snapshot(), windows: windows.slice(firstWindow).map((w, k) => [firstWindow + k, w]),
+        stained: stainedGlass.slice(firstStained) });
+    }
+    const ground = (x0, x1, baseY, depth) => ({ x0, x1, y0: baseY - depth, y1: baseY });
+    const pineProp = (x, y, h) => prop(ground(x - 4, x + 4, y, 4), () => pine(x, y, h));
+    const attachedLandmarks = buildingId => village.landmarks.filter(item => item.buildingId === buildingId);
+    function drawAttachedLandmark(item, x, y, w, h) {
+      const style = window.VillageLayout.LANDMARK_VARIANTS[item.type][item.variant];
+      if (item.type === 'flowerBox') {
+        rect(x + 2, y + 11, 6, 2, style.box);
+        rect(x + 3, y + 9, 1, 2, style.leaf);
+        rect(x + 5, y + 8, 1, 3, style.flower);
+        rect(x + 7, y + 9, 1, 2, style.leaf);
+      } else if (item.type === 'innSign') {
+        rect(x + w - 2, y + 2, 2, 1, style.board);
+        rect(x + w - 1, y + 2, 1, 4, style.board);
+        rect(x + w - 5, y + 5, 4, 4, style.board);
+        if (style.shape === 'bell') {
+          rect(x + w - 4, y + 6, 2, 2, style.symbol);
+          rect(x + w - 4, y + 8, 2, 1, style.symbol);
+        } else if (style.shape === 'goat') {
+          rect(x + w - 4, y + 6, 2, 1, style.symbol);
+          rect(x + w - 3, y + 7, 1, 1, style.symbol);
+        } else {
+          rect(x + w - 4, y + 7, 1, 1, style.symbol);
+          rect(x + w - 3, y + 6, 1, 2, style.symbol);
+          rect(x + w - 2, y + 7, 1, 1, style.symbol);
+        }
+      } else if (item.type === 'noticeboard') {
+        rect(x + 2, y + 5, 6, 5, style.wood);
+        rect(x + 3, y + 6, 4, 3, style.paper);
+        rect(x + 4, y + 6, 1, 1, style.pin);
+        rect(x + 2, y + 10, 1, 2, style.wood);
+        rect(x + 7, y + 10, 1, 2, style.wood);
+      } else if (item.type === 'sundial') {
+        const cx = x + Math.floor(w / 2);
+        rect(cx - 3, y + 2, 7, 2, style.face);
+        rect(cx - 2, y + 4, 5, 1, style.face);
+        if (style.arc === 'square') rect(cx - 3, y + 4, 7, 1, style.face);
+        rect(cx - 2, y + 3, 1, 1, style.line);
+        rect(cx + 2, y + 3, 1, 1, style.line);
+        rect(cx, y + 4, 1, 1, style.line);
+        rect(cx, y + 2, 1, 2, style.gnomon);
+        rect(cx + 1, y + 3, 1, 1, style.gnomon);
+      } else if (item.type === 'lintel') {
+        const cx = x + Math.floor(w / 2), ly = y + h - 9;
+        rect(cx - 3, ly, 6, 2, style.wood);
+        if (style.motif === 'date') {
+          for (const dx of [-2, 0, 1]) rect(cx + dx, ly + 1, 1, 1, style.carve);
+        } else if (style.motif === 'heart') {
+          rect(cx - 1, ly, 1, 1, style.carve); rect(cx, ly, 1, 1, style.carve);
+          rect(cx - 1, ly + 1, 2, 1, style.carve);
+        } else {
+          rect(cx - 1, ly + 1, 1, 1, style.carve); rect(cx + 1, ly + 1, 1, 1, style.carve);
+          rect(cx, ly, 1, 1, style.carve);
+        }
+      } else if (item.type === 'bells') {
+        rect(x + 3, y + 1, Math.min(w - 6, 10), 1, style.beam);
+        for (let i = 0; i < 3; i++) {
+          const bx = x + 4 + i * 3;
+          rect(bx, y + 2, 2, 2 + i % 2, style.bell);
+          rect(bx, y + 4 + i % 2, 2, 1, style.beam);
+        }
+      }
+    }
+    function drawBuilding(building) {
+      // Only some households have a fire going tonight.
+      building.hearthLit ??= Math.random() < .5;
+      const { x, y, w, h, type } = building;
+      const style = window.VillageLayout.BUILDING_VARIANTS[type][building.variant];
+      const roof = roofHeight(building);
+      if (building.hearthLit) houses.push({ x, y, w, h });
+      if (style.form === 'raised') {
+        rect(x + 2, y + h - 3, 2, 5, style.accent);
+        rect(x + w - 4, y + h - 3, 2, 5, style.accent);
+        rect(x, y + 2, w, h - 4, style.wall);
+      } else {
+        rect(x, y, w, h, style.wall);
+      }
+      rect(x, y + 1, w, 2, style.trim);
+      if (style.form === 'oven') {
+        rect(x + 2, y - 3, w - 4, 4, style.roof);
+        rect(x + 4, y - 6, w - 8, 3, style.roof);
+        rect(x + 6, y - 8, Math.max(3, w - 12), 2, style.roof);
+        rect(x + w - 5, y - roof, 2, 4, style.accent);
+        if (building.hearthLit) chimneys.push([x + w - 5, y - roof]);
+        rect(x + 2, y + h - 5, 4, 5, style.accent);
+        rect(x + 3, y + h - 5, 2, 3, '#171719');
+      } else {
+        polygon([[x - 4, y + 1], [x + w / 2, y - roof], [x + w + 4, y + 1]], style.roof);
+        polygon([[x - 3, y], [x + w / 2, y - roof + 2], [x + w + 3, y]], style.trim);
+        rect(x + w - 6, y - roof + 2, 2, Math.max(2, roof - 2), style.accent);
+        if (building.hearthLit) chimneys.push([x + w - 6, y - roof + 2]);
+        if (style.form === 'loft') {
+          rect(x + Math.floor(w / 2) - 2, y + 3, 4, 3, style.accent);
+          rect(x + Math.floor(w / 2) - 1, y + 4, 2, 1, style.trim);
+          rect(x + 2, y + 6, w - 4, 1, style.accent);
+        }
+      }
+      for (const wx of [x + 3, x + w - 7]) {
+        rect(wx, y + 5, 4, 5, style.accent);
+        if (building.hearthLit) {
+          rect(wx + 1, y + 6, 2, 3, '#f2e6c9');
+          windows.push([wx + 1, y + 6]);
+        } else {
+          // Cold house: dark panes with a faint moonlit glint, no lamplight.
+          rect(wx + 1, y + 6, 2, 3, '#1b2430');
+          rect(wx + 2, y + 6, 1, 1, '#4a5768');
+        }
+      }
+      rect(x + Math.floor(w / 2) - 2, y + h - 7, 4, 7, style.accent);
+      rect(x - 1, y + h, w + 2, 2, '#263b35');
+      for (const landmark of attachedLandmarks(building.id))
+        drawAttachedLandmark(landmark, x, y, w, h);
+    }
+    for (const tree of village.trees) pineProp(tree.x, tree.y, tree.h);
+    for (const building of village.buildings)
+      prop(ground(building.x - 2, building.x + building.w + 2, building.baseY, 9),
+        () => drawBuilding(building));
+    prop(ground(156, 196, 90, 11), () => {
+      const { nave, tower } = CHURCH;
+      houses.push({ x: nave.x, y: nave.y, w: nave.w, h: nave.h });
+      polygon([[nave.x - 2, nave.y + 1], [nave.x + nave.w / 2, nave.y - nave.roof],
+        [nave.x + nave.w + 2, nave.y + 1]], '#494849');
+      polygon([[nave.x + nave.w / 2, nave.y - nave.roof], [nave.x + nave.w + 2, nave.y + 1],
+        [nave.x + nave.w - 2, nave.y], [nave.x + nave.w / 2, nave.y - nave.roof + 3]], '#d8dce0');
+      rect(nave.x, nave.y, nave.w, nave.h, '#a49c8e');
+      rect(nave.x, nave.y + 1, nave.w, 1, '#c9bfae');
+      for (const wx of [nave.x + 5, nave.x + 15]) {
+        rect(wx - 1, nave.y + 2, 6, 9, '#6d665c');
+        rect(wx, nave.y + 1, 4, 1, '#6d665c');
+        stainedGlass.push([wx, nave.y + 3]);
+      }
+      rect(nave.x - 1, nave.y + nave.h, nave.w + 2, 2, '#263b35');
+      rect(tower.x, tower.y, tower.w, tower.h, '#8c857a');
+      rect(tower.x + tower.w - 2, tower.y, 2, tower.h, '#a39b8d');
+      polygon([[154, 46], [164, 27], [174, 46]], '#494849');
+      polygon([[164, 27], [174, 46], [169, 44], [164, 32]], '#d8dce0');
+      rect(164, 22, 1, 7, '#e8c170');
+      rect(162, 24, 5, 1, '#e8c170');
+      rect(160, 50, 8, 8, '#f2e6c9');
+      // Village flag hung from an iron rod on the tower face, just below the clock.
+      rect(158, 60, 12, 1, '#3a3330');
+      villageFlag.rows.forEach((row, fy) => [...row].forEach((c, fx) =>
+        rect(159 + fx, 61 + fy, 1, 1, villageFlag.colors['abcdef'.indexOf(c)])));
+      if (flagStyle.fringe) rect(159, 70, 10, 1, flagStyle.hem);
+      rect(162, 81, 4, 9, '#55463d');
+    });
+    props[props.length - 1].clock = { x: 163.5, y: 53.5 };
+    const GROUND_PAINTERS = {
+      hitchingPost(x, y, style) {
+        rect(x - 5, y - 6, 2, 6, style.wood);
+        rect(x + 3, y - 6, 2, 6, style.wood);
+        rect(x - 6, y - 6 + style.railY, 12, 2, style.rail);
+        rect(x - 5, y - 8, 2, 2, style.wood);
+        rect(x + 3, y - 8, 2, 2, style.wood);
+      },
+      fountain(x, y, style) {
+        rect(x - 5, y - 7, 10, 2, style.rim);
+        rect(x - 6, y - 5, 12, 3, style.stone);
+        rect(x - 5, y - 2, 10, 1, style.rim);
+        rect(x - 1, y - 11, 2, 5, style.stone);
+        rect(x - 2, y - 12, 4, 2, style.rim);
+        rect(x - 4, y - 4, 8, 1, style.water);
+      },
+      trough(x, y, style) {
+        rect(x - 5, y - 3, 2, 3, style.wood);
+        rect(x + 3, y - 3, 2, 3, style.wood);
+        rect(x - 6, y - 6, 13, 3, style.wood);
+        rect(x - 5, y - 6, 11, 1, style.water);
+        rect(x - 7, y - 9, 1, 6, style.pipe);
+        rect(x - 7, y - 9, 4, 1, style.pipe);
+        rect(x - 4, y - 8, 1, 1, style.water);
+      },
+      signpost(x, y, style) {
+        rect(x, y - 7, 2, 7, style.post);
+        rect(x + style.lean, y - 13, 2, 6, style.post);
+        rect(x + 2 + style.lean, y - 12, 5, 2, style.arrow);
+        rect(x + 7 + style.lean, y - 11, 1, 1, style.arrow);
+        rect(x - 5 + style.lean, y - 9, 5, 2, style.arrow);
+        rect(x - 6 + style.lean, y - 8, 1, 1, style.arrow);
+        rect(x + 2, y - 6, 4, 2, style.arrow);
+      },
+      woodpile(x, y, style) {
+        rect(x - 6, y - 8, 1, 8, style.roof);
+        rect(x + 6, y - 8, 1, 8, style.roof);
+        rect(x - 7, y - 10, 15, 2, style.roof);
+        for (let row = 0; row < 3; row++) {
+          const left = x - 5 + row, width = 11 - row * 2, top = y - 2 - row * 2;
+          rect(left, top, width, 2, style.log);
+          for (let k = left; k < left + width; k += 2) rect(k, top, 1, 1, style.end);
+        }
+      },
+      handcart(x, y, style) {
+        rect(x + 3, y - 6, 5, 1, style.box);
+        rect(x - 6, y - 8, 9, 1, style.load);
+        rect(x - 6, y - 7, 10, 4, style.box);
+        rect(x - 5, y - 4, 4, 4, style.wheel);
+        rect(x - 4, y - 3, 2, 2, style.box);
+        rect(x + 1, y - 4, 3, 4, style.wheel);
+      },
+      milkPails(x, y, style) {
+        for (const bx of [x - 5, x - 1, x + 3]) {
+          rect(bx, y - 4, 3, 4, style.wood);
+          rect(bx, y - 4, 3, 1, style.milk);
+          rect(bx, y - 2, 3, 1, style.band);
+          rect(bx, y - 5, 1, 1, style.band);
+          rect(bx + 2, y - 5, 1, 1, style.band);
+          rect(bx + 1, y - 6, 1, 1, style.band);
+        }
+      },
+      shrine(x, y, style) {
+        rect(x - 1, y - 7, 3, 7, style.stone);
+        rect(x - 3, y - 11, 7, 5, style.stone);
+        rect(x - 1, y - 10, 3, 3, '#1b2430');
+        rect(x, y - 9, 1, 2, style.glow);
+        polygon([[x - 4, y - 11], [x + .5, y - 14], [x + 5, y - 11]], style.roof);
+      },
+      coveredBench(x, y, style) {
+        rect(x - 7, y - 8, 1, 8, style.wood);
+        rect(x + 7, y - 8, 1, 8, style.wood);
+        polygon([[x - 9, y - 8], [x + .5, y - 11], [x + 10, y - 8]], style.roof);
+        rect(x - 6, y - 5, 13, 1, style.wood);
+        rect(x - 6, y - 3, 13, 1, style.seat);
+        rect(x - 5, y - 2, 1, 2, style.wood);
+        rect(x + 5, y - 2, 1, 2, style.wood);
+      },
+      boundaryStone(x, y, style) {
+        rect(x - 2, y - 5, 5, 5, style.stone);
+        rect(x - 1, y - 6, 3, 1, style.stone);
+        if (style.symbol === 'cross') {
+          rect(x, y - 5, 1, 3, style.mark); rect(x - 1, y - 4, 3, 1, style.mark);
+        } else if (style.symbol === 'key') {
+          rect(x, y - 5, 1, 3, style.mark); rect(x + 1, y - 3, 1, 1, style.mark);
+        } else {
+          rect(x - 1, y - 4, 3, 1, style.mark); rect(x - 1, y - 2, 3, 1, style.mark);
+        }
+      },
+      villageBell(x, y, style) {
+        rect(x - 5, y - 11, 1, 11, style.wood);
+        rect(x + 5, y - 11, 1, 11, style.wood);
+        rect(x - 5, y - 11, 11, 1, style.wood);
+        polygon([[x - 7, y - 11], [x + .5, y - 15], [x + 8, y - 11]], style.roof);
+        rect(x - 1, y - 10, 3, 1, style.bell);
+        rect(x - 2, y - 9, 5, 3, style.bell);
+        rect(x - 3, y - 6, 7, 1, style.bell);
+        rect(x, y - 5, 1, 1, style.wood);
+      },
+      marketStall(x, y, style) {
+        for (let k = 0; k < 19; k++)
+          rect(x - 9 + k, y - 12, 1, 3, k % 4 < 2 ? style.stripe : style.cloth);
+        rect(x - 8, y - 9, 1, 9, style.counter);
+        rect(x + 8, y - 9, 1, 9, style.counter);
+        rect(x - 8, y - 5, 17, 5, style.counter);
+        for (const bx of [x - 6, x - 1, x + 4]) {
+          rect(bx, y - 7, 3, 2, style.goods);
+          rect(bx, y - 6, 3, 1, style.counter);
+        }
+      }
+    };
+    for (const item of groundFeatures) {
+      const spec = window.VillageLayout.GROUND_FEATURES[item.type];
+      const style = window.VillageLayout.LANDMARK_VARIANTS[item.type][item.variant];
+      prop(ground(item.x - spec.left, item.x + spec.right, item.baseY, spec.depth),
+        () => GROUND_PAINTERS[item.type](item.x, item.baseY, style));
+    }
+    const landmarkNames = {
+      flowerBox: 'flower box', innSign: 'hanging inn sign', noticeboard: 'noticeboard',
+      bells: 'cattle bells', sundial: 'painted sundial', lintel: 'carved door lintel',
+      hitchingPost: 'hitching post', fountain: 'stone fountain', trough: 'wooden drinking trough',
+      signpost: 'signpost', woodpile: 'firewood stack', handcart: 'handcart', milkPails: 'milk pails',
+      shrine: 'wayside shrine', coveredBench: 'covered bench', boundaryStone: 'boundary stone',
+      villageBell: 'village bell', marketStall: 'market stall'
+    };
+    const landmarkDescription = village.landmarks.map(item => item.type === 'flag'
+      ? `${villageFlag.name} village flag (${villageFlag.canton})`
+      : landmarkNames[item.type]).join(', ');
+    cv.dataset.flag = `${villageFlag.name} (${villageFlag.canton})`;
+    cv.dataset.village = `${village.buildings.length + 1} buildings`;
+    cv.dataset.landmarks = landmarkDescription;
+    cv.setAttribute('aria-label', `Pixel-art Swiss alpine village with snowy peaks, chalets, a clock tower, ${village.buildings.length + 1} varied buildings and ${landmarkDescription}; window lights respond to the music; Swiss folklore creatures pass through`);
+    props.sort((a, c) => a.baseY - c.baseY);
+    function paintByDepth(items, actorY, paintItem, paintActor) {
+      let painted = actorY === null;
+      for (const item of items) {
+        if (!painted && actorY < item.baseY) { paintActor(); painted = true; }
+        paintItem(item);
+      }
+      if (!painted) paintActor();
+    }
+    const distantClouds = [
+      { x: 18, y: 20, w: 39, speed: .9 },
+      { x: 132, y: 13, w: 47, speed: .7 },
+      { x: 250, y: 27, w: 34, speed: 1.1 }
+    ];
+    const valleyClouds = [
+      { x: 8, y: 54, w: 57, speed: 1.8 },
+      { x: 191, y: 49, w: 64, speed: 1.4 }
+    ];
+    function clouds(layer, t, color, opacity) {
+      g.fillStyle = color; g.globalAlpha = opacity;
+      for (const cloud of layer) {
+        const x = Math.floor((cloud.x + t * cloud.speed + cloud.w) % (W + cloud.w) - cloud.w);
+        const y = cloud.y;
+        g.fillRect(x, y, cloud.w, 3);
+        g.fillRect(x + 5, y - 2, cloud.w - 12, 2);
+        g.fillRect(x + 13, y - 4, Math.floor(cloud.w * .4), 2);
+        g.fillRect(x + 8, y + 3, cloud.w - 18, 1);
+      }
+      g.globalAlpha = 1;
+    }
+    function windowLight(i, t) {
+      return .65 + .16 * Math.sin(t * 1.7 + i * 2.3)
+        + .08 * Math.sin(t * 4.1 + i * .9) + energy * .25;
+    }
+    // Church candles: always lit, with a quick irregular flicker independent of the music.
+    function candleLight(i, t) {
+      return .78 + .1 * Math.sin(t * 9.3 + i * 1.7) + .07 * Math.sin(t * 23.1 + i * 3.1)
+        + .05 * Math.sin(t * 5.2 + i);
+    }
+    function glow(x, y, w, h, light) {
+      g.fillStyle = '#efad51';
+      for (let spread = 9; spread >= 3; spread -= 3) {
+        g.globalAlpha = light * .025;
+        g.fillRect(x - spread, y - spread, w + spread * 2, h + spread * 2);
+      }
+      g.globalAlpha = 1;
+    }
+    // Lancet window of red, blue, gold and green panes with dark leading; candlelight sets its brightness.
+    const STAINED_PANES = [' bb ', 'abca', 'cdac', 'adbd', 'bcda', 'dabc'];
+    const PANE_COLORS = { a: '#b8323a', b: '#2f5fb3', c: '#e3b44a', d: '#3f8a52' };
+    function drawStainedGlass(x, y, light) {
+      glow(x, y, 4, 6, light * .8);
+      STAINED_PANES.forEach((row, py) => [...row].forEach((c, px) => {
+        if (c === ' ') return;
+        g.fillStyle = PANE_COLORS[c];
+        g.fillRect(x + px, y + py, 1, 1);
+      }));
+      g.fillStyle = '#2a2320';
+      g.fillRect(x, y + 3, 4, 1);
+      g.globalAlpha = Math.max(0, .55 - light * .5);
+      g.fillStyle = '#0b0d14';
+      g.fillRect(x, y, 4, 6);
+      g.globalAlpha = 1;
+    }
+    // Folklore parade: sprites face right; `step` swaps rows for the second animation frame.
+    const CREATURES = [
+      {
+        name: 'Türst', title: 'the infernal huntsman', region: 'Lucerne hinterland',
+        palette: { k: '#141017', d: '#3a2a35', r: '#c8343a' }, glow: 'r',
+        rows: ['....kkk.........', '...kkkkk........', '....kkrk........', '...dkkkkd.......',
+          '..ddkkkkdd...kk.', '.dd.kkkk.d..kkkr', '....kkkkkkkkkkk.', '...kkkkkkkkkkk..',
+          '..kkkkkkkkkkk...', '..k.k.....k.k...', '.k..k.....k..k..', 'k...k.....k...k.'],
+        step: { 9: '...kk.....kk....', 10: '...k.k...k.k....', 11: '...k..k.k..k....' },
+        paths: [
+          { layer: 'front', points: [[-20, 98], [150, 98], [170, 115], [340, 115]] },
+          { layer: 'front', points: [[340, 120], [230, 120], [200, 115], [90, 115], [80, 98], [-20, 98]] },
+          { layer: 'back', points: [[-20, 50], [30, 64], [80, 75], [160, 77], [240, 75], [290, 64], [340, 46]] }
+        ]
+      },
+      {
+        name: 'Stollenwurm', title: 'the Tatzelwurm', region: 'Bernese Oberland',
+        palette: { g: '#8a9a5b', s: '#5e6b3c', y: '#f0d050', w: '#e8e0c8' }, glow: 'y',
+        rows: ['..........ggg...', '.........gggyg..', '...gg....ggggggw',
+          '..gssg..gsggg...', '.gs..sggs..g.g..', 'gs....ss...g.g..'],
+        step: { 3: '...gg...gsggg...', 4: '..gssg.gs..g.g..', 5: '.gs..ss....g..g.' },
+        paths: [
+          { layer: 'back', points: [[-20, 54], [40, 70], [100, 77], [180, 77], [250, 70], [340, 48]] },
+          { layer: 'front', points: [[-20, 114], [140, 114], [175, 98], [340, 98]] },
+          { layer: 'front', points: [[340, 98], [220, 98], [200, 115], [-20, 115]] }
+        ]
+      },
+      {
+        name: 'Sennentuntschi', title: 'the herdsmen’s living doll', region: 'Swiss Alps',
+        palette: { y: '#d8b45a', f: '#e6d2b0', b: '#2a1c16', r: '#9b2f2f', w: '#e8e2d4' },
+        rows: ['..yyyy..', '.yffffy.', '.yfbfby.', '..ffff..', '...rr...', 'yrrrrrry',
+          'y.rrrr.y', '..rwwr..', '.rrwwrr.', 'rrrrrrrr', '..y..y..', '..y..y..'],
+        step: { 5: '.rrrrrr.', 6: 'yyrrrryy', 11: '.y....y.' },
+        paths: [
+          { layer: 'front', points: [[-20, 120], [100, 120], [140, 115], [340, 115]] },
+          { layer: 'front', points: [[172, 98], [200, 98], [210, 115], [100, 115], [-20, 115]] },
+          { layer: 'back', points: [[340, 44], [290, 62], [260, 76], [180, 77], [100, 76], [43, 74], [-20, 52]] }
+        ]
+      },
+      {
+        name: 'Erdmännlein', title: 'the earth-dwellers', region: 'Emmental and Bernese foothills',
+        palette: { b: '#5c4630', f: '#d9a988', e: '#1b120c', w: '#d8d4c8', c: '#4a5a3a', l: '#6a5a40', L: '#ffcf6a' }, glow: 'L',
+        rows: ['...b...', '..bb...', '..bbb..', '.bbbbb.', '..fef.l', '..www.L', '.cwwwc.', '..ccc..', '..c.c..'],
+        step: { 8: '.c...c.' },
+        paths: [
+          { layer: 'front', points: [[-20, 115], [150, 114], [340, 115]] },
+          { layer: 'front', points: [[-20, 98], [90, 98], [150, 102], [220, 102], [230, 98], [340, 98]] },
+          { layer: 'front', points: [[340, 60], [294, 76], [294, 98], [180, 98], [170, 120], [-20, 120]] }
+        ]
+      },
+      {
+        name: 'Wildmannli', title: 'the little wild people', region: 'Toggenburg, St. Gallen',
+        palette: { m: '#4f5f2c', g: '#6f7f3a', f: '#b88a62', e: '#120c08' },
+        rows: ['..mmmm..', '.mmmmmm.', '.mfefem.', '.mffffm.', 'mmmmmmmm', 'm.mmmm.m',
+          'm.mggm.m', '..mmmm..', '..mggm..', '..m..m..', '.mm..mm.'],
+        step: { 9: '.m....m.', 10: 'mm....mm' },
+        paths: [
+          { layer: 'back', points: [[-20, 53], [40, 72], [120, 77], [200, 77], [280, 70], [340, 44]] },
+          { layer: 'front', points: [[340, 120], [250, 120], [230, 115], [100, 115], [-20, 115]] },
+          { layer: 'front', points: [[340, 43], [300, 60], [294, 77], [294, 98], [160, 98], [150, 115], [-20, 115]] }
+        ]
+      },
+      {
+        name: 'Dialas', title: 'the mountain fairies', region: 'Lower Engadin and Val Müstair',
+        palette: { h: '#f2e8c8', f: '#f6e7da', p: '#dfe8f4', w: '#a9d2e8', g: '#f6e7da' }, glow: 'w', flies: true,
+        rows: ['....h....', '...hfh...', 'w..hff..w', 'ww.ppp.ww', 'wwwpppwww',
+          '.w.ppp.w.', '..ppppp..', '.ppppppp.', '...g.g...'],
+        step: { 2: '...hff...', 3: '...ppp...', 4: 'w.wpppw.w', 5: 'wwwpppwww' },
+        paths: [
+          { layer: 'sky', points: [[-20, 40], [60, 30], [120, 42], [200, 28], [260, 40], [340, 30]] },
+          { layer: 'sky', points: [[340, 22], [270, 34], [200, 20], [140, 36], [80, 24], [-20, 34]] },
+          { layer: 'sky', points: [[-20, 26], [50, 42], [110, 32], [160, 44], [230, 36], [290, 44], [340, 38]] }
+        ]
+      },
+      {
+        name: 'Tschäggättä', title: 'the masked carnival figures', region: 'Lötschental, Valais',
+        palette: { f: '#3b2c22', F: '#5a4433', m: '#8a5a34', e: '#0b0806', n: '#6b4426', t: '#e8dcc0', b: '#c9a24a', s: '#1c140f' },
+        rows: ['..ff..ff..', '.fmmmmmmf.', '.fmemmemf.', '.fmmmnmmf.', '.fttttttf.', 'ffffffffff',
+          'fFfFfFfFff', 'ffffbbffff', '.fFffbbfF.', '.ffffffff.', '.ff....ff.', '.ss....ss.'],
+        step: { 7: 'fffffbbfff', 8: '.fFfffbbF.', 10: '..ff..ff..', 11: '..ss..ss..' },
+        paths: [
+          { layer: 'front', points: [[-20, 120], [90, 120], [110, 115], [250, 115], [280, 120], [340, 120]] },
+          { layer: 'front', points: [[168, 98], [175, 98], [200, 108], [230, 115], [340, 115]] },
+          { layer: 'front', points: [[340, 98], [43, 98], [43, 77], [-20, 56]] }
+        ]
+      }
+    ];
+    const PATH_SECONDS = 45;
+    const ARRIVAL_SECONDS = 60;
+    function pathPoint(points, progress) {
+      const lengths = [];
+      let total = 0;
+      for (let i = 1; i < points.length; i++) {
+        const length = Math.hypot(points[i][0] - points[i - 1][0], points[i][1] - points[i - 1][1]);
+        lengths.push(length); total += length;
+      }
+      let distance = Math.max(0, Math.min(1, progress)) * total;
+      for (let i = 0; i < lengths.length; i++) {
+        if (distance <= lengths[i] || i === lengths.length - 1) {
+          const from = points[i], to = points[i + 1];
+          const f = lengths[i] ? Math.min(1, distance / lengths[i]) : 0;
+          return { x: from[0] + (to[0] - from[0]) * f, y: from[1] + (to[1] - from[1]) * f, dx: to[0] - from[0] };
+        }
+        distance -= lengths[i];
+      }
+    }
+    for (const c of CREATURES) c.frames = [c.rows, c.rows.map((row, i) => c.step[i] || row)];
+    for (const c of CREATURES) if (!c.flies) c.paths = village.paths;
+    const nextShow = window.VillageLayout.createParade(CREATURES.length, 3, Math.random);
+    const shows = [];
+    const creatureLabel = $('#alpine-creature');
+    let paradeStart = null, labelText = '';
+    function setCreatureLabel(text) {
+      if (creatureLabel && text !== labelText) creatureLabel.textContent = labelText = text;
+    }
+    function currentCreature(now) {
+      if (paradeStart === null) paradeStart = now;
+      const elapsed = (now - paradeStart) / 1000;
+      const index = Math.floor(elapsed / ARRIVAL_SECONDS);
+      while (shows.length <= index) shows.push(nextShow(shows.length));
+      const progress = (elapsed - index * ARRIVAL_SECONDS) / PATH_SECONDS;
+      if (progress >= 1) return null;
+      const creature = CREATURES[shows[index].creature];
+      return { creature, path: creature.paths[shows[index].path], progress, elapsed };
+    }
+    function drawCreature(active) {
+      const { creature, path, progress, elapsed } = active;
+      const point = pathPoint(path.points, progress);
+      const frame = creature.frames[Math.floor(elapsed * 3.3) % 2];
+      const h = frame.length, w = frame[0].length;
+      const airborne = creature.flies;
+      const left = Math.round(point.x - w / 2);
+      const top = Math.round(point.y - h + (airborne ? Math.sin(elapsed * 2.4) * 2 : 0));
+      const flip = point.dx < 0;
+      const fade = Math.max(0, Math.min(1, progress * PATH_SECONDS / 2, (1 - progress) * PATH_SECONDS / 2));
+      if (!airborne) {
+        const baseY = top + h;
+        shadeCtx.clearRect(0, 0, W, H);
+        shadeCtx.fillStyle = '#07111c';
+        for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+          if (frame[y][flip ? w - 1 - x : x] === '.') continue;
+          const [sx, sy] = moonRay(left + x + .5, top + y + .5, baseY);
+          shadeCtx.fillRect(Math.floor(sx), Math.floor(sy), 2, 1);
+        }
+        shadeCtx.globalCompositeOperation = 'destination-out';
+        shadeCtx.drawImage(shadowMask, 0, 0);
+        shadeCtx.globalCompositeOperation = 'source-over';
+        g.globalAlpha = SHADOW_ALPHA * fade;
+        g.drawImage(shade, 0, 0);
+        g.globalAlpha = 1;
+      }
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+        const ch = frame[y][flip ? w - 1 - x : x];
+        if (ch === '.') continue;
+        if (creature.glow && creature.glow.includes(ch)) {
+          g.fillStyle = creature.palette[ch]; g.globalAlpha = fade * .22;
+          g.fillRect(left + x - 1, top + y - 1, 3, 3);
+        }
+        g.fillStyle = creature.palette[ch]; g.globalAlpha = fade;
+        g.fillRect(left + x, top + y, 1, 1);
+      }
+      g.globalAlpha = 1;
+    }
+    let last = 0, energy = 0;
+    // Church clock: the visitor's local day, scaled onto tonight's Swiss sunset-to-sunrise night.
+    function drawClockHands(face) {
+      const local = new Date();
+      const time = window.VillageClock.villageTime(local.getTime(),
+        local.getHours() * 60 + local.getMinutes() + local.getSeconds() / 60);
+      const hand = (turn, length) => {
+        const angle = turn * Math.PI * 2;
+        for (let r = 0; r <= length; r += .5)
+          g.fillRect(Math.floor(face.x + Math.sin(angle) * r), Math.floor(face.y - Math.cos(angle) * r), 1, 1);
+      };
+      g.fillStyle = '#414b51';
+      hand((time.hours + time.minutes / 60) / 12, 2.2);
+      hand(time.minutes / 60, 3.4);
+      const label = `${String(time.hours || 12)}:${String(Math.floor(time.minutes)).padStart(2, '0')}`;
+      if (cv.dataset.clock !== label) cv.dataset.clock = label;
+    }
+    function draw(now) {
+      requestAnimationFrame(draw);
+      if (now - last < 33) return;
+      last = now;
+      const t = reduceMotion ? 0 : now / 1000;
+      const target = player.playing && !reduceMotion ? Math.min(1, player.energy() * 4) : 0;
+      energy += (target - energy) * .2;
+      const active = reduceMotion ? null : currentCreature(now);
+      const layerOf = active && active.path.layer;
+      setCreatureLabel(reduceMotion ? 'Creature parade paused (reduced motion)'
+        : active ? `${active.creature.name} · ${active.creature.title} · ${active.creature.region}`
+        : 'The next creature arrives soon');
+      g.drawImage(skyLayer, 0, 0);
+      for (const star of stars) {
+        g.fillStyle = Math.sin(t * .7 + star.phase) > .3 ? '#e0d9cf' : '#8c96ac';
+        g.fillRect(star.x, star.y, 1, 1);
+      }
+      drawMoon();
+      clouds(distantClouds, t, '#b0a8bc', 1);
+      g.drawImage(mountainLayer, 0, 0);
+      if (layerOf === 'sky') drawCreature(active);
+      clouds(valleyClouds, t, '#c1ccd1', .4);
+      g.drawImage(groundLayer, 0, 0);
+      g.drawImage(shadowLayer, 0, 0);
+      houses.forEach((house, i) => glow(house.x, house.y + house.h - 3,
+        house.w, 5, windowLight(i * 2, t)));
+      const walkerY = active && layerOf !== 'sky' ? pathPoint(active.path.points, active.progress).y : null;
+      paintByDepth(props, walkerY, item => {
+        g.drawImage(item.layer, 0, 0);
+        for (const [i, [x, y]] of item.windows) {
+          const light = windowLight(i, t);
+          glow(x, y, 4, 4, light);
+          g.fillStyle = light > .78 ? '#ffe8a6' : '#d5a25d';
+          g.fillRect(x, y, 4, 4);
+          g.fillStyle = '#71513b'; g.fillRect(x + 1, y, 1, 4);
+        }
+        for (const [x, y] of item.stained) drawStainedGlass(x, y, candleLight(x, t));
+        if (item.clock) drawClockHands(item.clock);
+      }, () => drawCreature(active));
+      if (!reduceMotion) {
+        g.fillStyle = '#9c9699';
+        for (let i = 0; i < 4; i++) {
+          const rise = (t * 3 + i * 4) % 16;
+          chimneys.forEach(([cx, cy], k) =>
+            g.fillRect(Math.round(cx + Math.sin(rise * .3 + k) * 2), Math.round(cy - 1 - rise), 2, 1));
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  /* -------------------------------------------------------------- roll */
+  const roll = (() => {
+    const cv = $('#roll'), g = cv.getContext('2d');
+    let W = 0, Hh = 0, dpr = 1;
+    function resize() {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; Hh = cv.clientHeight;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
+    }
+    window.addEventListener('resize', resize); resize();
+    let cache = null;
+    function prep(song) {
+      if (cache && cache.song === song) return cache;
+      let lo = 127, hi = 0;
+      const drums = [];
+      song.voices.forEach((v, i) => { if (v.drum) drums.push(i); });
+      for (const tl of [song.intro, song.loop]) for (const e of tl.events) if (e.m) for (const m of e.m) { lo = Math.min(lo, m); hi = Math.max(hi, m); }
+      if (lo > hi) { lo = 48; hi = 72; }
+      return (cache = { song, lo: lo - 2, hi: hi + 2, drums, colors: voiceColors(song) });
+    }
+    function draw() {
+      requestAnimationFrame(draw);
+      if (cv.clientWidth !== W) resize();
+      const song = player.playing ? player.song : state.songs[state.idx];
+      if (!song) return;
+      const c = prep(song);
+      const st = player.playing ? player.songTime() : (song.intro.dur && song.loop.dur ? song.intro.dur - 0.6 : -0.4);
+      const span = W < 500 ? 4.5 : 7, pre = span * .22;
+      const pps = W / span, x0 = W * .22;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.fillStyle = '#05040e'; g.fillRect(0, 0, W, Hh);
+      const drumH = c.drums.length ? Math.min(5, 44 / c.drums.length) : 0;
+      const drumTop = Hh - c.drums.length * drumH - 6;
+      const noteH = Math.max(3, (drumTop - 12) / (c.hi - c.lo + 1));
+      const yOf = m => 6 + (c.hi - m) * noteH;
+      // octave guides
+      g.fillStyle = '#141034';
+      for (let m = Math.ceil(c.lo / 12) * 12; m <= c.hi; m += 12) g.fillRect(0, Math.round(yOf(m)), W, 1);
+      // bar lines
+      const muted = state.muted[player.playing ? player.idx : state.idx];
+      const windows = [];
+      const a = st - pre, z = st + span - pre;
+      if (a < song.intro.dur) windows.push([song.intro, 0]);
+      if (song.loop.dur) {
+        const k0 = Math.max(0, Math.floor((a - song.intro.dur) / song.loop.dur));
+        const k1 = Math.floor((z - song.intro.dur) / song.loop.dur);
+        for (let k = k0; k <= k1 && k < k0 + 4; k++) windows.push([song.loop, song.intro.dur + k * song.loop.dur]);
+      }
+      for (const [tl, off] of windows) {
+        for (const s of tl.sections) {
+          for (let bI = 0; bI < s.bars; bI++) {
+            const bt = off + s.start + bI * s.barDur;
+            if (bt < a - 1 || bt > z) continue;
+            const x = Math.round(x0 + (bt - st) * pps);
+            g.fillStyle = bI === 0 ? '#3a2f78' : '#1b163f'; g.fillRect(x, 0, 1, Hh);
+            if (bI === 0) { g.fillStyle = '#7d74b8'; g.font = '11px "IBM Plex Mono", monospace'; g.fillText(s.name + (s.trans ? (s.trans > 0 ? '+' : '') + s.trans : ''), x + 4, 14); }
+          }
+        }
+        for (const e of tl.events) {
+          const t = off + e.t;
+          if (t > z || t + (e.d || .05) < a) continue;
+          const v = song.voices[e.v];
+          const dim = muted.has(v.name);
+          const x = x0 + (t - st) * pps;
+          const on = st >= t && st < t + (e.d || .08);
+          if (v.drum) {
+            const r = c.drums.indexOf(e.v);
+            g.globalAlpha = dim ? .2 : (on || (st >= t && st < t + .12)) ? 1 : .7;
+            g.fillStyle = c.colors[e.v];
+            g.fillRect(Math.round(x), Math.round(drumTop + r * drumH), 3, Math.max(1, drumH - 1));
+          } else {
+            const w = Math.max(2, e.d * pps - 1);
+            g.globalAlpha = dim ? .15 : on ? 1 : t > st ? .78 : .38;
+            g.fillStyle = c.colors[e.v];
+            for (const m of e.m) g.fillRect(Math.round(x), Math.round(yOf(m)), Math.round(w), Math.max(2, Math.round(noteH) - (noteH > 4 ? 1 : 0)));
+            if (on && !dim) { g.fillStyle = '#ffffff'; g.globalAlpha = .55; for (const m of e.m) g.fillRect(Math.round(x), Math.round(yOf(m)), 2, Math.max(2, Math.round(noteH) - 1)); }
+          }
+        }
+      }
+      g.globalAlpha = 1;
+      g.fillStyle = '#ffd96b'; g.fillRect(Math.round(x0), 0, 2, Hh);
+      ui.tickPos();
+    }
+    requestAnimationFrame(draw);
+    return { reset() { cache = null; } };
+  })();
+
+  /* ---------------------------------------------------------------- ui */
+  const ui = (() => {
+    const list = $('#tracks'), caption = $('#caption'), sentence = $('#sentence'), posEl = $('#pos');
+    const ta = $('#score'), errs = $('#errors'), status = $('#ed-status');
+    let lastPos = '';
+    let say = '';
+
+    const MECH_ICONS = {
+      cylinder: '<path d="M3 4h10a2 4 0 0 1 0 8H3a2 4 0 0 1 0-8zm0 1.5a.8 2.5 0 0 0 0 5 .8 2.5 0 0 0 0-5zM5 6h1v1H5zm3 2h1v1H8zm3-2h1v1h-1zm-4 3h1v1H7zm3 0h1v1h-1z"/>',
+      disc: '<path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 2.6a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4zm4 2.3a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4zm0 4.8a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4zM8 12a.7.7 0 1 0 0 1.4A.7.7 0 0 0 8 12zm-4-2.3a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4zm0-4.8a.7.7 0 1 0 0 1.4.7.7 0 0 0 0-1.4z"/>',
+      barrel: '<path d="M4 3h8q2 5 0 10H4q-2-5 0-10zm1 2v1h1V5zm3 2v1h1V7zm2-2v1h1V5zM6 9v1h1V9zm3 1v1h1v-1zM13 7h2v2h-2z"/>',
+      roll: '<path d="M2 3h11a2 2 0 0 1 0 4H5v6H2zm2 1v1h1V4zm3 0v1h1V4zm3 0v1h1V4zM6 8h8v5H6zm1 1v1h1V9zm3 2v1h1v-1zm2-2v1h1V9z"/>'
+    };
+    const icon = kind => `<svg class="mech" viewBox="0 0 16 16" aria-hidden="true">${MECH_ICONS[kind] || MECH_ICONS.cylinder}</svg>`;
+    const sectionShown = () => cabinet.sectionOf(player.playing && !state.tunes[player.idx]?.removed ? player.idx : state.idx);
+    function renderRack() {
+      const rack = $('#rack');
+      rack.innerHTML = '';
+      const current = cabinet.sectionOf(state.idx).id;
+      for (const shelf of state.shelves) {
+        const sections = state.sections.filter(s => s.shelf === shelf.id);
+        if (!sections.length) continue;
+        const group = document.createElement('div');
+        group.className = 'shelf'; group.dataset.shelf = shelf.id;
+        group.setAttribute('role', 'group'); group.setAttribute('aria-label', shelf.name + ' shelf');
+        const label = document.createElement('span'); label.className = 'shelf-name'; label.textContent = shelf.name;
+        group.appendChild(label);
+        for (const section of sections) {
+          const words = cabinet.mechanism(section);
+          const count = cabinet.airsIn(section.id).length;
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'plate'; b.dataset.section = section.id;
+          b.setAttribute('aria-pressed', section.id === current ? 'true' : 'false');
+          b.title = `${section.name}: ${words.name.toLowerCase()} for the ${words.machine.toLowerCase()}, ${count} ${count === 1 ? words.air : words.airs}`;
+          b.innerHTML = `${icon(section.mechanism)}<span class="pn"></span><small></small>`;
+          b.querySelector('.pn').textContent = section.name;
+          b.querySelector('small').textContent = String(count);
+          b.addEventListener('click', () => {
+            const airs = cabinet.airsIn(section.id);
+            const remembered = state.lastIn[section.id];
+            if (airs.length) select(airs.includes(remembered) ? remembered : airs[0], player.playing);
+          });
+          group.appendChild(b);
+        }
+        rack.appendChild(group);
+      }
+    }
+    function renderList() {
+      list.innerHTML = '';
+      const section = cabinet.sectionOf(state.idx), words = cabinet.mechanism(section);
+      const airs = cabinet.airsIn(section.id);
+      const card = document.createElement('li');
+      card.className = 'tune-card';
+      card.innerHTML = `${icon(section.mechanism)}<span><b></b> · <span class="kind"></span><small></small></span>`;
+      card.querySelector('b').textContent = section.name;
+      card.querySelector('.kind').textContent = `${words.name} · ${airs.length} ${airs.length === 1 ? words.air : words.airs}`;
+      card.querySelector('small').textContent = section.blurb || `Your own ${words.name.toLowerCase()} for the ${words.machine.toLowerCase()}.`;
+      if (section.user) {
+        const rm = document.createElement('button');
+        rm.type = 'button'; rm.className = 'btn ghost'; rm.id = 'b-remove-section';
+        rm.textContent = `Remove ${words.name.toLowerCase()}`;
+        rm.addEventListener('click', () => removeSection(section));
+        card.appendChild(rm);
+      }
+      list.appendChild(card);
+      airs.forEach(i => {
+        const t = state.tunes[i], s = state.songs[i];
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.className = 'inv'; btn.type = 'button'; btn.dataset.tune = i;
+        btn.setAttribute('aria-current', i === state.idx ? 'true' : 'false');
+        const edited = !t.user && state.texts[i] !== t.original;
+        const len = s.intro.dur + s.loop.dur;
+        btn.innerHTML = `<span class="t"><span></span>${edited ? '<em>edited</em>' : ''}</span><span class="m"></span>`;
+        btn.querySelector('.t span').textContent = s.title;
+        btn.querySelector('.m').textContent = `${Math.round(s.tempo)} bpm · ${meterOf(s)} · ${s.voices.length} voices · ${fmtTime(len)}`;
+        btn.addEventListener('click', () => select(i, true));
+        btn.addEventListener('mouseenter', () => hint(`Play ${s.title}`));
+        btn.addEventListener('mouseleave', () => hint(''));
+        li.appendChild(btn); list.appendChild(li);
+      });
+      const add = document.createElement('li');
+      add.className = 'add-air';
+      const ab = document.createElement('button');
+      ab.type = 'button'; ab.className = 'inv add';
+      ab.innerHTML = '<span class="t"><span></span></span><span class="m"></span>';
+      ab.querySelector('.t span').textContent = '+ ' + words.new;
+      ab.querySelector('.m').textContent = `Adds a starter ${words.air} you can rewrite in the score`;
+      ab.addEventListener('click', () => {
+        const i = cabinet.pinAir(section.id);
+        $('#score').value = state.texts[i];
+        select(i, false);
+      });
+      add.appendChild(ab); list.appendChild(add);
+      renderRack();
+    }
+    function removeSection(section) {
+      const words = cabinet.mechanism(section);
+      if (!confirm(`Remove the ${section.name} ${words.name.toLowerCase()} and its ${words.airs}? This cannot be undone.`)) return;
+      if (player.playing && state.tunes[player.idx].section === section.id) stopTrack();
+      cabinet.removeSection(section.id);
+      const next = state.tunes.findIndex(t => !t.removed);
+      ta.value = state.texts[next];
+      select(next, false);
+    }
+    function hint(text) { say = text; sentenceUpdate(); }
+    function sentenceUpdate() {
+      const s = state.songs[state.idx];
+      const playingSong = player.playing ? state.songs[player.idx] : null;
+      sentence.textContent = say || (playingSong ? `Listen to ${playingSong.title}` : `Play ${s.title}`);
+    }
+    function renderLegend() {
+      const lg = $('#legend'); lg.innerHTML = '';
+      const s = state.songs[state.idx];
+      const cols = voiceColors(s);
+      s.voices.forEach((v, i) => {
+        const b = document.createElement('button');
+        b.className = 'chip'; b.type = 'button';
+        const on = !state.muted[state.idx].has(v.name);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.title = on ? `Mute ${v.name}` : `Unmute ${v.name}`;
+        b.innerHTML = `<i></i>${v.name} <span>${v.inst}</span>`;
+        b.querySelector('i').style.background = cols[i];
+        b.addEventListener('click', () => {
+          const set = state.muted[state.idx];
+          const mute = !set.has(v.name);
+          if (mute) set.add(v.name); else set.delete(v.name);
+          if (player.playing && player.idx === state.idx) player.applyMute(v.name, mute);
+          renderLegend();
+        });
+        lg.appendChild(b);
+      });
+    }
+    function renderErrors(song) {
+      errs.innerHTML = '';
+      if (!song.errors.length) {
+        status.innerHTML = '';
+        const ok = document.createElement('span'); ok.className = 'ok';
+        ok.textContent = `Reads cleanly · ${song.voices.length} voices · ${song.patternCount} patterns · loop ${fmtTime(song.loop.dur)}`;
+        status.appendChild(ok);
+        return;
+      }
+      status.textContent = `${song.errors.length} problem${song.errors.length > 1 ? 's' : ''} found`;
+      song.errors.slice(0, 30).forEach(e => {
+        const li = document.createElement('li');
+        const b = document.createElement('button'); b.className = 'err'; b.type = 'button';
+        b.innerHTML = `<b>Line ${e.line}</b> · `; b.appendChild(document.createTextNode(e.msg));
+        b.addEventListener('click', () => gotoLine(e.line));
+        li.appendChild(b); errs.appendChild(li);
+      });
+    }
+    function gotoLine(n) {
+      const lines = ta.value.split('\n');
+      let a = 0; for (let i = 0; i < n - 1 && i < lines.length; i++) a += lines[i].length + 1;
+      const z = a + (lines[n - 1] || '').length;
+      ta.focus(); ta.setSelectionRange(a, z);
+      const lh = parseFloat(getComputedStyle(ta).lineHeight) || 20;
+      ta.scrollTop = Math.max(0, (n - 4) * lh);
+    }
+    function refresh() {
+      const s = state.songs[state.idx];
+      const playingHere = player.playing && player.idx === state.idx;
+      $('#v-play').textContent = 'Play';
+      caption.className = 'caption' + (player.playing ? '' : ' idle');
+      const capSong = player.playing ? state.songs[player.idx] : s;
+      const capTitle = $('#caption-title');
+      capTitle.textContent = capTitle.title = capSong.title;
+      const about = $('#caption-about');
+      about.textContent = about.title = capSong.about.split('.')[0] || '';
+      about.hidden = !about.textContent;
+      const deck = $('#transport');
+      deck.querySelector('[data-action="play"]').setAttribute('aria-pressed', player.playing ? 'true' : 'false');
+      deck.querySelector('[data-action="stop"]').setAttribute('aria-pressed', player.playing ? 'false' : 'true');
+      deck.querySelector('[data-action="loop"]').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
+      deck.querySelector('[data-action="play"]').setAttribute('aria-label', 'Play ' + capSong.title);
+      const shownIdx = player.playing ? player.idx : state.idx;
+      const shownSection = sectionShown(), shownAirs = cabinet.airsIn(shownSection.id), words = cabinet.mechanism(shownSection);
+      const place = Math.max(0, shownAirs.indexOf(shownIdx));
+      $('#transport-count').textContent = `${place + 1} / ${shownAirs.length}`;
+      $('#transport-count').title = `${words.air[0].toUpperCase() + words.air.slice(1)} ${place + 1} of ${shownAirs.length} on the ${shownSection.name} ${words.name.toLowerCase()}`;
+      $('#v-loop').textContent = 'Loop: ' + (state.loop ? 'on' : 'off');
+      $('#v-loop').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
+      const tune = state.tunes[state.idx], here = cabinet.sectionOf(state.idx);
+      $('#ed-file').textContent = tune.user ? `${here.name} · your ${cabinet.mechanism(here).air}` : `scores/${tune.section}/${tune.file}` + (state.texts[state.idx] !== tune.original ? ' · edited' : '');
+      $('#b-revert').hidden = !!tune.user;
+      $('#b-remove-air').hidden = !tune.user;
+      $('#b-remove-air').disabled = !!tune.user && cabinet.airsIn(tune.section).length < 2;
+      $('#b-remove-air').title = $('#b-remove-air').disabled ? 'A section keeps at least one air; remove the whole section instead' : '';
+      sentenceUpdate();
+      if (!playingHere && !player.playing) posEl.textContent = `${fmtTime(s.intro.dur + s.loop.dur)} · ${meterOf(s)} at ${Math.round(s.tempo)} bpm · ${s.about}`;
+    }
+    function tickPos() {
+      if (!player.playing) return;
+      const song = player.song, st = player.songTime();
+      const p = position(song, st);
+      let txt = '';
+      if (p) {
+        const loopNo = p.part === 'loop' ? Math.floor((st - song.intro.dur) / song.loop.dur) + 1 : 0;
+        txt = `<b>${p.sec.name}</b> · bar ${p.bar} of ${p.sec.bars} · ${Math.round(p.sec.tempo)} bpm · ${p.part === 'intro' ? 'first time through' : 'loop ' + loopNo} · ${fmtTime(Math.max(0, st))}`;
+      } else txt = 'starting…';
+      if (txt !== lastPos) { posEl.innerHTML = txt; lastPos = txt; }
+    }
+    function select(i, play) {
+      const changed = i !== state.idx;
+      state.idx = i;
+      state.lastIn[state.tunes[i].section] = i;
+      if (changed) { ta.value = state.texts[i]; roll.reset(); }
+      renderList(); renderLegend(); renderErrors(state.songs[i]); refresh();
+      if (sharing) sharing.selected(i);
+      if (!player.playing || player.idx !== i) $('#transport').dataset.section = state.tunes[i].section;
+      if (play) startTrack();
+    }
+    function startTrack() {
+      const s = compileAt(state.idx);
+      renderErrors(s);
+      if (!s.intro.events.length && !s.loop.events.length) { refresh(); return; }
+      if (sharing) sharing.selected(state.idx);
+      roll.reset();
+      player.start(s, state.idx);
+      state.playingIdx = state.idx;
+      renderList(); renderLegend(); refresh();
+    }
+    function stopTrack() { if (sharing) sharing.cancelAutoplay(); player.stop(); refresh(); lastPos = ''; }
+
+    // wiring
+    $('#v-play').addEventListener('click', startTrack);
+    // Old-fashioned deck: play/stop/loop latch down; skip buttons press briefly and keep the deck's state.
+    function skip(step) {
+      const from = player.playing && !state.tunes[player.idx].removed ? player.idx : state.idx;
+      const airs = cabinet.airsIn(state.tunes[from].section);
+      const at = Math.max(0, airs.indexOf(from));
+      select(airs[(at + step + airs.length) % airs.length], player.playing);
+    }
+    const deckActions = {
+      prev: () => skip(-1), next: () => skip(1),
+      play: () => { if (!player.playing || player.idx !== state.idx) startTrack(); },
+      stop: () => { if (player.playing) stopTrack(); },
+      loop: () => { state.loop = !state.loop; refresh(); }
+    };
+    $('#transport').addEventListener('click', e => {
+      const button = e.target.closest('button[data-action]');
+      if (!button) return;
+      deckActions[button.dataset.action]();
+      if (!button.hasAttribute('aria-pressed')) {
+        button.classList.add('tap');
+        setTimeout(() => button.classList.remove('tap'), 160);
+      }
+    });
+    $('#v-stop').addEventListener('click', stopTrack);
+    $('#v-restart').addEventListener('click', startTrack);
+    $('#v-loop').addEventListener('click', () => { state.loop = !state.loop; refresh(); });
+    $('#v-edit').addEventListener('click', () => { $('#editor').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }); setTimeout(() => ta.focus({ preventScroll: true }), 400); });
+    $('#v-guide').addEventListener('click', () => $('#guide').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }));
+    document.querySelectorAll('.verb').forEach(b => {
+      b.addEventListener('mouseenter', () => { const s = state.songs[state.idx]; const w = b.dataset.say; hint(w === 'Stop' || w === 'Toggle looping' || w === 'Read about the format' ? w : `${w} ${s.title}`); });
+      b.addEventListener('mouseleave', () => hint(''));
+    });
+    $('#vol').addEventListener('input', e => {
+      player.vol = +e.target.value;
+      if (player.syn) player.syn.out.gain.setTargetAtTime(player.vol, player.ctx.currentTime, 0.03);
+    });
+    let deb = null;
+    ta.addEventListener('input', () => {
+      state.texts[state.idx] = ta.value;
+      saveEdits();
+      clearTimeout(deb);
+      deb = setTimeout(() => { const s = compileAt(state.idx); renderErrors(s); renderList(); if (!player.playing) { roll.reset(); renderLegend(); } refresh(); }, 350);
+    });
+    ta.addEventListener('keydown', e => {
+      if (e.key === 'Tab' && !e.shiftKey && !e.metaKey && !e.ctrlKey) {
+        e.preventDefault();
+        const a = ta.selectionStart, z = ta.selectionEnd;
+        ta.setRangeText('    ', a, z, 'end');
+        ta.dispatchEvent(new Event('input'));
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); startTrack(); }
+    });
+    $('#b-play').addEventListener('click', startTrack);
+    $('#b-revert').addEventListener('click', () => {
+      state.texts[state.idx] = state.tunes[state.idx].original; ta.value = state.texts[state.idx];
+      saveEdits(); const s = compileAt(state.idx); renderErrors(s); renderList(); renderLegend(); roll.reset(); refresh();
+    });
+    $('#b-remove-air').addEventListener('click', () => {
+      const i = state.idx, tune = state.tunes[i];
+      if (!tune.user) return;
+      const airs = cabinet.airsIn(tune.section);
+      if (airs.length < 2) return;
+      if (player.playing && player.idx === i) stopTrack();
+      cabinet.removeAir(i);
+      const next = airs[Math.min(airs.indexOf(i), airs.length - 2) + (airs.indexOf(i) === airs.length - 1 ? 0 : 1)];
+      select(next, false);
+    });
+    const form = $('#new-section');
+    $('#b-new-section').addEventListener('click', () => {
+      form.hidden = !form.hidden;
+      $('#b-new-section').setAttribute('aria-expanded', String(!form.hidden));
+      if (!form.hidden) {
+        $('#shelf-names').innerHTML = '';
+        state.shelves.forEach(s => { const o = document.createElement('option'); o.value = s.name; $('#shelf-names').appendChild(o); });
+        $('#ns-name').focus();
+      }
+    });
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = $('#ns-name').value.trim(), shelfName = $('#ns-shelf').value.trim();
+      if (!name || !shelfName) return;
+      const shelf = cabinet.shelfFor(shelfName);
+      const section = cabinet.addSection({ name, shelf: shelf.id, mechanism: $('#ns-mechanism').value });
+      const i = cabinet.pinAir(section.id);
+      form.reset(); form.hidden = true;
+      $('#b-new-section').setAttribute('aria-expanded', 'false');
+      select(i, false);
+    });
+    $('#ns-cancel').addEventListener('click', () => { form.reset(); form.hidden = true; $('#b-new-section').setAttribute('aria-expanded', 'false'); });
+    $('#b-copy').addEventListener('click', async () => {
+      const btn = $('#b-copy');
+      try { await navigator.clipboard.writeText(ta.value); btn.textContent = 'Copied'; }
+      catch (e) { ta.focus(); ta.select(); btn.textContent = 'Selected, press copy'; }
+      setTimeout(() => { btn.textContent = 'Copy score'; }, 1600);
+    });
+    $('#b-prompt').addEventListener('click', async () => {
+      const btn = $('#b-prompt'), pre = $('#llm-prompt');
+      try { await navigator.clipboard.writeText(pre.textContent.trim() + '\n\n'); btn.textContent = 'Copied'; }
+      catch (e) {
+        const r = document.createRange(); r.selectNodeContents(pre);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        btn.textContent = 'Selected, press copy';
+      }
+      setTimeout(() => { btn.textContent = 'Copy prompt'; }, 1600);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.code !== 'Space') return;
+      const tag = (e.target.tagName || '').toLowerCase();
+      if (tag === 'textarea' || tag === 'input' || tag === 'button' || tag === 'select') return;
+      e.preventDefault();
+      if (player.playing) stopTrack(); else startTrack();
+    });
+
+    return { select, refresh, tickPos, renderErrors, gotoLine, hint, startTrack };
+  })();
+
+  // boot (keeps edits across live updates of this page)
+  function boot(data) {
+    try {
+      if (data && Array.isArray(data.texts) && data.texts.length === state.tunes.length) { state.texts = data.texts.slice(); state.tunes.forEach((_, i) => compileAt(i)); }
+      if (data && typeof data.idx === 'number' && data.idx < state.tunes.length && !state.tunes[data.idx].removed) state.idx = data.idx;
+    } catch (e) { }
+    $('#score').value = state.texts[state.idx];
+    ui.select(state.idx, false);
+    sharing = ScrimSharing.connect({ tracks: TRACKS, state, player, ui, compileAt, receive: text => cabinet.receive(text) });
+  }
+  const hot = window.claude && window.claude.hot;
+  try { if (hot && hot.snapshot) hot.snapshot(() => ({ texts: state.texts, idx: state.idx })); } catch (e) { }
+  if (hot && hot.ready) hot.ready(boot); else boot((hot && hot.data) || {});
+
+  // expose for testing
+  window.__scrim = { state, player, ui, cabinet, get sharing() { return sharing; } };
+})();
+
+</script>
+
+</body></html>

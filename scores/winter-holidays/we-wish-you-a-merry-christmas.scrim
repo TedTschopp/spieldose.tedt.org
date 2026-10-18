@@ -1,0 +1,46 @@
+title    We Wish You a Merry Christmas
+composer Traditional (England), arranged for steel disc
+about    Warm wishes drift through the snowy village lanes.
+tempo    108
+beats    3
+steps    2
+swing    0
+reverb   0.31
+
+voice lead musicbox vol=0.9 pan=-0.1 rev=0.36 bright=0.92
+voice bells celesta vol=0.3 pan=0.2 rev=0.38 gate=0.8
+voice bass pizz vol=0.31 pan=0 rev=0.22 gate=0.82
+
+pattern intro
+lead  | C5- F5- F5- | G5-- E5-- |
+bells | [F]----- | [C]----- |
+bass  | F2----- | C2----- |
+
+pattern A
+lead | C5- F5- F5- | G5- F5- E5- |
+lead | D5- D5- D5- | A5- G5- F5- |
+lead | E5- E5- E5- | A5- G5- F5- |
+lead | G5- F5- E5- | D5-- C5-- |
+bells | [F]-- [F]-- | [C]-- [F]-- | [Bb]-- [F]-- | [C]-- [F]-- |
+bells | [F]-- [F]-- | [C]-- [F]-- | [Bb]-- [F]-- | [C]-- [F]-- |
+bass | F2-- C3-- | F2-- C3-- | Bb1-- F2-- | C2-- F2-- |
+bass | F2-- C3-- | F2-- C3-- | Bb1-- F2-- | C2-- F2-- |
+
+pattern B
+lead | C5- F5- F5- | F5- E5- E5- |
+lead | E5- D5- D5- | D5-- C5-- |
+lead | C5- G5- G5- | A5- G5- F5- |
+lead | E5- D5- C5- | F5-- .-- |
+bells | [F]-- [F]-- | [C]-- [F]-- | [Bb]-- [F]-- | [C]-- [F]-- |
+bells | [F]-- [C]-- | [G]-- [C]-- | [F]-- [C]-- | [F]----- |
+bass | F2-- C3-- | F2-- C3-- | Bb1-- F2-- | C2-- F2-- |
+bass | F2-- C3-- | G2-- D3-- | C2-- G2-- | F2----- |
+
+pattern A2 from A
+lead | C5- F5- A5- | G5- F5- E5- |
+lead | D5- D5- F5- | A5- G5- F5- |
+lead | E5- E5- G5- | A5- G5- F5- |
+lead | G5- F5- E5- | D5-- C5-- |
+
+play intro
+loop A B A2

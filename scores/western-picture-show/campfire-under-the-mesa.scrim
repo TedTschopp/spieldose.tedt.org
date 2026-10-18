@@ -1,0 +1,45 @@
+title    Campfire Under the Mesa
+composer Swiss Music Box (original)
+about    A small fire glows beneath the moonlit ridge. tempo    84
+beats    3
+steps    2
+swing    0
+reverb   0.28
+
+voice reed accordion vol=0.66 pan=-0.16 rev=0.28 gate=0.84
+voice roll piano vol=0.6 pan=0.12 rev=0.2 gate=0.72 center=G4
+voice guitar guitar vol=0.38 pan=0.24 rev=0.2 gate=0.7
+voice bass upright vol=0.36 pan=-0.08 rev=0.14 gate=0.82
+
+pattern intro
+reed   | D5- B4- G4- | A4- B4- D5- | G5- D5- B4- | A4----- |
+roll   | [G]- [G]- [G]- | [C]- [C]- [C]- | [G]- [D7]- [D7]- | [G]----- |
+guitar | G3- D4- G4- | C4- G4- C5- | G3- D4- G4- | D4----- |
+bass   | G2----- | C2----- | G2----- | D2----- |
+
+pattern A
+reed   | G4- B4- D5- | B4- A4- G4- | A4- C5- E5- | D5----- |
+reed   | G4- B4- D5- | G5- D5- B4- | A4- B4- A4- | G4----- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- |
+guitar | G3- D4- G4- | G3- D4- G4- | C4- G4- C5- | D4- A4- D5- |
+bass   | G2----- | G2----- | C2----- | D2----- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- |
+guitar | G3- D4- G4- | G3- D4- G4- | C4- G4- C5- | D4- A4- D5- |
+bass   | G2----- | G2----- | C2----- | D2----- |
+
+pattern B
+reed   | B4- D5- G5- | E5- D5- C5- | A4- C5- E5- | D5----- |
+reed   | G5- D5- B4- | A4- B4- D5- | C5- A4- G4- | G4----- |
+roll   | [Em]- [Em]- [Em]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+guitar | E3- B3- E4- | C4- G4- C5- | D4- A4- D5- | G3- D4- G4- |
+bass   | E2----- | C2----- | D2----- | G2----- |
+roll   | [Em]- [Em]- [Em]- | [C]- [C]- [C]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- |
+guitar | E3- B3- E4- | C4- G4- C5- | D4- A4- D5- | G3- D4- G4- |
+bass   | E2----- | C2----- | D2----- | G2----- |
+
+pattern A2 from A
+reed   | G4- B4- D5- | B4- A4- G4- | A4- C5- E5- | D5----- |
+reed   | G4- B4- D5- | G5- D5- B4- | A4- G4- F#4- | G4----- |
+
+play intro
+loop A*2 B*2 A2*2

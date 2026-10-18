@@ -13,8 +13,9 @@ vm.runInNewContext(scoreScript, scoreSandbox);
 const score = scoreSandbox.module.exports;
 const sandbox = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, 'scores.js'), 'utf8'), sandbox);
-const tracks = sandbox.window.ScrimTracks;
-assert.ok(Array.isArray(tracks), 'score bundle exports a track list');
+const allTracks = sandbox.window.ScrimTracks;
+assert.ok(Array.isArray(allTracks), 'score bundle exports a track list');
+const tracks = allTracks.filter(track => track.section === 'alpine-night');
 assert.equal(tracks.length, 6);
 assert.deepEqual(Array.from(tracks, track => track.file), [
   '01-sennentuntschis-lullaby.scrim',
@@ -43,5 +44,5 @@ for (const [i, track] of tracks.entries()) {
 }
 assert.match(html, /<script src="scores\.js"><\/script>/);
 assert.match(html, /const TRACKS = window\.ScrimTracks;/);
-assert.match(html, /Six original Swiss folk-inspired tunes/);
+assert.match(html, /A cabinet of music box airs: pinned cylinders, steel discs, organ barrels and piano rolls/);
 console.log('PASS: six supplied Swiss scores load as tracks and compile with the intended instruments');

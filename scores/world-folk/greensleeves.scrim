@@ -1,0 +1,35 @@
+title    Greensleeves
+composer Traditional (England), arranged for organ barrel
+about    A green-sleeved shadow turns beneath the village moon. An English ballad melody from the 16th century.
+tempo    96
+beats    2
+steps    3
+swing    0
+reverb   0.28
+
+voice lead pipe vol=0.88 pan=-0.12 rev=0.25 gate=0.9 bright=0.9
+voice harp harp vol=0.36 pan=0.18 rev=0.3 gate=0.62 center=A4
+voice bass pizz vol=0.3 pan=0 rev=0.16 gate=0.75
+
+pattern intro
+lead   | A4 C5 D5 E5 F5 E5 | D5 B4 G4 A4 B4 G4 |
+harp   | [Am]-- [Am]-- | [G]-- [G]-- |
+bass   | A2-- E3-- | G2-- D3-- |
+
+pattern A
+lead   | A4 C5 D5 E5 F5 E5 | D5 B4 G4 A4 B4 G4 | A4 C5 D5 E5 F5 E5 | D5 B4 G4 A4 A4 A4 | C5 E5 G5 E5 C5 A4 | B4 D5 G5 F5 E5 D5 | C5 A4 F5 E5 D5 C5 | B4 G4 A4 A4 A4 A4 |
+harp   | [Am]-- [Am]-- | [G]-- [G]-- | [Am]-- [Am]-- | [E]-- [E]-- | [C]-- [C]-- | [G]-- [G]-- | [F]-- [F]-- | [E]-- [E]-- |
+bass   | A2-- E3-- | G2-- D3-- | A2-- E3-- | E2-- B3-- | C2-- G3-- | G2-- D3-- | F2-- C3-- | E2-- B3-- |
+
+pattern B
+lead   | E5 G5 A5 B5 C6 B5 | A5 F5 D5 E5 F5 D5 | E5 G5 A5 B5 C6 B5 | A5 F5 D5 E5 E5 E5 | C6 A5 F5 G5 A5 G5 | F5 D5 B4 C5 D5 B4 | C5 E5 A5 G5 F5 E5 | D5 B4 A4 A4 A4 A4 |
+harp   | [F]-- [F]-- | [C]-- [C]-- | [G]-- [G]-- | [Am]-- [Am]-- | [F]-- [F]-- | [G]-- [G]-- | [E]-- [E]-- | [Am]-- [Am]-- |
+bass   | F2-- C3-- | C2-- G3-- | G2-- D3-- | A2-- E3-- | F2-- C3-- | G2-- D3-- | E2-- B3-- | A2-- E3-- |
+
+pattern A2 from A
+lead   | A4 C5 D5 E5 G5 E5 | D5 B4 G4 A4 C5 G4 | A4 C5 D5 E5 F5 A5 | G5 F5 D5 B4 A4 A4 | C5 E5 G5 A5 G5 E5 | D5 B4 G4 F5 E5 D5 | C5 A4 F5 A5 D5 C5 | B4 G4 A4 C5 A4 A4 |
+harp   | [Am]-- [Am]-- | [G]-- [G]-- | [Am]-- [Am]-- | [E]-- [E]-- | [C]-- [C]-- | [G]-- [G]-- | [F]-- [F]-- | [E]-- [E]-- |
+bass   | A2-- E3-- | G2-- D3-- | A2-- E3-- | E2-- B3-- | C2-- G3-- | G2-- D3-- | F2-- C3-- | E2-- B3-- |
+
+play intro
+loop A B A2

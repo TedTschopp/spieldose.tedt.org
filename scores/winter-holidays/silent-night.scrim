@@ -1,0 +1,46 @@
+title    Silent Night
+composer Franz Xaver Gruber (1818), arranged for steel disc
+about    A candle glows above the moonlit village. The music box keeps the hush.
+tempo    54
+beats    3
+steps    2
+swing    0
+reverb   0.34
+
+voice lead musicbox vol=0.88 pan=-0.08 rev=0.4 bright=0.82 gate=0.9
+voice bells celesta vol=0.34 pan=0.18 rev=0.4 gate=0.82
+voice bass harp vol=0.3 pan=0 rev=0.28 gate=0.9
+
+pattern intro
+lead  | G5--- .- | D5--- .- |
+bells | [G]----- | [D]----- |
+bass  | G2----- | D2----- |
+
+pattern A
+lead  | G5- A5 G5- E5 | G5- A5 G5- E5 |
+lead  | D6--- .- | D6--- .- |
+lead  | B5--- .- | B5--- .- |
+lead  | G5--- .- | G5--- .- |
+bells | [G]----- | [G]----- | [D]----- | [D]----- |
+bells | [G]----- | [G]----- | [C]----- | [G]----- |
+bass  | G2----- | G2----- | D2----- | D2----- |
+bass  | G2----- | G2----- | C3----- | G2----- |
+
+pattern B
+lead  | A5--- .- | C6--- .- |
+lead  | B5- A5 G5-- | A5--- .- |
+lead  | G5- A5 G5- E5 | G5- A5 G5- E5 |
+lead  | D6--- .- | D6--- .- |
+bells | [C]----- | [D]----- | [G]----- | [D]----- |
+bells | [G]----- | [G]----- | [D]----- | [G]----- |
+bass  | C3----- | D3----- | G2----- | D2----- |
+bass  | G2----- | G2----- | D2----- | G2----- |
+
+pattern A2 from A
+lead  | G5- A5 G5- D5 | G5- A5 G5- E5 |
+lead  | D6--- F5- | D6--- .- |
+lead  | B5--- G5- | B5--- .- |
+lead  | G5- A5 G5- E5 | G5--- .- |
+
+play intro
+loop A B A2

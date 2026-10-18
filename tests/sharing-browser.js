@@ -89,7 +89,7 @@ async (page) => {
     await page.waitForFunction(() => __scrim.state.idx === 5);
     const head = await page.locator('head').innerHTML();
     assert(head.includes('devils-bridge-mazurka.png'), 'Nested route loads dedicated raw preview metadata');
-    assert(await page.evaluate(() => typeof ScrimSharing === 'object' && ScrimTracks.length === 6), 'Nested route loads root assets');
+    assert(await page.evaluate(() => typeof ScrimSharing === 'object' && ScrimTracks.length > 6 && typeof ScrimCabinet === 'object'), 'Nested route loads root assets');
     await page.evaluate(() => localStorage.setItem('scrimshaw-edits', JSON.stringify({
       [ScrimTracks[0].file]: ScrimTracks[0].text + '\n# Private local draft\n'
     })));

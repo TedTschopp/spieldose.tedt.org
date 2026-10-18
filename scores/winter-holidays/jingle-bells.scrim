@@ -1,0 +1,46 @@
+title    Jingle Bells
+composer James Lord Pierpont (1857), arranged for steel disc
+about    Sleigh bells cross the moonlit village square.
+tempo    112
+beats    4
+steps    2
+swing    0.08
+reverb   0.26
+
+voice lead musicbox vol=0.92 pan=-0.08 rev=0.32 bright=1.0
+voice bells glock vol=0.28 pan=0.2 rev=0.38 gate=0.75
+voice bass pizz vol=0.34 pan=0 rev=0.2 gate=0.8
+
+pattern intro
+lead  | E5--- G5--- | C5--- D5--- |
+bells | [C]------- | [G]------- |
+bass  | C2------- | G2------- |
+
+pattern A
+lead | E5 E5 E5 E5 E5 E5 E5 G5 | C5 D5 E5--- .- |
+lead | F5 F5 F5 F5 F5 E5 E5 E5 | E5- D5- D5- E5- |
+lead | E5 E5 E5 E5 E5 E5 E5 G5 | C5 D5 E5--- .- |
+lead | F5 F5 F5 F5 F5 E5 E5 E5 | E5 G5 G5 F5 D5 C5-- |
+bells | [C]--- [C]--- | [C]--- [C]--- | [F]--- [F]--- | [C]------- |
+bells | [F]--- [F]--- | [C]--- [C]--- | [G]--- [G]--- | [C]------- |
+bass | C2--- G2--- | C2--- G2--- | C2--- G2--- | C2------- |
+bass | F2--- C3--- | C2--- G2--- | G2--- D3--- | C2------- |
+
+pattern B
+lead | E5- E5- E5--- | E5- E5- E5--- |
+lead | E5- G5- C5- D5- | E5------- |
+lead | F5- F5- F5- F5- | F5- E5- E5- E5- |
+lead | E5 E5 E5 E5 G5 G5 F5 D5 | C5------- |
+bells | [C]--- [C]--- | [G]--- [G]--- | [F]--- [F]--- | [C]------- |
+bells | [F]--- [F]--- | [C]--- [C]--- | [G]--- [G]--- | [C]------- |
+bass | C2--- G2--- | G2--- D3--- | F2--- C3--- | C2------- |
+bass | F2--- C3--- | C2--- G2--- | G2--- D3--- | C2------- |
+
+pattern A2 from A
+lead | E5 E5 E5 E5 G5 E5 D5 C5 | C5 D5 E5--- .- |
+lead | F5 F5 A5 F5 E5 E5 E5 E5 | E5- D5- D5- E5- |
+lead | E5 E5 E5 E5 G5 E5 D5 C5 | C5 D5 E5--- .- |
+lead | F5 F5 A5 F5 E5 E5 E5 E5 | E5 G5 G5 F5 D5 C5-- |
+
+play intro
+loop A B A2

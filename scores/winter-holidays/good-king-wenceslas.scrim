@@ -1,0 +1,46 @@
+title    Good King Wenceslas
+composer Traditional (Piae Cantiones, 1582), arranged for steel disc
+about    Footsteps cross the snow beneath the moonlit church.
+tempo    104
+beats    4
+steps    2
+swing    0
+reverb   0.3
+
+voice lead musicbox vol=0.91 pan=-0.08 rev=0.36 bright=0.92
+voice answer celesta vol=0.31 pan=0.2 rev=0.38 gate=0.82
+voice bass pizz vol=0.32 pan=0 rev=0.22 gate=0.8
+
+pattern intro
+lead   | G5- G5- G5- A5- | G5--- D5--- |
+answer | [G]------- | [D]------- |
+bass   | G2------- | D2------- |
+
+pattern A
+lead | G5- G5- G5- A5- | G5- F#5- E5--- |
+lead | D5- E5- F#5- G5- | A5--- A5--- |
+lead | B5- B5- B5- C6- | B5- A5- G5--- |
+lead | A5- G5- F#5- E5- | D5------- |
+answer | [G]--- [D]--- | [G]--- [D]--- | [G]--- [D]--- | [A]--- [D]--- |
+answer | [G]--- [D]--- | [G]--- [D]--- | [C]--- [G]--- | [D]------- |
+bass | G2--- D3--- | G2--- D3--- | G2--- D3--- | A2--- D3--- |
+bass | G2--- D3--- | G2--- D3--- | C3--- G2--- | D2------- |
+
+pattern B
+lead | G5- G5- G5- A5- | G5- F#5- E5--- |
+lead | D5- E5- F#5- G5- | A5--- A5--- |
+lead | B5- B5- B5- C6- | B5- A5- G5--- |
+lead | A5- G5- F#5- E5- | D5------- |
+answer | [G]--- [D]--- | [G]--- [D]--- | [G]--- [D]--- | [A]--- [D]--- |
+answer | [G]--- [D]--- | [G]--- [D]--- | [C]--- [G]--- | [D]------- |
+bass | G2--- D3--- | G2--- D3--- | G2--- D3--- | A2--- D3--- |
+bass | G2--- D3--- | G2--- D3--- | C3--- G2--- | D2------- |
+
+pattern A2 from A
+lead | G5- B5- G5- A5- | G5- F#5- D5--- |
+lead | D5- E5- G5- F#5- | A5--- D6--- |
+lead | B5- D6- B5- C6- | B5- A5- G5--- |
+lead | A5- G5- F#5- E5- | D5------- |
+
+play intro
+loop A B A2

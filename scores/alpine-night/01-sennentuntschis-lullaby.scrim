@@ -1,0 +1,40 @@
+title    The Sennentuntschi's Lullaby
+composer ChatGPT
+about    The little wooden doll has learned the lullaby. Tonight it plays the missing notes.
+tempo    66
+beats    3
+steps    2
+swing    0
+reverb   0.32
+
+voice tines musicbox vol=0.92 pan=-0.08 rev=0.46 bright=0.85
+voice comb  musicbox vol=0.31 pan=0.12 rev=0.35 bright=0.65
+voice low   musicbox vol=0.25 pan=0 rev=0.25 bright=0.55
+
+pattern intro
+tines   | A5--- .- | F5--- E5- | D5----- | C#5--- .- |
+comb    | D4- .- A4- | Bb3- .- F4- | G3- .- D4- | A3- .- E4- |
+low     | D3----- | Bb3----- | G3----- | A3----- |
+
+pattern A
+tines   | D5- A5- F5- | E5- F5 E5 D5- | C5- A5- E5- | D5--- .- |
+tines   | Bb5- A5- F5- | G5- E5- D5- | C#5- E5- A5- | Bb5 A5 E5--- |
+comb    | D4 A4 F4 A4 F4 A4 | D4 A4 F4 A4 F4 A4 | C4 A4 E4 A4 E4 A4 | C4 A4 F4 A4 F4 A4 |
+comb    | Bb3 F4 D4 F4 D4 F4 | G3 D4 Bb3 D4 Bb3 D4 | A3 E4 C#4 E4 C#4 E4 | A3 E4 C#4 E4 .- |
+low     | D3----- | D3----- | C3----- | C3----- |
+low     | Bb3----- | G3----- | A3----- | A3----- |
+
+pattern B
+tines   | F5- C6- A5- | E5- C6- G5- | D6- C6 Bb5 A5 G5 | A5--- .- |
+tines   | G5- Eb5- D5- | E5- G5- Bb5- | A5- F5- D5- | C#5--- E5- |
+comb    | F4 C5 A4 C5 A4 C5 | E4 C5 G4 C5 G4 C5 | Bb3 F4 D4 F4 D4 F4 | D4 A4 F4 A4 F4 A4 |
+comb    | G3 D4 Bb3 D4 Bb3 D4 | A3 E4 C#4 E4 C#4 E4 | D4 A4 F4 A4 F4 A4 | A3- E4- .- |
+low     | F3----- | E3----- | Bb3----- | D3----- |
+low     | G3----- | A3----- | D3----- | A3----- |
+
+pattern A2 from A
+tines   | D5- . A5 F5- | E5- F5 E5 D5- | C5- A5- .- | D5--- A5- |
+tines   | Bb5- A5 G5 F5- | G5- Eb5- D5- | C#5- E5- Bb5- | A5--- .- |
+
+play intro
+loop A A2 B A2

@@ -1,0 +1,117 @@
+{
+  "mechanisms": {
+    "cylinder": {
+      "name": "Pinned cylinder",
+      "machine": "Swiss cylinder music box",
+      "air": "air",
+      "airs": "airs",
+      "new": "Pin a new air"
+    },
+    "disc": {
+      "name": "Steel disc",
+      "machine": "Disc music box",
+      "air": "air",
+      "airs": "airs",
+      "new": "Punch a new air"
+    },
+    "barrel": {
+      "name": "Organ barrel",
+      "machine": "Barrel organ",
+      "air": "tune",
+      "airs": "tunes",
+      "new": "Pin a new tune"
+    },
+    "roll": {
+      "name": "Piano roll",
+      "machine": "Player piano",
+      "air": "tune",
+      "airs": "tunes",
+      "new": "Perforate a new tune"
+    }
+  },
+  "shelves": [
+    {
+      "id": "alpine",
+      "name": "Alpine"
+    },
+    {
+      "id": "holidays",
+      "name": "Holidays"
+    },
+    {
+      "id": "world",
+      "name": "World Folk"
+    },
+    {
+      "id": "genre",
+      "name": "Genre"
+    }
+  ],
+  "sections": [
+    {
+      "id": "alpine-night",
+      "shelf": "alpine",
+      "mechanism": "cylinder",
+      "name": "Alpine Night",
+      "blurb": "The original brass cylinder: six haunted Swiss folk airs.",
+      "airs": [
+        "01-sennentuntschis-lullaby.scrim",
+        "02-stollenwurm-behind-the-stove.scrim",
+        "03-wildmannlis-midnight-dance.scrim",
+        "04-do-not-wake-the-rollibock.scrim",
+        "05-three-steps-aside-for-the-tuerst.scrim",
+        "06-devils-bridge-mazurka.scrim"
+      ]
+    },
+    {
+      "id": "winter-holidays",
+      "shelf": "holidays",
+      "mechanism": "disc",
+      "name": "Winter Holidays",
+      "blurb": "A punched steel disc of public-domain carols and a New Year's air.",
+      "airs": [
+        "silent-night.scrim",
+        "o-tannenbaum.scrim",
+        "jingle-bells.scrim",
+        "deck-the-halls.scrim",
+        "we-wish-you-a-merry-christmas.scrim",
+        "joy-to-the-world.scrim",
+        "good-king-wenceslas.scrim",
+        "auld-lang-syne.scrim"
+      ]
+    },
+    {
+      "id": "world-folk",
+      "shelf": "world",
+      "mechanism": "barrel",
+      "name": "Folk Songs of the World",
+      "blurb": "An organ barrel pinned with traditional folk tunes from around the world.",
+      "airs": [
+        "greensleeves.scrim",
+        "sakura-sakura.scrim",
+        "arirang.scrim",
+        "kalinka.scrim",
+        "la-cucaracha.scrim",
+        "the-irish-washerwoman.scrim",
+        "loch-lomond.scrim"
+      ]
+    },
+    {
+      "id": "western-picture-show",
+      "shelf": "genre",
+      "mechanism": "roll",
+      "name": "Western Picture Show",
+      "blurb": "A saloon piano roll: frontier songs and original Western film cues.",
+      "airs": [
+        "home-on-the-range.scrim",
+        "red-river-valley.scrim",
+        "oh-my-darling-clementine.scrim",
+        "streets-of-laredo.scrim",
+        "the-long-ride-out.scrim",
+        "showdown-at-dry-creek.scrim",
+        "campfire-under-the-mesa.scrim",
+        "last-chance-saloon-rag.scrim"
+      ]
+    }
+  ]
+}

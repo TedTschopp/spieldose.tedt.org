@@ -1,0 +1,48 @@
+title    The Stollenwurm Behind the Stove
+composer ChatGPT
+about    The innkeepers keep dancing while something long and hungry scratches inside the wall.
+tempo    104
+beats    2
+steps    4
+swing    0
+reverb   0.16
+
+# Schwyzerörgeli supplies the dance chords; block suggests wooden spoons.
+
+voice lead   clarinet vol=0.95 pan=-0.12 rev=0.2 gate=0.86 bright=0.95
+voice box    schwyzeroergeli vol=0.52 pan=0.18 rev=0.16 gate=0.5 center=G4
+voice bass   upright vol=0.7 pan=0 rev=0.1 gate=0.8
+voice spoons block vol=0.18 pan=0.3 rev=0.08
+
+pattern intro
+lead    | D5--- G5--- | Bb5-- A5 G5--- | A5-- Bb5 A5 G5 F#5 E5 | D5------- |
+box     | .- [Gm]- .- [Gm]- | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- | .- [D7]- .- [D7]- |
+bass    | G2- .- D3- .- | G2- .- D3- .- | D2- .- A2- .- | D2- .- A2- .- |
+spoons  | _ | _ | x... ..x. | x... ..xx |
+
+pattern A
+lead    | G5-- A5 Bb5- D6- | C6-- Bb5 A5- F#5- | G5 A5 Bb5 G5 D5- G5- | A5-- Bb5 A5- D5- |
+lead    | Bb5-- C6 D6- Bb5- | C6 Bb5 A5 G5 F#5- A5- | G5 Bb5 D6 Bb5 A5 G5 F#5 A5 | G5--- D5--- |
+box     | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- |
+box     | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- | .- [D7]- .- [D7]- | .- [Gm]- .- [Gm]- |
+bass    | G2- .- D3- .- | D2- .- A2- .- | G2- .- D3- .- | D2- .- A2- .- |
+bass    | G2- .- D3- .- | D2- .- A2- .- | D2- .- A2- .- | G2- .- D3- .- |
+spoons  | x... ..x. | % | x.x. ..x. | x... ..xx |
+spoons  | x... ..x. | % | x.x. ..x. | x... x... |
+
+pattern B
+lead    | Eb5-- G5 C6- G5- | Bb5-- A5 G5- D5- | F#5 A5 D6 C6 Bb5 A5 G5 F#5 | G5--- Bb5--- |
+lead    | Eb6-- D6 C6- G5- | D6-- C6 Bb5- G5- | A5 Bb5 A5 G5 F#5 E5 D5 C5 | D5--- F#5--- |
+box     | .- [Cm]- .- [Cm]- | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- | .- [Gm]- .- [Gm]- |
+box     | .- [Cm]- .- [Cm]- | .- [Gm]- .- [Gm]- | .- [D7]- .- [D7]- | .- [D7]- .- [D7]- |
+bass    | C2- .- G2- .- | G2- .- D3- .- | D2- .- A2- .- | G2- .- D3- .- |
+bass    | C2- .- G2- .- | G2- .- D3- .- | D2- .- A2- .- | D2- .- A2- .- |
+spoons  | x... ..x. | % | x.x. ..x. | x... x... |
+spoons  | x... ..x. | % | x.x. ..xx | x... x... |
+
+pattern A2 from A
+lead    | G5 A5 Bb5 A5 G5- D6- | C6-- Bb5 A5- F#5- | G5- D6- Bb5 A5 G5 D5 | F#5-- G5 A5- D5- |
+lead    | Bb5 C6 D6 C6 Bb5- G5- | A5 Bb5 C6 Bb5 A5- F#5- | G5 Bb5 D6 Eb6 D6 C6 A5 F#5 | G5--- .- D5- |
+
+play intro
+loop A*2 B*2 A2*2

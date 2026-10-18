@@ -1,0 +1,45 @@
+title    Oh My Darling, Clementine
+composer Traditional (American West), arranged for piano roll
+about    A mining-camp ballad turns softly in the hall. tempo    104
+beats    3
+steps    2
+swing    0
+reverb   0.2
+
+voice melody accordion vol=0.78 pan=-0.15 rev=0.24 gate=0.86
+voice roll piano vol=0.68 pan=0.12 rev=0.17 gate=0.68 center=C4
+voice bass upright vol=0.42 pan=-0.08 rev=0.11 gate=0.82
+voice color banjo vol=0.3 pan=0.26 rev=0.12 gate=0.58
+
+pattern intro
+melody | G4- E4- E4- | G4- E4- E4- | G4- A4- B4- | C5----- |
+roll   | [C]- [C]- [C]- | [C]- [C]- [C]- | [G7]- [G7]- [G7]- | [C]----- |
+bass   | C2- G2- C3- | C2- G2- C3- | G2- D3- G3- | C2----- |
+color  | C4- E4- G4- | C4- E4- G4- | G3- B3- D4- | C4----- |
+
+pattern A
+melody | G4- E4- E4- | G4- E4- E4- | G4- A4- B4- | C5----- |
+melody | C5- C5- B4- | A4- A4- G4- | G4- A4- B4- | C5----- |
+roll   | [C]- [C]- [C]- | [C]- [C]- [C]- | [G7]- [G7]- [G7]- | [C]- [C]- [C]- |
+bass   | C2- G2- C3- | C2- G2- C3- | G2- D3- G3- | C2- G2- C3- |
+color  | C4- E4- G4- | C4- E4- G4- | G3- B3- D4- | C4- E4- G4- |
+roll   | [C]- [C]- [C]- | [C]- [C]- [C]- | [G7]- [G7]- [G7]- | [C]- [C]- [C]- |
+bass   | C2- G2- C3- | C2- G2- C3- | G2- D3- G3- | C2- G2- C3- |
+color  | C4- E4- G4- | C4- E4- G4- | G3- B3- D4- | C4- E4- G4- |
+
+pattern B
+melody | E4- E4- G4- | E4- D4- D4- | G4- G4- B4- | G4----- |
+melody | G4- A4- B4- | C5- B4- A4- | G4- E4- D4- | C4----- |
+roll   | [F]- [F]- [F]- | [C]- [C]- [C]- | [G7]- [G7]- [G7]- | [C]- [C]- [C]- |
+bass   | F2- C3- F3- | C2- G2- C3- | G2- D3- G3- | C2- G2- C3- |
+color  | F3- A3- C4- | C4- E4- G4- | G3- B3- D4- | C4- E4- G4- |
+roll   | [F]- [F]- [F]- | [C]- [C]- [C]- | [G7]- [G7]- [G7]- | [C]- [C]- [C]- |
+bass   | F2- C3- F3- | C2- G2- C3- | G2- D3- G3- | C2- G2- C3- |
+color  | F3- A3- C4- | C4- E4- G4- | G3- B3- D4- | C4- E4- G4- |
+
+pattern A2 from A
+melody | G4- E4- E4- | G4- E4- E4- | G4- A4- B4- | C5----- |
+melody | C5- C5- B4- | A4- A4- G4- | G4- E4- D4- | C4----- |
+
+play intro
+loop A*2 B*2 A2*2

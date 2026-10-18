@@ -1,0 +1,46 @@
+title    Deck the Halls
+composer Traditional (Wales), arranged for steel disc
+about    The village square rings with winter song and light.
+tempo    116
+beats    4
+steps    2
+swing    0
+reverb   0.29
+
+voice lead celesta vol=0.9 pan=-0.1 rev=0.34 bright=1.05
+voice answer musicbox vol=0.34 pan=0.18 rev=0.3 gate=0.82
+voice bass harp vol=0.3 pan=0 rev=0.22
+
+pattern intro
+lead   | G5- F5- E5- D5- | C5--- D5--- |
+answer | [C]------- | [G]------- |
+bass   | C2------- | G2------- |
+
+pattern A
+lead | G5- F5- E5- D5- | C5- D5- E5- C5- |
+lead | D5- E5- F5- D5- | E5- F5- G5--- |
+lead | G5- F5- E5- D5- | C5- D5- E5- C5- |
+lead | D5- E5- F5- D5- | E5- F5- G5--- |
+answer | [C]--- [G]--- | [C]--- [G]--- | [F]--- [C]--- | [G]------- |
+answer | [C]--- [G]--- | [C]--- [G]--- | [F]--- [C]--- | [G]------- |
+bass | C2--- G2--- | C2--- G2--- | F2--- C3--- | G2------- |
+bass | C2--- G2--- | C2--- G2--- | F2--- C3--- | G2------- |
+
+pattern B
+lead | C6- B5- A5- G5- | F5- E5- D5- C5- |
+lead | D5- E5- F5- D5- | E5- F5- G5--- |
+lead | C6- B5- A5- G5- | F5- E5- D5- C5- |
+lead | D5- E5- F5- D5- | E5- F5- G5--- |
+answer | [F]--- [C]--- | [G]--- [C]--- | [F]--- [C]--- | [G]------- |
+answer | [F]--- [C]--- | [G]--- [C]--- | [F]--- [C]--- | [G]------- |
+bass | F2--- C3--- | G2--- C3--- | F2--- C3--- | G2------- |
+bass | F2--- C3--- | G2--- C3--- | F2--- C3--- | G2------- |
+
+pattern A2 from A
+lead | G5- F5- E5- G5- | C6- D6- E6- C6- |
+lead | D6- E6- F6- D6- | E6- F6- G6--- |
+lead | G5- F5- E5- G5- | C6- D6- E6- C6- |
+lead | D6- E6- F6- D6- | E6- F6- G6--- |
+
+play intro
+loop A B A2

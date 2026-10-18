@@ -1,0 +1,37 @@
+title    Last Chance Saloon Rag
+composer Swiss Music Box (original)
+about    The nickel drops and the saloon piano kicks up dust. tempo    116
+beats    4
+steps    4
+swing    0.08
+reverb   0.16
+
+voice roll piano vol=0.76 pan=0.04 rev=0.14 gate=0.68 center=C4
+voice banjo banjo vol=0.48 pan=0.22 rev=0.12 gate=0.62
+voice bass upright vol=0.46 pan=-0.16 rev=0.1 gate=0.78
+voice brass trumpet vol=0.42 pan=-0.24 rev=0.16 gate=0.82
+
+pattern intro
+roll   | [C]--- [C]--- [G7]--- [G7]--- | [C]--- [C]--- [G7]--- [G7]--- | [F]--- [F]--- [C]--- [C]--- | [G7]--- [G7]--- [C]--- [C]--- |
+banjo  | E5- G5- C6- G5- E5- G5- C6- G5- | D5- G5- B5- G5- D5- G5- B5- G5- | C5- F5- A5- F5- C5- F5- A5- F5- | D5- G5- B5- G5- C5- E5- G5- E5- |
+bass   | C2--- G2--- C3--- G2--- | G2--- D3--- G3--- D3--- | F2--- C3--- F3--- C3--- | G2--- D3--- C3--- G2--- |
+brass  | _ | G5--- .--- D5--- .--- | C5--- .--- A4--- .--- | G4--- .--- C5--- .--- |
+
+pattern A
+roll   | [C]--- [C]--- [G7]--- [G7]--- | [C]--- [C]--- [G7]--- [G7]--- | [F]--- [F]--- [C]--- [C]--- | [G7]--- [G7]--- [C]--- [C]--- |
+banjo  | E5- G5- C6- G5- E5- G5- C6- G5- | D5- G5- B5- G5- D5- G5- B5- G5- | C5- F5- A5- F5- C5- F5- A5- F5- | D5- G5- B5- G5- C5- E5- G5- E5- |
+bass   | C2--- G2--- C3--- G2--- | G2--- D3--- G3--- D3--- | F2--- C3--- F3--- C3--- | G2--- D3--- C3--- G2--- |
+brass  | E5--- G5--- C6--- G5--- | D5--- B4--- G4--- D5--- | A4--- C5--- F5--- C5--- | G4--- B4--- D5--- C5--- |
+
+pattern B
+roll   | [F]--- [F]--- [C]--- [C]--- | [F]--- [F]--- [C]--- [C]--- | [G7]--- [G7]--- [G7]--- [G7]--- | [C]--- [G7]--- [C]--- [C]--- |
+banjo  | A5- C6- F6- C6- A5- C6- F6- C6- | G5- C6- E6- C6- G5- C6- E6- C6- | F#5- A5- D6- A5- F#5- A5- D6- A5- | E5- G5- C6- G5- C5- E5- G5- E5- |
+bass   | F2--- C3--- F3--- C3--- | C2--- G2--- C3--- G2--- | G2--- D3--- G3--- D3--- | C2--- G2--- C3--- G2--- |
+brass  | C6--- A5--- F5--- C5--- | E5--- G5--- C6--- G5--- | D6--- B5--- G5--- D5--- | C5--- D5--- E5--- C5--- |
+
+pattern A2 from A
+banjo  | E5- G5- C6- E6- G6- E6- C6- G5- | D5- G5- B5- D6- G6- D6- B5- G5- | C5- F5- A5- C6- F6- C6- A5- F5- | D5- G5- B5- D6- C6- G5- E5- C5- |
+brass  | C6--- G5--- E5--- C5--- | B5--- G5--- D5--- G4--- | A5--- F5--- C5--- A4--- | G4--- B4--- D5--- C5--- |
+
+play intro
+loop A*2 B*2 A2*2

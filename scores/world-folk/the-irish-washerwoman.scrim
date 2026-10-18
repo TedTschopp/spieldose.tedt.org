@@ -1,0 +1,38 @@
+title    The Irish Washerwoman
+composer Traditional (Ireland), arranged for organ barrel
+about    The village wheel spins a bright jig under moonlight. An Irish dance tune.
+tempo    108
+beats    2
+steps    3
+swing    0
+reverb   0.24
+
+voice lead fiddle vol=0.86 pan=-0.12 rev=0.2 gate=0.84 bright=0.92
+voice flute flute vol=0.38 pan=0.18 rev=0.22 gate=0.84
+voice bass pizz vol=0.29 pan=0 rev=0.14 gate=0.75
+voice beat bodhran vol=0.18 pan=0.28 rev=0.12
+
+pattern intro
+lead  | B4 B4 D5 B4 D5 G5 | G5 F#5 E5 D5 E5 F#5 |
+flute | A4-- F#4-- | A4-- G4-- |
+bass  | G2-- D3-- | D2-- A3-- |
+beat  | X.. x.. | X.. x.. |
+
+pattern A
+lead  | B4 B4 D5 B4 D5 G5 | G5 F#5 E5 D5 E5 F#5 | B4 B4 D5 B4 D5 G5 | G5 B5 A5 G5 F#5 E5 | D5 D5 F#5 D5 F#5 A5 | A5 G5 F#5 E5 D5 C5 | B4 D5 G5 B5 A5 G5 | F#5 E5 D5 C5 B4 A4 |
+flute | A4-- F#4-- | G4-- A4-- | A4-- F#4-- | G4-- A4-- | D5-- A4-- | C#5-- G4-- | D5-- F#4-- | G4-- D4-- |
+bass  | G2-- D3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- | D2-- A3-- | G2-- D3-- | G2-- D3-- |
+beat  | X.. x.. | % | X.. x.. | % | X.. x.. | % | X.. x.. | X.. x.. |
+
+pattern B
+tempo 112
+lead  | D5 D5 F#5 D5 F#5 A5 | A5 G5 F#5 E5 D5 C5 | B4 B4 D5 B4 D5 G5 | G5 B5 A5 G5 F#5 E5 | D5 D5 F#5 D5 F#5 A5 | A5 G5 F#5 E5 D5 C5 | B4 D5 G5 B5 A5 G5 | F#5 E5 D5 C5 B4 G4 |
+flute | D5-- A4-- | D5-- B4-- | D5-- A4-- | C#5-- A4-- | A4-- F#4-- | G4-- D4-- | D5-- A4-- | G4-- D4-- |
+bass  | G2-- D3-- | G2-- D3-- | G2-- D3-- | D2-- A3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- | G2-- D3-- |
+beat  | X.. x.. | % | X.. x.. | % | X.. x.. | % | X.. x.. | X.. x.. |
+
+pattern A2 from A
+lead  | B4 B4 D5 B4 D5 G5 | G5 A5 G5 F#5 E5 D5 | B4 D5 G5 D6 B5 G5 | G5 B5 A5 G5 F#5 E5 | D5 D5 F#5 D5 F#5 A5 | A5 G5 F#5 E5 D5 C5 | B4 D5 G5 B5 D6 B5 | F#5 E5 D5 C5 B4 G4 |
+
+play intro
+loop A*2 B*2 A2*2

@@ -1,0 +1,38 @@
+title    Showdown at Dry Creek
+composer Swiss Music Box (original)
+about    A whistle hangs in the stillness before sundown. tempo    80
+beats    4
+steps    2
+swing    0
+reverb   0.3
+
+voice whistle flute vol=0.74 pan=-0.18 rev=0.36 gate=0.92
+voice twang guitar vol=0.38 pan=0.16 rev=0.22 gate=0.78
+voice roll piano vol=0.56 pan=0.04 rev=0.26 gate=0.9
+voice toll bell vol=0.24 pan=0.3 rev=0.42
+
+pattern intro
+whistle | A5------- | .--- E5--- | G5------- | .--- D5--- |
+twang   | D3- .- A3- .- | D3- .- A3- .- | G3- .- D4- .- | A2- .- E3- .- |
+roll    | D2------- | _ | G2------- | A2------- |
+toll    | D5------- | _ | _ | A4------- |
+
+pattern A
+whistle | A5------- | .--- G5--- | E5------- | D5------- |
+twang   | D3--- .--- | D3- .- A3- .- | G3--- .--- | A2- .- E3- .- |
+roll    | D2------- | _ | G2------- | A2------- |
+toll    | D5------- | _ | G5------- | A4------- |
+
+pattern B
+whistle | .--- A5--- | C6------- | B5--- G5--- | A5------- |
+twang   | D3- .- A3- .- | D3- .- A3- .- | G3- .- D4- .- | A2- .- E3- .- |
+roll    | D2--- A2--- | D3------- | G2--- D3--- | A2------- |
+toll    | _ | D5------- | _ | A4------- |
+
+pattern A2 from A
+whistle | A5------- | E5--- G5--- | F#5------- | D5------- |
+roll    | D2--- A2--- | _ | G2--- D3--- | D2------- |
+toll    | D5------- | _ | G5------- | D5------- |
+
+play intro
+loop A*2 B*2 A2*2

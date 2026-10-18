@@ -1,0 +1,46 @@
+title    The Streets of Laredo
+composer Traditional (American West), arranged for piano roll
+about    A lone rider's lament crosses the borderland. The piano roll marks each slow turn of the road.
+tempo    88
+beats    3
+steps    2
+swing    0
+reverb   0.24
+
+voice melody flute vol=0.8 pan=-0.16 rev=0.3 gate=0.88
+voice roll piano vol=0.68 pan=0.1 rev=0.2 gate=0.72 center=D4
+voice bass upright vol=0.42 pan=-0.08 rev=0.13 gate=0.82
+voice color strings vol=0.3 pan=0.24 rev=0.28 gate=0.9
+
+pattern intro
+melody | A4- A4- A4- | C5- D5- F5- | E5- D5- C5- | A4----- |
+roll   | [Dm]- [Dm]- [Dm]- | [Dm]- [Dm]- [Dm]- | [A7]- [A7]- [A7]- | [Dm]----- |
+bass   | D2- A2- D3- | D2- A2- D3- | A1- E2- A2- | D2----- |
+color  | D3----- | F3----- | A3----- | D3----- |
+
+pattern A
+melody | A4- A4- A4- | C5- D5- F5- | E5- D5- C5- | A4----- |
+melody | A4- A4- C5- | D5- C5- A4- | G4- F4- E4- | D4----- |
+roll   | [Dm]- [Dm]- [Dm]- | [Dm]- [Dm]- [Dm]- | [A7]- [A7]- [A7]- | [Dm]- [Dm]- [Dm]- |
+bass   | D2- A2- D3- | D2- A2- D3- | A1- E2- A2- | D2- A2- D3- |
+color  | D3- A3- D4- | D3- A3- D4- | A2- E3- A3- | D3- A3- D4- |
+roll   | [Dm]- [Dm]- [Dm]- | [Dm]- [Dm]- [Dm]- | [A7]- [A7]- [A7]- | [Dm]- [Dm]- [Dm]- |
+bass   | D2- A2- D3- | D2- A2- D3- | A1- E2- A2- | D2- A2- D3- |
+color  | D3- A3- D4- | D3- A3- D4- | A2- E3- A3- | D3- A3- D4- |
+
+pattern B
+melody | F5- F5- E5- | D5- C5- A4- | C5- D5- E5- | D5----- |
+melody | A4- A4- C5- | D5- C5- A4- | G4- F4- E4- | D4----- |
+roll   | [Bb]- [Bb]- [Bb]- | [F]- [F]- [F]- | [A7]- [A7]- [A7]- | [Dm]- [Dm]- [Dm]- |
+bass   | Bb1- F2- Bb2- | F2- C3- F3- | A1- E2- A2- | D2- A2- D3- |
+color  | Bb2- F3- Bb3- | F3- C4- F4- | A2- E3- A3- | D3- A3- D4- |
+roll   | [Bb]- [Bb]- [Bb]- | [F]- [F]- [F]- | [A7]- [A7]- [A7]- | [Dm]- [Dm]- [Dm]- |
+bass   | Bb1- F2- Bb2- | F2- C3- F3- | A1- E2- A2- | D2- A2- D3- |
+color  | Bb2- F3- Bb3- | F3- C4- F4- | A2- E3- A3- | D3- A3- D4- |
+
+pattern A2 from A
+melody | A4- A4- A4- | C5- D5- F5- | E5- D5- C5- | A4----- |
+melody | A4- C5- D5- | F5- E5- D5- | C5- A4- G4- | D4----- |
+
+play intro
+loop A*2 B*2 A2*2

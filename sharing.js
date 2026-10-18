@@ -53,7 +53,7 @@
     }
   }
 
-  function connect({ tracks, state, player, ui, compileAt }) {
+  function connect({ tracks, state, player, ui, compileAt, receive }) {
     const base = new URL('.', document.baseURI);
     const status = document.querySelector('#share-status');
     const manual = document.querySelector('#share-link');
@@ -74,8 +74,9 @@
       metadata(index);
       if (restoring) return;
       revision++;
-      const next = songURL(base, tracks[index]);
-      if (location.pathname !== next.pathname || location.search) {
+      const own = index >= tracks.length;
+      const next = own ? new URL(base) : songURL(base, tracks[index]);
+      if (location.pathname !== next.pathname || location.search || (own && location.hash)) {
         history.pushState(null, '', next);
       }
       manual.hidden = true;
@@ -118,7 +119,19 @@
           if (song.errors.length) throw new Error('The shared score has errors. Review them in the score editor before playing.');
           message(text == null ? '' : 'Shared edit loaded. Its notes are stored in this link, not uploaded. Social previews show the original song.');
           autoplay(token);
-        } else if (encoded) throw new Error('A shared edit needs a valid song URL.');
+        } else if (encoded) {
+          if (!receive) throw new Error('A shared edit needs a valid song URL.');
+          // A score with no song page is someone's own air: keep it in "Shared with me".
+          const adopted = receive(text);
+          compileAt(adopted);
+          const song = state.songs[adopted];
+          document.querySelector('#score').value = state.texts[adopted];
+          restoring = true;
+          ui.select(adopted, false);
+          if (song.errors.length) throw new Error('The shared score has errors. Review them in the score editor before playing.');
+          message('Shared air added to your cabinet under "Shared with me". Its notes came in this link, not from an upload.');
+          autoplay(token);
+        }
         else {
           if (!initial) { restoring = true; ui.select(0, false); }
           document.title = 'Swiss Music Box';
@@ -141,8 +154,9 @@
       const song = state.songs[index];
       ui.renderErrors(song);
       if (song.errors.length) throw new Error('Fix the score errors before sharing.');
-      const url = songURL(base, tracks[index]);
-      if (text !== tracks[index].text) url.hash = `v=1&score=${await encodeScore(text)}`;
+      const own = index >= tracks.length;
+      const url = own ? new URL(base) : songURL(base, tracks[index]);
+      if (own || text !== tracks[index].text) url.hash = `v=1&score=${await encodeScore(text)}`;
       if (url.href.length > MAX_LINK_LENGTH) throw new Error('This edited-score link is too long. Copy the score instead.');
       return url.href;
     }

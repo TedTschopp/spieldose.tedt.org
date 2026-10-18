@@ -1,0 +1,46 @@
+title    Home on the Range
+composer Daniel E. Kelley (1872), arranged for piano roll
+about    The buffalo roam beneath the moonlit village sky. A familiar prairie hymn rolls from the saloon piano.
+tempo    108
+beats    3
+steps    2
+swing    0
+reverb   0.22
+
+voice melody trumpet vol=0.82 pan=-0.14 rev=0.2 gate=0.88
+voice roll piano vol=0.68 pan=0.12 rev=0.18 gate=0.72 center=G4
+voice bass upright vol=0.43 pan=-0.1 rev=0.12 gate=0.8
+voice color strings vol=0.28 pan=0.24 rev=0.24 gate=0.9
+
+pattern intro
+melody | D4- G4- A4- | B4--- G4 F#4 | E4- C5- C5- | C5--- B4 C5 |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [C]- [C]- [C]- | [C]- [D7]- [D7]- |
+bass   | G2- D3- G3- | G2- D3- G3- | C2- G2- C3- | D2- A2- D3- |
+color  | G3----- | G3----- | C4----- | D4----- |
+
+pattern A
+melody | D4- G4- A4- | B4--- G4 F#4 | E4- C5- C5- | C5--- B4 C5 |
+melody | D5--- G4 G4 | G4- F#4- G4- | A4----- | A4- .- D4 D4 |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [C]- [C]- [C]- | [C]- [D7]- [D7]- |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [D7]- [D7]- [D7]- | [D7]- [D7]- [D7]- |
+bass   | G2- D3- G3- | G2- D3- G3- | C2- G2- C3- | C2- G2- C3- |
+bass   | G2- D3- G3- | G2- D3- G3- | D2- A2- D3- | D2- A2- D3- |
+color  | G3----- | G3----- | C4----- | C4----- |
+color  | G3----- | G3----- | D4----- | D4----- |
+
+pattern B
+melody | D4- G4- A4- | B4--- G4 F#4 | E4- C5- C5- | C5--- C5 C5 |
+melody | B4- G4- A4- | F#4- G4- A4- | G4----- | G4- .- D4 D4 |
+roll   | [G]- [G]- [G]- | [G]- [G]- [G]- | [C]- [C]- [C]- | [C]- [C]- [C]- |
+roll   | [G]- [G]- [G]- | [D7]- [D7]- [D7]- | [G]- [G]- [G]- | [G]- [G]- [G]- |
+bass   | G2- D3- G3- | G2- D3- G3- | C2- G2- C3- | C2- G2- C3- |
+bass   | G2- D3- G3- | D2- A2- D3- | G2- D3- G3- | G2- D3- G3- |
+color  | G3----- | G3----- | C4----- | C4----- |
+color  | G3----- | D4----- | G3----- | G3----- |
+
+pattern A2 from A
+melody | D5----- | C5- B4- A4- | B4----- | B4- .- D4 D4 |
+melody | G5- G4- G4- | G4- F#4- G4- | A4----- | A4- .- D4 D4 |
+
+play intro
+loop A*2 B*2 A2*2

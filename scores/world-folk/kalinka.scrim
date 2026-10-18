@@ -1,0 +1,37 @@
+title    Kalinka
+composer Traditional (Russia), arranged for organ barrel
+about    The barrel gathers speed beneath the village moon. A Russian song by Ivan Larionov, 1860.
+tempo    72
+beats    4
+steps    2
+swing    0
+reverb   0.24
+
+voice lead accordion vol=0.88 pan=-0.12 rev=0.22 gate=0.84 bright=0.92
+voice pluck pizz vol=0.34 pan=0.2 rev=0.18 gate=0.55
+voice bass upright vol=0.32 pan=0 rev=0.12 gate=0.72
+
+pattern intro
+tempo 64
+lead  | D5------- | D5--- Eb5--- |
+pluck  | [Gm]--- [Gm]--- | [D7]--- [D7]--- |
+bass   | G2--- D3--- | D2--- A3--- |
+
+pattern A
+tempo 76
+lead  | D5--- D5--- | D5--- Eb5--- | D5--- C5--- | D5--- G4--- | D5--- D5--- | D5--- Eb5--- | F5--- G5--- | G5------- |
+pluck  | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [D7]--- [D7]--- | [D7]--- [D7]--- | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- |
+bass   | G2--- D3--- | G2--- D3--- | G2--- D3--- | G2--- D3--- | D2--- A3--- | D2--- A3--- | G2--- D3--- | G2--- D3--- |
+
+pattern B
+tempo 144
+lead  | D5 D5 D5 Eb5 F5 G5 G5 F5 | D5 F5 G5 D5 F5 G5 D5 D5 | Bb4 Bb4 Bb4 C5 D5 Eb5 Eb5 D5 | Bb4 D5 Eb5 Bb4 D5 Eb5 Bb4 Bb4 | G4 G4 G4 A4 Bb4 C5 C5 Bb4 | G4 Bb4 C5 G4 Bb4 C5 G4 G4 | D5 D5 D5 Eb5 F5 G5 G5 F5 | D5 F5 G5 F5 D5 C5 Bb4 G4 |
+pluck  | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [Gm]--- [Gm]--- | [Cm]--- [Cm]--- | [Cm]--- [Cm]--- | [D7]--- [D7]--- | [Gm]--- [Gm]--- |
+bass   | G2--- D3--- | G2--- D3--- | G2--- D3--- | G2--- D3--- | C2--- G3--- | C2--- G3--- | D2--- A3--- | G2--- D3--- |
+
+pattern B2 from B
+tempo 156
+lead  | D5 D5 D5 Eb5 F5 G5 G5 F5 | D5 F5 G5 D5 F5 G5 D5 D5 | Bb4 Bb4 Bb4 C5 D5 Eb5 Eb5 D5 | Bb4 D5 Eb5 Bb4 D5 Eb5 Bb4 Bb4 | G4 G4 G4 A4 Bb4 C5 C5 Bb4 | G4 Bb4 C5 G4 Bb4 C5 G4 G4 | D5 D5 D5 Eb5 F5 G5 G5 F5 | D5 F5 G5 F5 D5 C5 Bb4 G4 |
+
+play intro
+loop A B*2 B2*2

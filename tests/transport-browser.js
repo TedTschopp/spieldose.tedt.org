@@ -11,7 +11,7 @@ async (page) => {
   const pressed = () => page.evaluate(() => Object.fromEntries([...document.querySelectorAll('#transport button')]
     .filter(b => b.hasAttribute('aria-pressed')).map(b => [b.dataset.action, b.getAttribute('aria-pressed')])));
   const counter = () => page.textContent('#transport-count');
-  const total = await page.evaluate(() => __scrim.state.songs.length);
+  const total = await page.evaluate(() => __scrim.cabinet.airsIn('alpine-night').length);
   assert(!(await page.textContent('#caption')).match(/Press|Stop/), 'No Press Play / Stop wording remains');
   let p = await pressed();
   assert(p.stop === 'true' && p.play === 'false', 'Stopped deck shows stop held down');

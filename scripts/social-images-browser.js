@@ -1,4 +1,4 @@
-/* Load on the running site, then capture buildSocialPreview(-1..5) as PNG. */
+/* Load on the running site, then capture buildSocialPreview(-1..N-1), one per bundled air, as PNG. */
 window.buildSocialPreview = async function (index) {
   const heading = getComputedStyle(document.querySelector('.masthead h1'));
   const style = getComputedStyle(document.body);
@@ -26,7 +26,9 @@ window.buildSocialPreview = async function (index) {
   }
   g.fillText(line.trim(), 52, y);
   g.font = bodyFont;
-  g.fillText(index < 0 ? 'Six haunted Swiss folk-inspired tunes · Listen, edit, share' : 'Swiss Music Box · Original folk-inspired music, synthesized live', 52, 603);
+  const cabinet = index < 0 ? null : window.__scrim.cabinet;
+  const section = cabinet && cabinet.sectionOf(index);
+  g.fillText(index < 0 ? 'Cylinders, discs, barrels and rolls · Listen, edit, share' : `${section.name} · ${cabinet.mechanism(section).name} · Swiss Music Box`, 52, 603);
   document.body.append(canvas);
   return canvas;
 };

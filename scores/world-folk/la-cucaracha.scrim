@@ -1,0 +1,35 @@
+title    La Cucaracha
+composer Traditional (Mexico), arranged for organ barrel
+about    A little roach dances across the moonlit square. A traditional Mexican song.
+tempo    112
+beats    4
+steps    2
+swing    0
+reverb   0.24
+
+voice lead accordion vol=0.88 pan=-0.12 rev=0.22 gate=0.84 bright=0.92
+voice chords guitar vol=0.34 pan=0.18 rev=0.18 gate=0.52 center=C4
+voice bass upright vol=0.3 pan=0 rev=0.12 gate=0.74
+
+pattern intro
+lead   | G4 G4 G4 E4 G4 G4 G4 E4 | G4 A4 B4 C5 B4 A4 G4 E4 |
+chords | [C]--- [C]--- | [G]--- [G]--- |
+bass   | C2--- G3--- | G2--- D3--- |
+
+pattern A
+lead   | G4 G4 G4 E4 G4 G4 G4 E4 | G4 G4 A4 B4 C5 B4 A4 G4 | E4 E4 E4 C4 E4 E4 E4 C4 | E4 E4 F4 G4 A4 G4 F4 E4 | G4 G4 G4 E4 G4 G4 G4 E4 | G4 G4 A4 B4 C5 B4 A4 G4 | E4 F4 G4 A4 G4 E4 D4 C4 | B3 D4 G4 E4 C4 D4 E4 C4 |
+chords | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- |
+bass   | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- |
+
+pattern B
+lead   | C5 C5 C5 A4 C5 C5 C5 A4 | C5 D5 E5 F5 E5 D5 C5 A4 | F4 F4 F4 D4 F4 F4 F4 D4 | F4 F4 G4 A4 B4 A4 G4 F4 | G4 G4 G4 E4 G4 G4 G4 E4 | G4 A4 B4 C5 B4 A4 G4 E4 | A4 C5 B4 A4 G4 E4 D4 C4 | G4 E4 D4 C4 B3 D4 C4 C4 |
+chords | [F]--- [F]--- | [C]--- [C]--- | [F]--- [F]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [G]--- [G]--- | [C]--- [C]--- |
+bass   | F2--- C3--- | C2--- G3--- | F2--- C3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- | G2--- D3--- | C2--- G3--- |
+
+pattern A2 from A
+lead   | G4 G4 G4 E4 G4 A4 G4 E4 | G4 A4 B4 C5 D5 C5 B4 G4 | E4 E4 E4 C4 E4 F4 E4 C4 | E4 F4 G4 A4 G4 F4 E4 D4 | G4 G4 G4 E4 G4 G4 G4 E4 | G4 A4 B4 C5 B4 G4 A4 G4 | E4 F4 G4 A4 C5 A4 G4 E4 | D4 B3 D4 G4 E4 C4 D4 C4 |
+chords | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- |
+bass   | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- | C2--- G3--- | G2--- D3--- |
+
+play intro
+loop A B A2

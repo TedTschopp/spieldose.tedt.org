@@ -1,0 +1,33 @@
+title    Loch Lomond
+composer Traditional (Scotland), arranged for organ barrel
+about    The far road shines silver beyond the sleeping village. A Scottish song published in 1841.
+tempo    88
+beats    4
+steps    2
+swing    0
+reverb   0.3
+
+voice lead flute vol=0.86 pan=-0.12 rev=0.25 gate=0.9 bright=0.9
+voice organ organ vol=0.32 pan=0.17 rev=0.26 gate=0.52 center=G4
+voice bass pizz vol=0.28 pan=0 rev=0.14 gate=0.76
+
+pattern intro
+lead  | D5 G5 A5 G5 E5 D5 B4 A4 | G4 A4 B4 D5 B4 A4 G4 E4 |
+organ | [G]--- [G]--- | [C]--- [C]--- |
+bass  | G2--- D3--- | C2--- G3--- |
+
+pattern A
+lead  | D5 G5 A5 G5 E5 D5 B4 A4 | G4 A4 B4 D5 B4 A4 G4 E4 | G4 A4 B4 D5 B4 A4 G4 E4 | D4 E4 G4 A4 G4 E4 D4 C4 | G4 G4 A4 B4 D5 B4 A4 G4 | E4 G4 A4 G4 E4 D4 C4 D4 | G4 A4 B4 D5 E5 D5 B4 A4 | G4 E4 D4 C4 D4 E4 D4 C4 |
+organ | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [D]--- [D]--- | [G]--- [G]--- | [C]--- [C]--- | [D]--- [D]--- | [G]--- [G]--- |
+bass  | G2--- D3--- | C2--- G3--- | G2--- D3--- | D2--- A3--- | G2--- D3--- | C2--- G3--- | D2--- A3--- | G2--- D3--- |
+
+pattern B
+lead  | D5 G5 A5 G5 E5 D5 B4 A4 | D5 E5 G5 E5 D5 B4 A4 G4 | G4 A4 B4 D5 E5 D5 B4 A4 | G4 E4 D4 C4 D4 E4 G4 E4 | G4 G4 A4 B4 D5 D5 B4 A4 | G4 E4 D4 C4 D4 E4 G4 E4 | A4 B4 D5 E5 G5 E5 D5 B4 | A4 G4 E4 D4 C4 D4 E4 C4 |
+organ | [G]--- [G]--- | [C]--- [C]--- | [G]--- [G]--- | [D]--- [D]--- | [G]--- [G]--- | [C]--- [C]--- | [D]--- [D]--- | [G]--- [G]--- |
+bass  | G2--- D3--- | C2--- G3--- | G2--- D3--- | D2--- A3--- | G2--- D3--- | C2--- G3--- | D2--- A3--- | G2--- D3--- |
+
+pattern A2 from A
+lead  | D5 G5 A5 G5 E5 D5 B4 A4 | G4 A4 B4 D5 B4 A4 G4 E4 | G4 A4 B4 D5 E5 D5 B4 G4 | A4 G4 E4 D4 C4 D4 E4 D4 | G4 G4 A4 B4 D5 B4 A4 G4 | E4 G4 A4 G4 E4 D4 C4 D4 | G4 B4 D5 E5 G5 E5 D5 B4 | G4 E4 D4 C4 D4 E4 D4 G4 |
+
+play intro
+loop A B A2

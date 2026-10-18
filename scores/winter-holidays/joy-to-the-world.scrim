@@ -1,0 +1,46 @@
+title    Joy to the World
+composer Lowell Mason (1839), arranged for steel disc
+about    First light gathers over the village rooftops.
+tempo    108
+beats    4
+steps    2
+swing    0
+reverb   0.3
+
+voice lead celesta vol=0.9 pan=-0.1 rev=0.34 bright=1.0
+voice glitter glock vol=0.27 pan=0.2 rev=0.4 gate=0.78
+voice bass harp vol=0.32 pan=0 rev=0.24
+
+pattern intro
+lead    | C5--- G5--- | G5--- C5--- |
+glitter | [C]------- | [G]------- |
+bass    | C2------- | G2------- |
+
+pattern A
+lead | C5- B4- A4- G4- | F4- E4- D4- C4- |
+lead | G4- A4- A4- B4- | B4--- B4--- |
+lead | C5- C5- B4- B4- | A4- A4- G4--- |
+lead | G4- F4- E4- D4- | C4------- |
+glitter | [C]--- [G]--- | [F]--- [C]--- | [G]--- [G]--- | [C]------- |
+glitter | [C]--- [G]--- | [F]--- [C]--- | [G]--- [G]--- | [C]------- |
+bass | C2--- G2--- | F2--- C3--- | G2--- D3--- | C2------- |
+bass | C2--- G2--- | F2--- C3--- | G2--- D3--- | C2------- |
+
+pattern B
+lead | G4- G4- F4- E4- | D4--- C4--- |
+lead | G4- A4- A4- B4- | B4--- B4--- |
+lead | C5- C5- B4- B4- | A4- A4- G4--- |
+lead | G4- F4- E4- D4- | C4------- |
+glitter | [C]--- [G]--- | [G]--- [C]--- | [C]--- [F]--- | [G]--- [C]--- |
+glitter | [C]--- [G]--- | [G]--- [C]--- | [F]--- [G]--- | [C]------- |
+bass | C2--- G2--- | G2--- C3--- | C2--- F2--- | G2--- C3--- |
+bass | C2--- G2--- | G2--- C3--- | F2--- G2--- | C2------- |
+
+pattern A2 from A
+lead | C5- B4- A4- G4- | F4- E4- D4- C4- |
+lead | G4- A4- C5- B4- | B4--- G4--- |
+lead | C5- E5- D5- B4- | A4- C5- G4--- |
+lead | G4- F4- E4- D4- | C4------- |
+
+play intro
+loop A B A2

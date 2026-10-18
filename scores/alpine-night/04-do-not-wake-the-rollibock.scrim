@@ -1,0 +1,50 @@
+title    Do Not Wake the Rollibock
+composer ChatGPT
+about    A herdsman calls across the glacier. A second voice answers from under the ice.
+tempo    44
+beats    2
+steps    3
+swing    0
+reverb   0.4
+
+# Alphorn and yodel are procedural timbral approximations.
+# The yodel timbre follows the written pitches; no register jumps are inserted.
+# Tempo counts dotted-quarter beats in this 6/8 setting.
+
+voice call   alphorn vol=0.8 pan=-0.22 rev=0.58 att=0.06 bright=0.7
+voice echo   yodel vol=0.58 pan=0.28 rev=0.62 gate=0.9 bright=0.8
+voice drone  schwyzeroergeli vol=0.22 pan=0 rev=0.32 gate=0.95 bright=0.65
+voice bells  cowbell vol=0.15 pan=-0.1 rev=0.42
+
+pattern intro
+call    | C4-- G4-- | E4----- | G4-- C5-- | G4----- |
+echo    | _ | _ | _ | .-- G5-- |
+drone   | C3+G3----- | % | % | % |
+bells   | x..... | _ | ...o.. | _ |
+
+pattern A
+call    | C4-- E4 G4 C5 | G4-- E4-- | _ | _ |
+call    | C5-- G4-- | E4-- C4-- | _ | G3----- |
+echo    | _ | _ | G4 C5 E5-- C5 | D5-- B4-- |
+echo    | _ | _ | A4 C5 F5-- E5 | D5-- G4-- |
+drone   | C3+G3----- | % | C3+E3+G3----- | G2+D3+F3----- |
+drone   | C3+G3----- | % | F2+C3+A3----- | G2+D3+F3----- |
+bells   | x..... | _ | ...o.. | _ |
+bells   | x..... | _ | ...o.. | _ |
+
+pattern B
+call    | _ | E4-- C4-- | _ | _ |
+call    | _ | C4-- E4-- | G4-- E4-- | G3----- |
+echo    | A4-- E5 A5 E5 | C5-- A4-- | F5-- E5 D5 C5 | B4-- G#4-- |
+echo    | A4 C5 E5-- A5 | G5-- E5-- | D5-- B4-- | G4----- |
+drone   | A2+E3+C4----- | % | D3+A3+F4----- | E3+B3+G#4----- |
+drone   | A2+E3+C4----- | C3+G3+E4----- | G2+D3+F3----- | G2+D3----- |
+bells   | x..... | _ | _ | ...o.. |
+bells   | x..... | _ | ...o.. | _ |
+
+pattern A2 from A
+echo    | _ | .-- G5-- | G4 C5 E5-- G5 | D5-- B4-- |
+echo    | _ | .-- E5-- | A4 C5 F5-- A5 | D5-- B4-- |
+
+play intro
+loop A B A2 B
