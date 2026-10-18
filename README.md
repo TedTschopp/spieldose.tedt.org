@@ -13,11 +13,13 @@ The music sits in a cabinet, the way a collector keeps interchangeable mechanism
 | Shelf | Section | Mechanism | Airs |
 |---|---|---|---|
 | Alpine | Alpine Night | Pinned cylinder (Swiss cylinder music box) | 6 original haunted Swiss folk-inspired tunes |
-| Holidays | Winter Holidays | Steel disc (disc music box) | 8 public-domain carols and a New Year's air |
+| Holidays | Winter Holidays | Steel disc (disc music box) | 8 airs, including carols and a New Year's air |
 | World Folk | Folk Songs of the World | Organ barrel (barrel organ) | 7 public-domain folk melodies: England, Japan, Korea, Russia, Mexico, Ireland and Scotland |
 | Genre | Western Picture Show | Piano roll (player piano) | 4 public-domain Western songs and 4 original Western film-style cues |
 
 Choose a brass plate on the rack to change the mechanism. The list, the transport deck and its counter then work within that section; previous and next wrap around it.
+
+“Variations on Joy to the World” replaces the original short arrangement at the existing `songs/joy-to-the-world/` link. The supplied Scrimshaw score is retained verbatim: 18 voices, 47 measures at 120 BPM (94 seconds), ending after the finale rather than looping. Its arrangement credit is A. Kos; the source notice is `(c) Andreas Kos, 2015`. This supplied arrangement is not described as public domain.
 
 **+ New section** adds your own section: give it a name, a shelf (type an existing shelf name, case-insensitive, or a new one) and a mechanism. It starts with one starter air written for that mechanism (music box voices for cylinders and discs, pipe and organ for barrels, piano for rolls). Use the list's *pin / punch / perforate a new air* button to add as many airs as you like, rewrite them in the score editor, and use **Remove this air** or the section's remove button to take them away. Bundled sections cannot be removed. Your shelves, sections and airs are stored in this browser's `localStorage` (`spieldose-cabinet`); they are not uploaded and do not follow you to another device.
 

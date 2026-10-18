@@ -57,7 +57,7 @@ for (const track of tracks) {
   assert.ok(sectionIds.includes(track.section), `${track.file} belongs to a known section`);
   const compiled = score.compile(track.text);
   assert.deepEqual(Array.from(compiled.errors), [], `${track.file}: ${JSON.stringify(compiled.errors)}`);
-  assert.ok(compiled.loop.dur > 0, `${track.file} loops`);
+  assert.ok(compiled.intro.dur + compiled.loop.dur > 0, `${track.file} plays`);
   assert.ok(compiled.title && compiled.about, `${track.file} has a title and about`);
   assert.ok(/^\S/.test(compiled.composer || 'x'), `${track.file} composer`);
   const source = path.join(root, 'scores', track.section, track.file);
@@ -70,4 +70,14 @@ for (const id of sectionIds) {
   }
 }
 assert.match(html, /<script src="scores\.js"><\/script>/);
+const joy = tracks.find(t => t.file === 'joy-to-the-world.scrim');
+assert.equal(createHash('sha256').update(joy.text).digest('hex'),
+  '8303bb69248ea1c1f73f7c93b460ae29f6f5cd818a6153a5c46389a4fd9273f2',
+  'Joy to the World matches the supplied arrangement exactly, including credits');
+const variations = score.compile(joy.text);
+assert.equal(variations.title, 'Variations on Joy to the World');
+assert.equal(variations.voices.length, 18);
+assert.equal(variations.intro.sections.reduce((sum, section) => sum + section.bars, 0), 47);
+assert.equal(variations.intro.dur, 94);
+assert.equal(variations.loop.dur, 0, 'The supplied finale ends rather than looping');
 console.log(`PASS: cabinet of ${cabinet.shelves.length} shelves and ${sectionIds.length} sections (${Object.entries(counts).map(([k, v]) => `${k} ${v}`).join(', ')}), Alpine scores unchanged`);
