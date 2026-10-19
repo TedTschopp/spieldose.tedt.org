@@ -50,9 +50,11 @@ const playerStart = uiScript.indexOf('  const player = {');
 const playerEnd = uiScript.indexOf('\n\n  // where are we in the song?', playerStart);
 const rollStart = uiScript.indexOf('  const roll = (() => {');
 const rollEnd = uiScript.indexOf('  const ui = (() => {', rollStart);
-assert.equal(hash(uiScript.slice(playerStart, playerEnd)),
+const playerSource = uiScript.slice(playerStart, playerEnd);
+assert.ok(playerSource.includes('if (!song.loop.dur || !state.loop)'), 'One-shot timelines stop even when looping is enabled');
+assert.equal(hash(playerSource.replace('if (!song.loop.dur || !state.loop)', 'if (!state.loop)')),
   'a1b519748f0cb7595748060fd4f1221d06b38e0525f7f95caa6d09ee929f116b',
-  'Playback scheduling and audio lifecycle must remain unchanged');
+  'Playback scheduling and audio lifecycle must remain unchanged except for the empty-loop completion fix');
 assert.equal(hash(uiScript.slice(rollStart, rollEnd)),
   '7104e9d6b38de7e7e52c7055cacbb5d85792e6c437037159da038622f169e430',
   'Score-roll rendering must remain unchanged');

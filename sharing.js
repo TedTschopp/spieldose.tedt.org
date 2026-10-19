@@ -53,7 +53,7 @@
     }
   }
 
-  function connect({ tracks, state, player, ui, compileAt, receive }) {
+  function connect({ tracks, state, player, ui, compileAt, receive, savedText = i => tracks[i].text }) {
     const base = new URL('.', document.baseURI);
     const status = document.querySelector('#share-status');
     const manual = document.querySelector('#share-link');
@@ -110,14 +110,16 @@
         const text = encoded ? await decodeScore(encoded) : null;
         if (token !== revision) return;
         if (index >= 0) {
-          state.texts[index] = text ?? tracks[index].text;
+          state.texts[index] = text ?? savedText(index);
           compileAt(index);
           const song = state.songs[index];
           document.querySelector('#score').value = state.texts[index];
           restoring = true;
           ui.select(index, false);
           if (song.errors.length) throw new Error('The shared score has errors. Review them in the score editor before playing.');
-          message(text == null ? '' : 'Shared edit loaded. Its notes are stored in this link, not uploaded. Social previews show the original song.');
+          message(text == null
+            ? (state.texts[index] !== tracks[index].text ? 'Your saved draft is loaded. Use Revert to original for the bundled score.' : '')
+            : 'Shared edit loaded. Its notes are stored in this link, not uploaded. Social previews show the original song.');
           autoplay(token);
         } else if (encoded) {
           if (!receive) throw new Error('A shared edit needs a valid song URL.');

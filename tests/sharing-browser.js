@@ -95,6 +95,7 @@ async (page) => {
     })));
     await page.goto(origin + '/songs/sennentuntschis-lullaby/');
     await page.waitForFunction(() => __scrim.state.idx === 0);
+    assert((await page.locator('#score').inputValue()).includes('Private local draft'), 'Ordinary song link reopens its private saved draft');
     await page.evaluate(() => __scrim.ui.select(1, false));
     await page.locator('#score').fill(await page.locator('#score').inputValue() + '\n# Another local edit\n');
     assert(await page.evaluate(() => JSON.parse(localStorage.getItem('scrimshaw-edits'))[ScrimTracks[0].file]?.includes('Private local draft')),

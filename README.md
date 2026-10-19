@@ -31,11 +31,15 @@ Bundled scores live in `scores/<section>/*.scrim`, listed in order in `scores/ca
 
 ## Song links and sharing
 
-Selecting or playing a song updates its URL under `songs/<slug>/`. Back and Forward restore the selected tune. A direct song link attempts playback; browser autoplay restrictions may require pressing **Play**. The homepage keeps its general website preview until you select or play a song.
+Selecting or playing a song updates its URL under `songs/<slug>/`. Back and Forward restore the selected tune. Ordinary song links reopen your saved draft, if one exists, with a notice explaining that **Revert to original** restores the bundled score. Explicit shared-edit fragments load the linked score instead without replacing your saved draft. A direct song link attempts playback; browser autoplay restrictions may require pressing **Play**. The homepage keeps its general website preview until you select or play a song.
 
 **Copy song link** copies the selected score's URL; **Share song** opens the device's share sheet where Web Share is supported. **Copy website link** shares the general homepage instead. Clipboard denial exposes a selectable link for manual copying. HTTPS (or localhost for development) is required for clipboard and native sharing.
 
 Edited scores are compressed into a versioned URL fragment, not uploaded to a server. Anyone with the link can read the score, and sharing apps receive the full link: do not include private information. Edits do not change the bundled music. An air you made yourself has no song page, so its link is the homepage with the score in the fragment; opening it adds the air to a **Shared with me** section (reopening the same link does not duplicate it). Opening a shared link does not save its score over a local draft; typing or reverting explicitly saves the current song. Edited links are limited to 16,000 URL characters and 64,000 uncompressed UTF-8 bytes; malformed, oversized and invalid-score links show errors instead of autoplaying. Compression requires a current browser. Some messaging apps impose smaller link limits or strip fragments; **Copy score** remains an alternative.
+
+The score editor shows browser-storage errors separately from score syntax errors. If saving fails (for example, storage is full or blocked), changes remain in memory and a warning asks you to keep the page open and copy your scores. A later edit retries pending score changes; a later cabinet change retries the cabinet. A successful save to one store does not hide errors in the other. Browser storage is not a backup.
+
+Scores with only a `play` timeline stop after their finale, regardless of the loop preference. Their Repeat control is disabled and the player displays **Plays once**; scores with a `loop` timeline retain their existing repeat behavior.
 
 Each bundled song has a complete, crawlable static page with its own title, description, canonical URL, Open Graph/X (Twitter) tags, structured data and 1200 x 630 PNG preview. The homepage has a separate site image and metadata. Edited links use their underlying bundled song's preview because crawlers cannot read fragment contents. There is no downloadable audio file, so metadata does not claim a hosted recording or embeddable social audio player. Social platforms control preview display and caching; no metadata can guarantee identical previews everywhere.
 
@@ -106,6 +110,8 @@ Run `node tests/instruments.js` for parser/compiler coverage, instrument/list co
 Run `node tests/sharing.js` for song routing, edited-score encoding, size limits, static metadata, sitemap and preview image dimensions. `tests/sharing-browser.js` is an async Playwright page function for the local server on port 8765; it covers history, direct links, exact edited-score restoration, local-draft preservation, clipboard denial, native sharing, malformed links, autoplay restrictions and Stop cancellation. Run it in an isolated browser test profile; it temporarily changes local edits and restores their saved value.
 
 Run `node tests/social-images.js` to verify preview font inheritance and font-loading order.
+
+`tests/reliability-browser.js` is a Playwright page function covering one-shot completion with either repeat preference, saved drafts, shared-edit isolation, storage failure warnings and save retries. Run it in an isolated browser context; it deliberately changes browser storage and simulates quota errors.
 
 Run `node tests/village-clock.js` to check the church clock. The scene is always night, so `village-clock.js` maps the visitor's local day onto tonight's Swiss night: local sunrise shows the Swiss sunset time, and the moment before local sunrise shows the moment before the next Swiss sunrise. Sunrise and sunset are calculated for Bern in Europe/Zurich time. The page does not ask for the visitor's location, so the Swiss sunrise clock time stands in for local sunrise.
 

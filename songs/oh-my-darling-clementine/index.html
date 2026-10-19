@@ -253,6 +253,7 @@ footer a, nav[aria-label="Song permalinks"] a { color: var(--lamp); }
       <button class="btn ghost" id="b-copy">Copy score</button>
       <span class="status" id="ed-status"></span>
     </div>
+    <p id="save-status" class="status" role="status" aria-live="polite"></p>
     <ul class="errors" id="errors"></ul>
   </section>
 
@@ -1871,17 +1872,35 @@ const TRACKS = window.ScrimTracks;
     lastIn: {},
     playingIdx: -1
   };
+  const storageErrors = new Map();
+  function storageStatus(key, error) {
+    if (error) {
+      console.warn(`Browser storage failed (${key}):`, error);
+      storageErrors.set(key, key === CABINET_KEY ? 'Your cabinet' : 'Your score edits');
+    } else storageErrors.delete(key);
+    const status = $('#save-status');
+    status.textContent = storageErrors.size
+      ? `${[...storageErrors.values()].join(' and ')} could not be loaded or saved. Changes are not saved reliably; keep this page open and copy your scores before leaving.`
+      : 'Saved in this browser only.';
+    status.setAttribute('role', storageErrors.size ? 'alert' : 'status');
+  }
   try {
     const saved = JSON.parse(localStorage.getItem('scrimshaw-edits') || '{}');
     TRACKS.forEach((t, i) => { if (typeof saved[t.file] === 'string') state.texts[i] = saved[t.file]; });
-  } catch (e) { }
+  } catch (e) { storageStatus('scrimshaw-edits', e); }
   const savedTexts = state.texts.slice();
+  const pendingTexts = savedTexts.slice();
   const shelfStore = { shelves: [], sections: [], airs: [] };
   try {
     const saved = JSON.parse(localStorage.getItem(CABINET_KEY) || '{}');
     for (const key of Object.keys(shelfStore)) if (Array.isArray(saved[key])) shelfStore[key] = saved[key];
-  } catch (e) { }
-  function persistShelf() { try { localStorage.setItem(CABINET_KEY, JSON.stringify(shelfStore)); } catch (e) { } }
+  } catch (e) { storageStatus(CABINET_KEY, e); }
+  function persistShelf() {
+    try {
+      localStorage.setItem(CABINET_KEY, JSON.stringify(shelfStore));
+      storageStatus(CABINET_KEY);
+    } catch (e) { storageStatus(CABINET_KEY, e); }
+  }
   function saveEdits() {
     const tune = state.tunes[state.idx];
     if (tune.user) {
@@ -1890,11 +1909,13 @@ const TRACKS = window.ScrimTracks;
       return;
     }
     try {
-      savedTexts[state.idx] = state.texts[state.idx];
+      pendingTexts[state.idx] = state.texts[state.idx];
       const out = {};
-      TRACKS.forEach((t, i) => { if (savedTexts[i] !== t.text) out[t.file] = savedTexts[i]; });
+      TRACKS.forEach((t, i) => { if (pendingTexts[i] !== t.text) out[t.file] = pendingTexts[i]; });
       localStorage.setItem('scrimshaw-edits', JSON.stringify(out));
-    } catch (e) { }
+      savedTexts.splice(0, savedTexts.length, ...pendingTexts);
+      storageStatus('scrimshaw-edits');
+    } catch (e) { storageStatus('scrimshaw-edits', e); }
   }
   function compileAt(i) { return (state.songs[i] = ScrimScore.compile(state.texts[i])); }
   TRACKS.forEach((_, i) => compileAt(i));
@@ -2055,7 +2076,7 @@ const TRACKS = window.ScrimTracks;
             continue;
           }
           const next = this.cur.offset + song.loop.dur;
-          if (!state.loop) { this.endAt = this.startAt + next; break; }
+          if (!song.loop.dur || !state.loop) { this.endAt = this.startAt + next; break; }
           this.endAt = null;
           if (this.startAt + next > horizon) break;
           this.cur = { list: 'loop', i: 0, offset: next };
@@ -3164,15 +3185,20 @@ const TRACKS = window.ScrimTracks;
       const deck = $('#transport');
       deck.querySelector('[data-action="play"]').setAttribute('aria-pressed', player.playing ? 'true' : 'false');
       deck.querySelector('[data-action="stop"]').setAttribute('aria-pressed', player.playing ? 'false' : 'true');
-      deck.querySelector('[data-action="loop"]').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
+      const canLoop = capSong.loop.dur > 0;
+      const loopButton = deck.querySelector('[data-action="loop"]');
+      loopButton.disabled = !canLoop;
+      loopButton.title = canLoop ? 'Repeat song' : 'This score plays once; it has no loop section';
+      loopButton.setAttribute('aria-pressed', canLoop && state.loop ? 'true' : 'false');
       deck.querySelector('[data-action="play"]').setAttribute('aria-label', 'Play ' + capSong.title);
       const shownIdx = player.playing ? player.idx : state.idx;
       const shownSection = sectionShown(), shownAirs = cabinet.airsIn(shownSection.id), words = cabinet.mechanism(shownSection);
       const place = Math.max(0, shownAirs.indexOf(shownIdx));
       $('#transport-count').textContent = `${place + 1} / ${shownAirs.length}`;
       $('#transport-count').title = `${words.air[0].toUpperCase() + words.air.slice(1)} ${place + 1} of ${shownAirs.length} on the ${shownSection.name} ${words.name.toLowerCase()}`;
-      $('#v-loop').textContent = 'Loop: ' + (state.loop ? 'on' : 'off');
-      $('#v-loop').setAttribute('aria-pressed', state.loop ? 'true' : 'false');
+      $('#v-loop').disabled = !canLoop;
+      $('#v-loop').textContent = canLoop ? 'Loop: ' + (state.loop ? 'on' : 'off') : 'Plays once';
+      $('#v-loop').setAttribute('aria-pressed', canLoop && state.loop ? 'true' : 'false');
       const tune = state.tunes[state.idx], here = cabinet.sectionOf(state.idx);
       $('#ed-file').textContent = tune.user ? `${here.name} · your ${cabinet.mechanism(here).air}` : `scores/${tune.section}/${tune.file}` + (state.texts[state.idx] !== tune.original ? ' · edited' : '');
       $('#b-revert').hidden = !!tune.user;
@@ -3351,7 +3377,7 @@ const TRACKS = window.ScrimTracks;
     } catch (e) { }
     $('#score').value = state.texts[state.idx];
     ui.select(state.idx, false);
-    sharing = ScrimSharing.connect({ tracks: TRACKS, state, player, ui, compileAt, receive: text => cabinet.receive(text) });
+    sharing = ScrimSharing.connect({ tracks: TRACKS, state, player, ui, compileAt, receive: text => cabinet.receive(text), savedText: i => savedTexts[i] });
   }
   const hot = window.claude && window.claude.hot;
   try { if (hot && hot.snapshot) hot.snapshot(() => ({ texts: state.texts, idx: state.idx })); } catch (e) { }
