@@ -65,6 +65,7 @@
     },
     {
       "id": "winter-holidays",
+      "unlisted": true,
       "shelf": "holidays",
       "mechanism": "disc",
       "name": "Winter Holidays",
@@ -82,6 +83,7 @@
     },
     {
       "id": "world-folk",
+      "unlisted": true,
       "shelf": "world",
       "mechanism": "barrel",
       "name": "Folk Songs of the World",
@@ -98,6 +100,7 @@
     },
     {
       "id": "western-picture-show",
+      "unlisted": true,
       "shelf": "genre",
       "mechanism": "roll",
       "name": "Western Picture Show",

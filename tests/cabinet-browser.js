@@ -20,6 +20,12 @@ async (page) => {
   });
 
   let p = await plates();
+  assert(p.length === 1 && p[0].id === 'alpine-night', 'Only Alpine Night is listed by default');
+  assert(await page.locator('[data-unlisted][hidden]').count() === 3, 'Test song permalink lists start hidden');
+  assert(await page.getAttribute('#b-developer', 'aria-pressed') === 'false', 'Developer mode starts off');
+  await page.click('#b-developer');
+  assert(await page.getAttribute('#b-developer', 'aria-pressed') === 'true', 'Developer mode is visibly enabled');
+  p = await plates();
   for (const shelf of ['alpine', 'holidays', 'world', 'genre']) assert(p.some(x => x.shelf === shelf), `Rack shows the ${shelf} shelf`);
   const shelfNames = await page.evaluate(() => [...document.querySelectorAll('#rack .shelf-name')].map(e => e.textContent));
   for (const name of bundled.shelves) assert(shelfNames.includes(name), `Shelf label ${name}`);
@@ -39,6 +45,12 @@ async (page) => {
   assert((await page.textContent('#tracks .tune-card')).includes('Steel disc'), 'Tune card names the mechanism');
   assert((await page.textContent('#tracks .add-air')).includes('Punch a new air'), 'Add verb matches the disc');
   assert((await plates()).find(x => x.id === 'winter-holidays').pressed === 'true', 'Holiday plate is pressed');
+  await page.click('#b-developer');
+  assert((await plates()).length === 1, 'Turning developer mode off hides test shelves again');
+  assert(await sectionOf(await page.evaluate(() => __scrim.state.idx)) === 'alpine-night', 'Leaving developer mode returns an unlisted selection to Alpine Night');
+  assert(await page.evaluate(() => ScrimTracks.length) === 29, 'Hiding sections preserves every bundled song');
+  await page.click('#b-developer');
+  await page.click('#rack .plate[data-section="winter-holidays"]');
   for (let k = 0; k < holiday; k++) await page.click('#transport [data-action="next"]');
   assert(await counter() === `1 / ${holiday}`, 'Next wraps within the section');
   assert(await sectionOf(await page.evaluate(() => __scrim.state.idx)) === 'winter-holidays', 'Skipping stays on the disc');
@@ -122,7 +134,13 @@ async (page) => {
   await page.goto(`http://127.0.0.1:8765/songs/${holidaySlug}/`);
   await page.waitForFunction(() => window.__scrim?.ui);
   await page.waitForFunction(() => __scrim.state.tunes[__scrim.state.idx].section === 'winter-holidays');
-  assert((await plates()).find(x => x.id === 'winter-holidays').pressed === 'true', 'Permalink presses its section plate');
+  assert(!(await plates()).some(x => x.id === 'winter-holidays'), 'Direct link does not list hidden shelves or enable developer mode');
+  assert((await listed()).length === holiday, 'Unlisted songs still work through direct links');
+  assert(await page.getAttribute('#b-developer', 'aria-pressed') === 'false', 'Developer mode resets on navigation');
+  assert(!(await page.isVisible('[data-unlisted]')), 'Unlisted permalink lists stay hidden on direct song pages');
+  await page.click('#b-developer');
+  assert((await plates()).find(x => x.id === 'winter-holidays').pressed === 'true', 'Developer mode reveals the directly linked section');
+  assert(await page.locator('[data-unlisted]').first().isVisible(), 'Developer mode reveals footer song lists');
   await page.evaluate(() => __scrim.player.stop());
 
   // Remove a whole user section.

@@ -43,7 +43,7 @@ function metadata(track) {
     `<base href="${track ? '../../' : './'}">`,
     `<title>${escape(title)}</title>`,
     `<meta name="description" content="${escape(description)}">`,
-    '<meta name="robots" content="index,follow,max-image-preview:large">',
+    `<meta name="robots" content="${track && sectionOf(track).unlisted ? 'noindex' : 'index'},follow,max-image-preview:large">`,
     '<meta name="theme-color" content="#171f22">',
     `<link rel="canonical" href="${url}">`,
     '<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">'
@@ -62,7 +62,7 @@ function metadata(track) {
   return `<!-- social-metadata:start -->\n${tags.join('\n')}\n<!-- social-metadata:end -->`;
 }
 
-const links = `<nav aria-label="Song permalinks">${cabinet.sections.map(section => `<p><b>${escape(section.name)}</b> (${escape(cabinet.mechanisms[section.mechanism].name.toLowerCase())}): ${tracks.filter(t => t.section === section.id).map(track => `<a href="songs/${slug(track)}/">${escape(field(track, 'title'))}</a>`).join(' · ')}</p>`).join('')}<p><a href="./">Swiss Music Box home</a></p></nav>`;
+const links = `<nav aria-label="Song permalinks">${cabinet.sections.map(section => `<p${section.unlisted ? ' data-unlisted hidden' : ''}><b>${escape(section.name)}</b> (${escape(cabinet.mechanisms[section.mechanism].name.toLowerCase())}): ${tracks.filter(t => t.section === section.id).map(track => `<a href="songs/${slug(track)}/">${escape(field(track, 'title'))}</a>`).join(' · ')}</p>`).join('')}<p><a href="./">Swiss Music Box home</a></p></nav>`;
 template = template.replace(/<!-- song-links:start -->[\s\S]*?<!-- song-links:end -->\n?/, '');
 template = template.replace(/<!-- song-about:start -->[\s\S]*?<!-- song-about:end -->\n?/, '');
 template = template.replace('  <footer>', `<!-- song-links:start -->${links}<!-- song-links:end -->\n  <footer>`);
@@ -72,6 +72,6 @@ for (const track of [null, ...tracks]) {
   const filename = track ? `songs/${slug(track)}/index.html` : 'index.html';
   output(filename, html);
 }
-output('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[base.href, ...tracks.map(t => songURL(base, t).href)].map(url => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`);
+output('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[base.href, ...tracks.filter(t => !sectionOf(t).unlisted).map(t => songURL(base, t).href)].map(url => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`);
 output('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${new URL('sitemap.xml', base).href}\n`);
 console.log(`Generated site metadata, ${tracks.length} song pages, sitemap and robots.txt`);

@@ -45,6 +45,10 @@ async function main() {
       assert.match(html, new RegExp(`<meta property="${key}" content="[^"]+">`));
     }
     const canonical = i < 0 ? base.href : share.songURL(base, tracks[i]).href;
+    const unlisted = i >= 0 && sandbox.window.ScrimCabinet.sections.find(s => s.id === tracks[i].section).unlisted;
+    assert.ok(html.includes(`<meta name="robots" content="${unlisted ? 'noindex' : 'index'},follow,max-image-preview:large">`));
+    if (i >= 0) assert.equal(fs.readFileSync('sitemap.xml', 'utf8').includes(canonical), !unlisted,
+      'Only listed songs belong in the sitemap');
     assert.ok(html.includes(`<link rel="canonical" href="${canonical}">`));
     assert.ok(html.includes(`<meta property="og:url" content="${canonical}">`));
     const graph = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
