@@ -120,3 +120,7 @@ Run `node tests/village-layout.js` to verify randomized building and landmark va
 For actual Web Audio checks, serve the repository with `python3 -m http.server 8765`, open `http://localhost:8765/`, load `tests/audio-browser.js` in that page (for example with a browser developer-tools script tag), and run `await runInstrumentAudioTests()` and `await runTuneAudioTests()`. The instrument test renders all 15 voices with normal, short/bright, chord and long-attack settings; the tune test renders a four-second excerpt of every bundled track. They check finite, non-silent audio, peaks below clipping and decaying release tails. These checks do not establish acoustic realism; timbre remains a perceptual approximation.
 
 The application source is distributed under the Apache License 2.0; see [LICENSE](LICENSE). Separately credited score arrangements retain their stated notices and licenses, including the CC BY-SA 4.0 Silent Night arrangement and adaptation described above.
+
+## Shared TedT.org Navigation
+
+The global header loads `https://tedt.org/assets/global-header/v1/header.js`. Menu changes belong in the TedT.org repository, rather than in this site. The small local fallback and pre-paint bootstrap keep navigation and appearance usable while loading. The shared `tedt-appearance` cookie and `tedt:theme-change` event synchronize appearance; keep local site navigation and application controls separate. See https://tedt.org/docs/global-header.md for the embed contract.
