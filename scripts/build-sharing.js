@@ -75,3 +75,5 @@ for (const track of [null, ...tracks]) {
 output('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[base.href, ...tracks.filter(t => !sectionOf(t).unlisted).map(t => songURL(base, t).href)].map(url => `  <url><loc>${url}</loc></url>`).join('\n')}\n</urlset>\n`);
 output('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${new URL('sitemap.xml', base).href}\n`);
 console.log(`Generated site metadata, ${tracks.length} song pages, sitemap and robots.txt`);
+
+require("node:child_process").execFileSync("python3", ["scripts/site_analytics.py", ".", "--mode", "masked", "--check"], { stdio: "inherit" });

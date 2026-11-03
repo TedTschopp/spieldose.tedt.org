@@ -37,7 +37,9 @@ async function main() {
     const html = fs.readFileSync(filename, 'utf8');
     const title = i < 0 ? 'Swiss Music Box' : tracks[i].text.match(/^title\s+(.+)$/m)[1];
     assert.ok(html.includes(title.replaceAll("'", '&#39;')), `${filename} title`);
-    assert.match(html, /<html lang="en">/);
+    assert.match(html, /<html\b[^>]*\blang="en"[^>]*>/);
+    assert.match(html, /<html\b[^>]*data-clarity-mask="true"/);
+    assert.equal((html.match(/data-tedt-analytics="v1"/g) || []).length, 1);
     for (const key of ['description', 'robots', 'twitter:card', 'twitter:title', 'twitter:description', 'twitter:image', 'twitter:image:alt']) {
       assert.match(html, new RegExp(`<meta name="${key}" content="[^"]+">`));
     }
